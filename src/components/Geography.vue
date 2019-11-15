@@ -41,7 +41,7 @@
                 <b-button variant="danger" :disabled="!filter" @click="filter = ''" class="search-button">Clear</b-button>
               </b-input-group-append>
             </b-input-group>
-          </b-form-group>>
+          </b-form-group>
           <b-table
           id="user-table"
           show-empty
