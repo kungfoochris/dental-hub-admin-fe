@@ -194,107 +194,35 @@
     <div class="row mt-4 text-center table-area">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Treatments</h3>
+          <h3 class="mb-3">Treatment by Activity</h3>
+            <b-table
+              id="treatments-table"
+              show-empty
+              :items="treatmentTableItemsActivity"
+              :fields="basicFields"
+              bordered
+              responsive
+              hover
+            >
+            </b-table>
+        </div>
+      </div>
+    </div>
 
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Start Date:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
-
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select End Date:</h6>
-              <b-input v-model="End_Date" type="date"/>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
-              <h6>Location:</h6>
-              <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-4 col-12 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div>
-
-          <b-table
-            id="treatments-table"
-            show-empty
-            :items="treatmentTableItems"
-            :fields="treatmentTableFields"
-            bordered
-            responsive
-            hover
-          >
-          </b-table>
-
-          <div class="m-4">
-            <h4>Weekly Clinic</h4>
-          </div>
-          <b-table
-            id="weekly-clinics-table"
-            show-empty
-            :items="weeklyClinicItems"
-            :fields="treatmentTableFields"
-            bordered
-            responsive
-            hover
-          >
-          </b-table>
-
-          <div class="m-4">
-            <h4>Seminars</h4>
-          </div>
-          <b-table
-            id="seminars-table"
-            show-empty
-            :items="weeklyClinicItems"
-            :fields="treatmentTableFields"
-            bordered
-            responsive
-            hover
-          >
-          </b-table>
-
-          <div class="m-4">
-            <h4>Other Community Programs</h4>
-          </div>
-          <b-table
-            id="community-programs-table"
-            show-empty
-            :items="otherCommunityPorgramsItems"
-            :fields="treatmentTableFields"
-            bordered
-            responsive
-            hover
-          >
-          </b-table>
-
-          <div class="m-4">
-            <h4>Monthly Totals</h4>
-          </div>
-          <b-table
-            id="treatment-monthly-total"
-            show-empty
-            :items="monthlyTotalItems"
-            :fields="treatmentTableFields"
-            bordered
-            responsive
-            hover
-          >
-          </b-table>
+    <div class="row mt-4 text-center table-area">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Treatment by Ward</h3>
+            <b-table
+              id="treatments-table"
+              show-empty
+              :items="treatmentTableItemsWard"
+              :fields="basicFields"
+              bordered
+              responsive
+              hover
+            >
+            </b-table>
         </div>
       </div>
     </div>
@@ -401,51 +329,19 @@ export default {
         { key: 'referother', label: 'Refer Other'},
       ],
 
-      treatmentFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
-        { key: 'exo', label: 'EXO'},
-        { key: 'art', label: 'ART'},
-        { key: 'seal', label: 'SEAL'},
-        { key: 'sdf', label: 'SDF'},
-        { key: 'fv', label: 'FV'},
-        { key: 'contact', label: 'Contacts'},
+      treatmentTableItemsActivity:[
+        {type: 'Clinic', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+        {type: 'Seminar', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+        {type: 'Outreach', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+        {type: 'Training', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
       ],
 
-      treatmentTableFields: [
-        { key:'type', label: '', tdClass: 'font-weight-bold'},
-        { key: 'check', label: 'Check'},
-        { key: 'ext', label: 'EXT'},
-        { key: 'art', label: 'ART'},
-        { key: 'seal', label: 'SEAL'},
-        { key: 'sdf', label: 'SDF'},
-        { key: 'fv', label: 'FV (ppl)'},
-        { key: 'refer', label: 'Refer'},
-      ],
-
-      treatmentTableItems:[
-        {type: '{{ Ward Name }} Monthly Totals', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      ],
-
-      weeklyClinicItems:[
-        {type: 'Adults', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-        {type: 'Teens (13-19)', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Kids (0-12)', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Totals', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-      ],
-
-      otherCommunityPorgramsItems:[
-        {type: 'Adults', check: '27', ext: '0', art: '1', seal: '0', sdf: '0', fv: '17', refer: '14'},
-        {type: 'Teens (13-19)', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Kids (0-12)', check: '4', ext: '0', art: '0', seal: '0', sdf: '0', fv: '3', refer: '0'},
-        {type: 'Totals', check: '31', ext: '0', art: '1', seal: '0', sdf: '0', fv: '20', refer: '14'},
-      ],
-
-      monthlyTotalItems:[
-        {type: '{{ Ward Name }}', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-        {type: 'Total Adults', check: '31', ext: '1', art: '1', seal: '0', sdf: '0', fv: '17', refer: '17'},
-        {type: 'Total Teens', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Total Kids', check: '4', ext: '0', art: '0', seal: '0', sdf: '0', fv: '3', refer: '0'},
-      ],
+      treatmentTableItemsWard:[
+        {type: 'Ward 1', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
+        {type: 'Ward 2', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
+        {type: 'Ward 3', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
+        {type: 'Ward 4', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
+      ]
     }
   },
 
