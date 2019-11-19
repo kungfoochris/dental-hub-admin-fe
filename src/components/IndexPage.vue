@@ -338,6 +338,7 @@ export default {
         { key: 'art', label: 'ART'},
         { key: 'seal', label: 'SEAL'},
         { key: 'sdf', label: 'SDF'},
+        { key: 'fullmouthsdf', label: 'Full Mouth SDF'},
         { key: 'fv', label: 'FV (ppl)'},
         { key: 'referhp', label: 'Refer HP'},
         { key: 'referhyg', label: 'Refer Hyg'},
