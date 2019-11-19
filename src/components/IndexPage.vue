@@ -119,8 +119,76 @@
     <div class="row mt-4">
       <div class="col-lg-5 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Bar graph of treatment type</h3>
+          <h3 class="mb-3">Bar graph of treatment type by Age-group</h3>
           <div class="row mt-3">
+            <div class="col-lg-6 col-sm-12 mb-3">
+              <h6>Select Start Date:</h6>
+              <b-input v-model="Start_Date" type="date"/>
+            </div>
+
+            <div class="col-lg-6 col-sm-12 mb-3">
+              <h6>Select End Date:</h6>
+              <b-input v-model="End_Date" type="date"/>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-lg-8 col-sm-12 mb-3">
+              <h6>Location:</h6>
+              <multiselect
+              v-model="location"
+              :options="options"
+              :preserve-search="true"
+              placeholder="Select Location"
+              label="name"
+              track-by="name"
+              :preselect-first="true"
+              >
+              </multiselect>
+            </div>
+
+            <div class="col-lg-4 col-12 text-center">
+              <h6>Click Here:</h6>
+              <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
+            </div>
+          </div> -->
+
+          <Visualization :tag="settingsgraph" :type="type1"></Visualization>
+        </div>
+      </div>
+
+      <div class="col-lg-7 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Bar graph of treatment type by Gender</h3>
+          <!-- <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization> -->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-4 text-center table-area">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Treatment by Activity</h3>
+            <b-table
+              id="treatments-table"
+              show-empty
+              :items="treatmentTableItemsActivity"
+              :fields="basicFields"
+              bordered
+              responsive
+              hover
+            >
+            </b-table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-5 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Bar graph of treatment type by Activity</h3>
+          <!-- <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select Start Date:</h6>
               <b-input v-model="Start_Date" type="date"/>
@@ -151,7 +219,7 @@
               <h6>Click Here:</h6>
               <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
-          </div>
+          </div> -->
 
           <Visualization :tag="settingsgraph" :type="type1"></Visualization>
         </div>
@@ -159,7 +227,34 @@
 
       <div class="col-lg-7 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line graph of number of contacts by month</h3>
+          <h3 class="mb-3">Pie Chart of contacts by Activity</h3>
+          <!-- <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4 text-center table-area">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Treatment by Ward</h3>
+            <b-table
+              id="treatments-table"
+              show-empty
+              :items="treatmentTableItemsWard"
+              :fields="basicFields"
+              bordered
+              responsive
+              hover
+            >
+            </b-table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line graph of number of contacts by month by Ward</h3>
           <div class="row mt-3">
             <div class="col-lg-10 col-sm-12 mb-3">
               <h6>Select Year:</h6>
@@ -188,41 +283,6 @@
             </div>
           </div> -->
           <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-4 text-center table-area">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Treatment by Activity</h3>
-            <b-table
-              id="treatments-table"
-              show-empty
-              :items="treatmentTableItemsActivity"
-              :fields="basicFields"
-              bordered
-              responsive
-              hover
-            >
-            </b-table>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4 text-center table-area">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Treatment by Ward</h3>
-            <b-table
-              id="treatments-table"
-              show-empty
-              :items="treatmentTableItemsWard"
-              :fields="basicFields"
-              bordered
-              responsive
-              hover
-            >
-            </b-table>
         </div>
       </div>
     </div>
