@@ -15,7 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Filter Data</h3>
+          <h3 class="mb-4">Filter Data</h3>
 
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
