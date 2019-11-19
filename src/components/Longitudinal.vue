@@ -241,8 +241,8 @@ export default {
         { key: 'type', label: '', tdClass: 'font-weight-bold' },
         { key: 'tw1', label: 'Time Window 1' },
         { key: 'tw2', label: 'Time Window 2' },
-        { key: 'realDifference', label: 'Real <br />Difference' },
-        { key: 'propDifference', label: 'Proportional <br />Difference' },
+        { key: 'realDifference', label: 'Real Difference' },
+        { key: 'propDifference', label: 'Proportional Difference' },
         { key: 'pValue', label: 'P-value' },
       ],
       longitudinalItems:[
