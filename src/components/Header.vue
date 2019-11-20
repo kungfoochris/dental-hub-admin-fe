@@ -1,7 +1,7 @@
 <template>
 <div id="app" class="header">
   <b-navbar toggleable="lg" type="light" fixed="top">
-    <b-navbar-brand to="/">Dental Hub</b-navbar-brand>
+    <b-navbar-brand to="/"><b-img src="/dentalheaderimage.png" fluid class="mr-3 mr-lg-0 header-logo"></b-img><span class="d-sm-inline d-md-inline d-lg-none">Dental Hub</span></b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
