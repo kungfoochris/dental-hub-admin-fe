@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="row mt-4">
+    <!-- <div class="row mt-4">
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
           <h3 class="mb-3">Bar graph of basic data</h3>
@@ -92,7 +92,7 @@
           <Visualization :tag="uch1" :type="type1" :clean-data="userChart"></Visualization>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row mt-4">
       <div class="col-12">
@@ -186,7 +186,7 @@
     </div>
 
 
-    <div class="row mt-4 text-center">
+    <!-- <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Treatments</h3>
@@ -231,16 +231,10 @@
           responsive
           hover
           >
-            <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
           </b-table>
-          <!-- <div class="row pr-4">
-            <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
-          </div> -->
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row mt-4 text-center">
       <div class="col-12">
@@ -303,15 +297,15 @@
         <div class="card shadow">
           <h3 class="mb-3">Download Reports</h3>
           <div class="row text-center">
-            <div class="col-md-4 col-12">
+            <!-- <div class="col-md-4 col-12">
               <b-dropdown text="Monthly Report" variant="outline-info" class="m-2" dropup>
                 <b-dropdown-item href="#">August, 2019</b-dropdown-item>
                 <b-dropdown-item href="#">July, 2019</b-dropdown-item>
                 <b-dropdown-item href="#">June, 2019</b-dropdown-item>
               </b-dropdown>
-            </div>
+            </div> -->
 
-            <div class="col-md-4 col-12">
+            <div class="col-md-6 col-12">
               <b-dropdown text="Quaterly Report" variant="outline-info" class="m-2" dropup>
                 <b-dropdown-item href="#">December, 2018</b-dropdown-item>
                 <b-dropdown-item href="#">April, 2019</b-dropdown-item>
@@ -319,7 +313,7 @@
               </b-dropdown>
             </div>
 
-            <div class="col-md-4 col-12">
+            <div class="col-md-6 col-12">
               <b-dropdown text="Yearly Report" variant="outline-info" class="m-2" dropup>
                 <b-dropdown-item href="#">2019</b-dropdown-item>
                 <b-dropdown-item href="#">2018</b-dropdown-item>
