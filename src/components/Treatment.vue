@@ -292,7 +292,7 @@
       </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Download Reports</h3>
