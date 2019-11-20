@@ -165,7 +165,7 @@
               <b>{{ data.item.type }}</b>
             </template>
           </b-table> -->
-          <b-table-simple hover fixed responsive>
+          <b-table-simple hover responsive>
             <colgroup>
               <col />
               <col />
