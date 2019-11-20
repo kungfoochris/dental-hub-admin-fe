@@ -15,10 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Longitudinal Measures</h3>
-          <div class="col-12">
-          </div>
-
+          <h3 class="mb-3">Filter Data</h3>
           <div class="row mb-3">
             <div class="col-6">
               <h6>Select Start Date:</h6>
@@ -146,20 +143,24 @@
               </multiselect>
             </div>
           </div>
+        </div>
+        </div>
+      </div>
+
+    <div class="row mt-4 text-center">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Longitudinal Measures</h3>
 
           <b-table
           id="user-table"
           show-empty
-          :items="basic"
-          :fields="basicFields"
+          :items="longitudinalItems"
+          :fields="longitudinalFields"
           bordered
           responsive
           hover
           >
-              <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
-
             <template slot="[type]" slot-scope="data">
               <b>{{ data.item.type }}</b>
             </template>
@@ -198,7 +199,7 @@ export default {
       var formattedRecord = []
       this.$store.state.sectionaltable_obj.forEach(function(rec){
         formattedRecord.push({
-         type: rec[0],sixyo: rec[1],twelveyo: rec[2],fifteenyo: rec[3],child: rec[4],adult: rec[5], older: rec[6]
+         type: rec[0],tw1: rec[1],tw2: rec[2],realDifference: rec[3],propDifference: rec[4],pValue: rec[5], older: rec[6]
        })
       })
       return formattedRecord;
@@ -236,48 +237,26 @@ export default {
       seminar: [],
       training: [],
 
-      basicFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
-        { key: 'sixyo', label: '6 yo'},
-        { key: 'twelveyo', label: '12 yo'},
-        { key: 'fifteenyo', label: '15 yo'},
-        { key: 'child', label: 'Child'},
-        // { key: 'adolescent', label: 'Adolescent'},
-        { key: 'adult', label: 'Adult'},
-        { key: 'older', label: 'Older Adults'},
+      longitudinalFields: [
+        { key: 'type', label: '', tdClass: 'font-weight-bold' },
+        { key: 'tw1', label: 'Time Window 1' },
+        { key: 'tw2', label: 'Time Window 2' },
+        { key: 'realDifference', label: 'Real Difference' },
+        { key: 'propDifference', label: 'Proportional Difference' },
+        { key: 'pValue', label: 'P-value' },
       ],
-      // basic:[
-      //   {type: 'Career Risk', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '31'},
-      //   // {type: 'M', check: '10', ext: '30', art: '10', seal: '15', sdf: '15', fv: '40', referhp: '31', referhyg: '13', referdent: '12', referdr: '5', referother:'12'},
-      //   // {type: 'F', check: '10', ext: '30', art: '10', seal: '15', sdf: '15', fv: '40', referhp: '31', referhyg: '13', referdent: '12', referdr: '5', referother:'12'},
-      //   {type: 'Any untreated caries present', sixyo: '50', twelveyo: '20', fifteenyo: '30', child: '15', adolescent: '25', adult: '70', older: '22'},
-      //   {type: 'Number of decayed primary teeth', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '34'},
-      //   {type: 'Number of decayed permanent teeth', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '11'},
-      //   {type: 'Cavity permanent molar or premolar', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Cavity permanent anterior', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Active infection', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Mouth pain due to reversible pulpitis', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need ART filling', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need SDF', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need Extraction', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //
-      // ],
-
-      treatmentFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
-        { key: 'exo', label: 'EXO'},
-        { key: 'art', label: 'ART'},
-        { key: 'seal', label: 'SEAL'},
-        { key: 'sdf', label: 'SDF'},
-        { key: 'fv', label: 'FV'},
-        { key: 'contact', label: 'Contacts'},
-      ],
-      treatment:[
-        {type: 'By Ward', exo: '30', art: '10', seal: '15', sdf: '15', fv: '40', contact: '31'},
-        {type: 'Clinic', exo: '20', art: '30', seal: '15', sdf: '25', fv: '70', contact: '22'},
-        {type: 'Seminar', exo: '30', art: '10', seal: '15', sdf: '15', fv: '40', contact: '34'},
-        {type: 'Outreach', exo: '30', art: '10', seal: '15', sdf: '15', fv: '40', contact: '11'},
-        {type: 'Training', exo: '110', art: '60', seal: '60', sdf: '70', fv: '190', contact: '98'},
+      longitudinalItems:[
+        { type: 'Caries Risk', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
+        { type: 'Any untreated caries present', tw1: '50', tw2: '20', realDifference: '30', propDifference: '15', pValue: '70' },
+        { type: 'Number of decayed primary teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
+        { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
+        { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Active infection', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Need ART filling', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Need SDF', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Need Extraction', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
 
       ],
     }

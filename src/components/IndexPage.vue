@@ -91,13 +91,6 @@
           responsive
           hover
           >
-              <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
-
-            <!-- <template slot="[type]" slot-scope="data">
-              <b>{{ data.item.type }}</b>
-            </template> -->
           </b-table>
           <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
@@ -166,7 +159,7 @@
       <div class="col-lg-7 col-sm-12">
         <div class="card shadow">
           <h3 class="mb-3">Pie Chart of contacts by Activity</h3>
-          <!-- <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization> -->
+          <Visualization :tag="piechart"></Visualization>
         </div>
       </div>
     </div>
@@ -234,11 +227,6 @@
               <b-button variant="custom" block class="mb-4" @click="WardLineVisualization">Submit</b-button>
             </div>
           </div>
-          <!-- <div class="row">
-            <div class="col-12 text-center">
-              <b-button variant="custom" class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div> -->
           <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization>
         </div>
       </div>
@@ -263,15 +251,15 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['table1_obj','table2_obj','geography','activities_obj'
+    ...mapState(['overview_obj','treatment_by_activity_obj','treatment_by_ward_obj', 'geography','activities_obj'
     ]),
 
     basic: function(){
-      if(this.$store.state.table1_obj.length > 0){
+      if(this.$store.state.overview_obj.length > 0){
         var formattedRecord = []
-        this.$store.state.table1_obj.forEach(function(rec){
+        this.$store.state.overview_obj.forEach(function(rec){
           formattedRecord.push({
-           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5], fv: rec[6], referhp: rec[7], referhyg: rec[8], referdent: rec[9], referdr: rec[10], referother:rec[11]
+           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
           })
         })
         return formattedRecord;
@@ -279,31 +267,63 @@ export default {
       }else{
         return []
       }
-
     },
 
-
-    treatment: function(){
-      if(this.$store.state.table2_obj.length > 0){
+    treatmentTableItemsActivity: function(){
+      if(this.$store.state.treatment_by_activity_obj.length > 0){
         var formattedRecord1 = []
-        this.$store.state.table2_obj.forEach(function(rec){
+        this.$store.state.treatment_by_activity_obj.forEach(function(rec){
           formattedRecord1.push({
-           type: rec[0], exo: rec[1], art: rec[2], seal: rec[3], sdf: rec[4], fv: rec[5], contact: rec[6]
-         })
+           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
+          })
         })
         return formattedRecord1;
 
       }else{
         return []
       }
+    },
 
-    }
+    treatmentTableItemsWard: function(){
+      if(this.$store.state.treatment_by_ward_obj.length > 0){
+        var formattedRecord2 = []
+        this.$store.state.treatment_by_ward_obj.forEach(function(rec){
+          formattedRecord2.push({
+           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
+          })
+        })
+        return formattedRecord2;
+
+      }else{
+        return []
+      }
+    },
+
+
+
+
+    // treatment: function(){
+    //   if(this.$store.state.treatment_by_activity_obj.length > 0){
+    //     var formattedRecord1 = []
+    //     this.$store.state.treatment_by_activity_obj.forEach(function(rec){
+    //       formattedRecord1.push({
+    //        type: rec[0], exo: rec[1], art: rec[2], seal: rec[3], sdf: rec[4], fv: rec[5], contact: rec[6]
+    //      })
+    //     })
+    //     return formattedRecord1;
+    //
+    //   }else{
+    //     return []
+    //   }
+    //
+    // }
 
   },
 
   created(){
-    this.listTable1();
-    this.listTable2();
+    this.listOverview();
+    this.listTreatmentbyActivity();
+    this.listTreatmentbyWard();
     this.listGeography().then(() => {
       this.updateOptions();})
 
@@ -321,6 +341,7 @@ export default {
       settingsgraph: "settingsgraph",
       lch:"lch",
       type1: "bar",
+      piechart: "piechart",
       type2: "pie",
       lch6:"lch6",
       errors:[],
@@ -338,6 +359,7 @@ export default {
         { key: 'art', label: 'ART'},
         { key: 'seal', label: 'SEAL'},
         { key: 'sdf', label: 'SDF'},
+        { key: 'fullmouthsdf', label: 'Full Mouth SDF'},
         { key: 'fv', label: 'FV (ppl)'},
         { key: 'referhp', label: 'Refer HP'},
         { key: 'referhyg', label: 'Refer Hyg'},
@@ -346,24 +368,24 @@ export default {
         { key: 'referother', label: 'Refer Other'},
       ],
 
-      treatmentTableItemsActivity:[
-        {type: 'Clinic', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-        {type: 'Seminar', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-        {type: 'Outreach', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-        {type: 'Training', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      ],
+      // treatmentTableItemsActivity:[
+      //   {type: 'Clinic', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+      //   {type: 'Seminar', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+      //   {type: 'Outreach', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+      //   {type: 'Training', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
+      // ],
 
-      treatmentTableItemsWard:[
-        {type: 'Ward 1', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-        {type: 'Ward 2', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Ward 3', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-        {type: 'Ward 4', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-      ]
+      // treatmentTableItemsWard:[
+      //   {type: 'Ward 1', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
+      //   {type: 'Ward 2', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
+      //   {type: 'Ward 3', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
+      //   {type: 'Ward 4', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
+      // ]
     }
   },
 
   methods:{
-    ...mapActions(['listTable1','listTable2','listGeography','listActivitie']),
+    ...mapActions(['listOverview','listTreatmentbyActivity','listGeography','listActivitie','listTreatmentbyWard']),
 
     OverviewTable(){
       var l=[0,0,0,0]

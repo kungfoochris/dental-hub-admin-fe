@@ -54,22 +54,28 @@ export default{
 	setLoginVisualization1(state, loginvisualization1){
 		state.loginvisualization1 = loginvisualization1;
 	},
-	setTable1(state,table1_obj){
-		state.table1_obj=table1_obj;
+	setOverview(state,overview_obj){
+		state.overview_obj=overview_obj;
 	},
 
-	setTable2(state,table2_obj){
-		state.table2_obj=table2_obj;
+	setTreatmentbyActivity(state,treatment_by_activity_obj){
+		state.treatment_by_activity_obj=treatment_by_activity_obj;
 	},
+
+	setTreatmentbyWard(state,treatment_by_ward_obj){
+		state.treatment_by_ward_obj=treatment_by_ward_obj;
+	},
+
+
 
 	setTable3(state,table3_obj){
 		state.table3_obj = table3_obj;
 	},
-	setTable4(state, table4_obj){
-		state.table4_obj=table4_obj;
+	setTreatmentTable(state, treatment_table_obj){
+		state.treatment_table_obj=treatment_table_obj;
 	},
-	setTable5(state, table5_obj){
-		state.table5_obj = table5_obj;
+	setTreatmentStrategicData(state, treatmentstrategicdata_obj){
+		state.treatmentstrategicdata_obj = treatmentstrategicdata_obj;
 	},
 
 	setVisualizationSettings(state, settingsvisualization){

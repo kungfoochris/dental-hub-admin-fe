@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'visualizations','settingsvisualization','treatmentvisualizationbarchart','treatmentvisualizationlinechart','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart'
+      'loginvisualization','visualizations','settingsvisualization','treatmentvisualizationbarchart','treatmentvisualizationlinechart','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart'
     ])
   },
   watch: {
@@ -69,10 +69,11 @@ export default {
       }
     },
 
-
-
-
-
+    loginvisualization: function(){
+      if(this.loginvisualization.locationChart){
+        this.createLoginPiChart();
+      }
+    },
   },
 
   created(){
@@ -84,20 +85,15 @@ export default {
     this.listTreatmentLineVisualizationChart1();
     this.listTreatmentLineVisualizationChart2();
     this.listWardLineVisualizationChart();
+      this.listLoginVisualization();
   },
   methods:{
-    ...mapActions(['listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentLineVisualizationChart','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2']),
+    ...mapActions(['listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentLineVisualizationChart','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listLoginVisualization']),
 
 
     createSettingsChart() {
-      // we read the cleandata here from visualizations in state as shown below
-      // and update the arguments in Chart() based on read data.
-      //var d = this.state.visualizations.get(this.tag)
-      // var d = this.state.visualizations.get(this.tag)
       const ctx = document.getElementById('settingsgraph');
-      // ctx.height = 300;
       const _ = new Chart(ctx, {
-        // type: chartData.type,
         type: 'bar',
         data: this.settingsvisualization.locationChart.data,
         options: this.settingsvisualization.locationChart.options,
@@ -105,14 +101,8 @@ export default {
     },
 
     createGenderChart() {
-      // we read the cleandata here from visualizations in state as shown below
-      // and update the arguments in Chart() based on read data.
-      //var d = this.state.visualizations.get(this.tag)
-      // var d = this.state.visualizations.get(this.tag)
       const ctx = document.getElementById('uch');
-      // ctx.height = 300;
       const _ = new Chart(ctx, {
-        // type: chartData.type,
         type: 'bar',
         data: this.visualizations.locationChart.data,
         options: this.visualizations.locationChart.options,
@@ -121,9 +111,7 @@ export default {
 
     createTreatmentBarChart() {
       const ctx = document.getElementById('uch1');
-      // ctx.height = 300;
       const _ = new Chart(ctx, {
-        // type: chartData.type,
         type: 'bar',
         data: this.treatmentvisualizationbarchart.locationChart.data,
         options: this.treatmentvisualizationbarchart.locationChart.options,
@@ -134,10 +122,8 @@ export default {
       var randomData = function() {
         return Math.round(Math.random() * 100);
       };
-
       const ctx = document.getElementById('preventiveRatio');
       const _ = new Chart(ctx, {
-        // type: chartData.type,
         type: 'line',
         data: this.treatmentvisualizationlinechart.locationChart.data,
         options: this.treatmentvisualizationlinechart.locationChart.options,
@@ -148,7 +134,6 @@ export default {
 
       const ctx1 = document.getElementById('interventionRatio');
       const __ = new Chart(ctx1, {
-        // type: chartData.type,
         type: 'line',
         data: this.treatmentvisualizationlinechart1.locationChart.data,
         options: this.treatmentvisualizationlinechart1.locationChart.options,
@@ -159,7 +144,6 @@ export default {
 
       const ctx2 = document.getElementById('perRecall');
       const ___ = new Chart(ctx2, {
-        // type: chartData.type,
         type: 'line',
         data: this.treatmentvisualizationlinechart2.locationChart.data,
         options: this.treatmentvisualizationlinechart2.locationChart.options,
@@ -169,9 +153,7 @@ export default {
 
     createWardLineChart() {
       const ctx = document.getElementById('lch6');
-      // ctx.height = 300;
       const _ = new Chart(ctx, {
-        // type: chartData.type,
         type: 'line',
         data: this.wardvisualizationlinechart.locationChart.data,
         options: this.wardvisualizationlinechart.locationChart.options,
@@ -179,12 +161,16 @@ export default {
       });
     },
 
+    createLoginPiChart(){
+      const ctx = document.getElementById('piechart');
+      const _ = new Chart(ctx, {
+        type: 'pie',
+        data: this.loginvisualization.locationChart.data,
+        options: this.loginvisualization.locationChart.options,
 
-    // ExportData(){
-    //   this.$store.dispatch("exportData", {})
-    // }
+      });
 
-
+    }
   },
 
   data(){

@@ -106,7 +106,7 @@
 
             <div class="col-lg-2 col-sm-12 mb-3 text-center">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="">Submit</b-button>
             </div>
           </div>
           <div class="row mt-4">
@@ -368,7 +368,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['table3_obj','table4_obj','table5_obj','geography'
+    ...mapState(['table3_obj','treatment_table_obj','treatmentstrategicdata_obj','geography'
     ]),
 
     basic: function(){
@@ -388,9 +388,9 @@ export default {
     },
 
     treatment: function(){
-      if(this.$store.state.table4_obj.length > 0){
+      if(this.$store.state.treatment_table_obj.length > 0){
         var formattedRecord4 = []
-        this.$store.state.table4_obj.forEach(function(rec){
+        this.$store.state.treatment_table_obj.forEach(function(rec){
           formattedRecord4.push({
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
@@ -404,9 +404,9 @@ export default {
     },
 
     strategic: function(){
-      if(this.$store.state.table5_obj.length > 0){
+      if(this.$store.state.treatmentstrategicdata_obj.length > 0){
         var formattedRecord5 = []
-        this.$store.state.table5_obj.forEach(function(rec){
+        this.$store.state.treatmentstrategicdata_obj.forEach(function(rec){
           formattedRecord5.push({
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
@@ -423,8 +423,8 @@ export default {
 
   created(){
     this.listTable3();
-    this.listTable4();
-    this.listTable5();
+    this.listTreatmentTable();
+    this.listTreatmentStrategicData();
     this.listGeography().then(() => {
       this.updateOptions();})
   },
@@ -507,7 +507,7 @@ export default {
   },
 
   methods:{
-    ...mapActions(['listTable3','listTable4','listTable5','listGeography']),
+    ...mapActions(['listTable3','listTreatmentTable','listTreatmentStrategicData','listGeography']),
 
     Bargraphtreatment(){
       this.errors=[]
