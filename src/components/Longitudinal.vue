@@ -165,22 +165,28 @@
               <b>{{ data.item.type }}</b>
             </template>
           </b-table> -->
-          <b-table-simple hover responsive>
-            <colgroup><col><col></colgroup>
-            <colgroup><col><col><col></colgroup>
-            <colgroup><col><col></colgroup>
+          <b-table-simple hover fixed responsive>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col/>
+              <col />
+              <col />
+            </colgroup>
             <b-thead head-variant="dark">
-              <b-th v-for="fields in longitudinalFields">{{ fields.label }}</b-th>
+              <b-th class="text-center" v-for="fields in longitudinalFields">{{ fields.label }}</b-th>
             </b-thead>
 
             <b-tbody>
               <b-tr v-for="items in longitudinalItems">
                 <th v-html="items.type"> {{ items.type }} </th>
-                <td> {{ items.tw1 }} </td>
-                <td> {{ items.tw2 }} </td>
-                <td> {{ items.realDifference }} </td>
-                <td> {{ items.propDifference }} </td>
-                <td> {{ items.pValue }} </td>
+                <td class="text-center"> {{ items.tw1 }} </td>
+                <td class="text-center"> {{ items.tw2 }} </td>
+                <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td>
+                <!-- <td class="text-center align-middle" v-else></td> -->
+                <td class="text-center"> {{ items.propDifference }} </td>
+                <td class="text-center"> {{ items.pValue }} </td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -255,7 +261,6 @@ export default {
       outreach: [],
       seminar: [],
       training: [],
-      number_array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 
       longitudinalFields: [
         { key: 'type', label: '' },
@@ -266,20 +271,20 @@ export default {
         { key: 'pValue', label: 'P-value' },
       ],
       longitudinalItems:[
-        { type: 'Carries Risk' },
+        { type: 'Carries Risk'},
         { type: '<span class="ml-4">Low</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: '<span class="ml-4">Medium</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: '<span class="ml-4">High</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: 'Any untreated caries present', tw1: '50', tw2: '20', realDifference: '30', propDifference: '15', pValue: '70' },
+        { type: '<span class="ml-4">Medium</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+        { type: '<span class="ml-4">High</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+        { type: 'Any untreated caries present', tw1: '50', tw2: '20', propDifference: '15', pValue: '70' },
         { type: 'Number of decayed primary teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+        { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+        { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
         { type: 'Active infection', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Need ART filling', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Need SDF', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Need Extraction', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+        { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+        { type: 'Need ART filling', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+        { type: 'Need SDF', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+        { type: 'Need Extraction', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
 
       ],
     }
