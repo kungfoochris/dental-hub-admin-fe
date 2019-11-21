@@ -132,7 +132,7 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4 col-sm-12 mb-3">
+            <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Location:</h6>
               <multiselect
               v-model="location"
@@ -146,7 +146,7 @@
               </multiselect>
             </div>
 
-            <div class="col-lg-4 col-sm-12 mb-3">
+            <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Age Group:</h6>
               <multiselect
               v-model="location"
@@ -159,8 +159,10 @@
               >
               </multiselect>
             </div>
+          </div>
 
-            <div class="col-lg-4 col-12 text-center">
+          <div class="row">
+            <div class="col-12 text-center justify-content-center">
               <h6>Click Here:</h6>
               <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
@@ -187,7 +189,7 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4 col-sm-12 mb-3">
+            <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Location:</h6>
               <multiselect
               v-model="location"
@@ -201,7 +203,7 @@
               </multiselect>
             </div>
 
-            <div class="col-lg-4 col-sm-12 mb-3">
+            <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Treatment Type:</h6>
               <multiselect
               v-model="location"
@@ -214,8 +216,10 @@
               >
               </multiselect>
             </div>
+          </div>
 
-            <div class="col-lg-4 col-12 text-center">
+          <div class="row">
+            <div class="col-12 text-center">
               <h6>Click Here:</h6>
               <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
