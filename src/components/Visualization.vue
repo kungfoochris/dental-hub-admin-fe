@@ -1,7 +1,7 @@
 <template>
 <div id="app" class="app-content">
-  <div class="text-center">
-    <b-spinner v-show="spinner" variant="primary" type="grow" label="Spinning"></b-spinner>
+  <div  v-show="spinner" class="text-center mt-5">
+    <b-spinner variant="primary" type="grow" label="Loading Visualization" style="width: 5rem; height: 5rem;" ></b-spinner>
   </div>
   <canvas :id="tag"></canvas>
   <!-- <div class="row pr-4">
@@ -30,11 +30,13 @@ export default {
   watch: {
     visualizations: function(){
     if(this.visualizations.locationChart){
+      this.spinner = false;
           this.createGenderChart(this.tag);
         }
     },
 
     settingsvisualization: function(){
+      this.spinner = false;
       if(this.settingsvisualization.locationChart){
         this.createSettingsChart(this.tag);
       }
@@ -48,18 +50,21 @@ export default {
 
 
     preventionrati_obj: function(){
+      this.spinner = false;
       if(this.preventionrati_obj.locationChart){
         this.createTreatmentLineChart(this.tag);
       }
     },
 
     earlyintervention_obj: function(){
+      this.spinner = false;
       if(this.earlyintervention_obj.locationChart){
         this.createTreatmentLineChart1(this.tag);
       }
     },
 
     recalldistribution_obj: function(){
+      this.spinner = false;
       if(this.recalldistribution_obj.locationChart){
         this.createTreatmentLineChart2(this.tag);
       }
@@ -67,12 +72,14 @@ export default {
 
 
     wardvisualizationlinechart: function(){
+      this.spinner = false;
       if(this.wardvisualizationlinechart.locationChart){
         this.createWardLineChart(this.tag);
       }
     },
 
     loginvisualization: function(){
+      this.spinner = false;
       if(this.loginvisualization.locationChart){
         this.createLoginPiChart();
       }
@@ -80,6 +87,7 @@ export default {
   },
 
   created(){
+    this.spinner = true;
     this.listVisualizationSettings();
     this.listVisualization();
     this.listVisualizationChart();
