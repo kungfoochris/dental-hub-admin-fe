@@ -303,17 +303,12 @@
 </template>
 
 <script>
-const years = (back) => {
-  const year = new Date().getFullYear();
-  return Array.from({length: back}, (v, i) => year - back + i + 1);
-}
-
-
 import { mapState,mapActions } from 'vuex';
 import AppHeader from './Header.vue';
 import Visualization from './Visualization';
 import userChart from '../js/userchart.js';
 import locationChart from '../js/locationchart.js';
+import years from '../js/year_array.js';
 
 // const axios = require('axios');
 export default {
