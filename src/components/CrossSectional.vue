@@ -147,31 +147,37 @@
       </div>
     </div>
 
-    <div class="row mt-4 text-center">
+    <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Cross-Sectional Measures</h3>
+          <h3 class="mb-3  text-center">Cross-Sectional Measures</h3>
 
-          <b-table
-          id="user-table"
-          show-empty
-          :items="basic"
-          :fields="basicFields"
-          bordered
-          responsive
-          hover
-          >
-              <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
+          <b-table-simple hover responsive>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
+            <b-thead head-variant="dark">
+              <b-th class="text-center" v-for="fields in basicFields">{{ fields.label }}</b-th>
+            </b-thead>
 
-            <template slot="[type]" slot-scope="data">
-              <b>{{ data.item.type }}</b>
-            </template>
-          </b-table>
-          <div class="row pr-4">
-            <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
-          </div>
+            <b-tbody>
+              <b-tr v-for="items in basic">
+                <th v-html="items.type"> {{ items.type }} </th>
+                <td class="text-center"> {{ items.sixyo }} </td>
+                <td class="text-center"> {{ items.twelveyo }} </td>
+                <td class="text-center"> {{ items.fifteenyo }} </td>
+                <td class="text-center"> {{ items.child }} </td>
+                <td class="text-center"> {{ items.adult }} </td>
+                <td class="text-center"> {{ items.older }} </td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
         </div>
       </div>
     </div>
