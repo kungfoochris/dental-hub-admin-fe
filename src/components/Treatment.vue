@@ -109,7 +109,7 @@
               <b-button variant="custom" block class="mb-4" @click="">Submit</b-button>
             </div>
           </div>
-          <div class="row mt-4">
+          <div class="row">
             <div class="col-12">
               <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
             </div>
@@ -123,7 +123,7 @@
         <div class="card shadow">
           <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
           <div class="row">
-            <div class="col-12 mt-4">
+            <div class="col-12">
               <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
             </div>
           </div>
@@ -134,7 +134,7 @@
         <div class="card shadow">
           <h3 class="mb-3">Line Chart of Recall Percentage</h3>
           <div class="row">
-            <div class="col-12 mt-4">
+            <div class="col-12">
               <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
             </div>
           </div>
