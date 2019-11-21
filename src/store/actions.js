@@ -360,13 +360,13 @@ export default {
     },
 
 
-    listTable3({commit}){
+    listTreatmentTableBasicData({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
       .get('http://app.abhiyantrik.com:6061/api/v1/treatment',)
       .then(response => {
         if(response.status==200){
-          commit("setTable3",response.data);
+          commit("setTreatmentTableBasicData",response.data);
         }
       })
     },
@@ -466,38 +466,43 @@ export default {
     },
 
 
-    listTreatmentLineVisualizationChart({commit}){
+    listTreatmentPreventionRatio({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/treatmentvisualizationlinechart',)
+      .get('http://app.abhiyantrik.com:6061/api/v1/preventionratio',)
       .then(response => {
         if(response.status==200){
-          commit("setTreatmentLineVisualizationChart",response.data);
+          commit("setTreatmentPreventionRatio",response.data);
         }
       })
     },
 
-    listTreatmentLineVisualizationChart1({commit}){
+    listEarlyIntervention({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/treatmentvisualizationlinechart1',)
+      .get('http://app.abhiyantrik.com:6061/api/v1/earlyintervention',)
       .then(response => {
         if(response.status==200){
-          commit("setTreatmentLineVisualizationChart1",response.data);
+          commit("setEarlyIntervention",response.data);
         }
       })
     },
 
-    listTreatmentLineVisualizationChart2({commit}){
+    listRecallDistribution({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/treatmentvisualizationlinechart2',)
+      .get('http://app.abhiyantrik.com:6061/api/v1/recalldistribution',)
       .then(response => {
         if(response.status==200){
-          commit("setTreatmentLineVisualizationChart2",response.data);
+          commit("setRecallDistribution",response.data);
         }
       })
     },
+
+
+
+
+
 
 
     listWardLineVisualizationChart({commit}){
@@ -620,6 +625,36 @@ export default {
 
       })
     },
+
+    CreateTableBasicDataVisualization({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/treatment', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setTreatmentTableBasicData",response.data);
+          // state.table1_obj.update(response.data);
+        }
+
+      })
+    },
+
+    CreateStrategicDataVisualization({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/treatmentstrategicdatas', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setTreatmentStrategicData",response.data);
+          // state.table1_obj.update(response.data);
+        }
+
+      })
+    },
+
+
+
+
 
 
 
