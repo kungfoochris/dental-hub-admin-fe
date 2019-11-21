@@ -15,10 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Cross-Sectional Measures</h3>
-          <div class="col-12">
-          </div>
-
+          <h3 class="mb-3">Filter Data</h3>
           <div class="row mb-3">
             <div class="col-6">
               <h6>Select Start Date:</h6>
@@ -146,6 +143,14 @@
               </multiselect>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4 text-center">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Cross-Sectional Measures</h3>
 
           <b-table
           id="user-table"

@@ -97,7 +97,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line Chart</h3>
+          <h3 class="mb-3">Line Chart of Prevention Ratio</h3>
           <div class="row mt-3">
             <div class="col-lg-10 col-sm-12 mb-3">
               <h6>Select Year:</h6>
@@ -109,17 +109,32 @@
               <b-button variant="custom" block class="mb-4" @click="">Submit</b-button>
             </div>
           </div>
-          <div class="row mt-4">
+          <div class="row">
             <div class="col-12">
               <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
           <div class="row">
-            <div class="col-md-6 col-sm-12 mt-4">
+            <div class="col-12">
               <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="col-md-6 col-sm-12 mt-4">
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
+          <div class="row">
+            <div class="col-12">
               <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
             </div>
           </div>
@@ -127,25 +142,27 @@
       </div>
     </div>
 
+    <div class="row my-5 justify-content-center">
+      <div class="dropdown-divider shadow"></div>
+    </div>
+
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Basic Data</h3>
+          <h3 class="mb-4">Filter Table Data</h3>
 
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
+          <div class="row">
+            <div class="col-lg-4 col-sm-12 mb-4">
+              <h6>Select Start Date:</h6>
               <b-input v-model="Start_Date" type="date"/>
             </div>
 
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Month:</h6>
+            <div class="col-lg-4 col-sm-12 mb-4">
+              <h6>Select End Date:</h6>
               <b-input v-model="End_Date" type="date"/>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
+            <div class="col-lg-4 col-sm-12 mb-4">
               <h6>Location:</h6>
               <multiselect
               v-model="location"
@@ -157,13 +174,48 @@
               :preselect-first="true"
               >
               </multiselect>
-            </div>
+              <!-- <multiselect
+              v-model="location"
+              :options="options"
 
-            <div class="col-lg-4 col-12 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="TreatmentBasicDataTable">Submit</b-button>
+              :close-on-select="false"
+              :clear-on-select="false"
+              :preserve-search="true"
+              placeholder="Select Location"
+              label="name"
+              track-by="name"
+              :preselect-first="true"
+              >
+              </multiselect> -->
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-lg-10 col-sm-12">
+              <h6>Select Activities:</h6>
+              <b-form-group>
+                <b-form-checkbox-group
+                v-model="checkbox_selected"
+                :options="checkbox_options"
+                switches
+                size="lg"
+                ></b-form-checkbox-group>
+              </b-form-group>
+            </div>
+
+            <div class="col-lg-2 col-sm-12">
+              <h6>Click Here:</h6>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4 text-center">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Basic Data</h3>
 
           <b-table
           id="user-table"
@@ -240,38 +292,7 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Strategic Data</h3>
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
 
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Month:</h6>
-              <b-input v-model="End_Date" type="date"/>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
-              <h6>Location:</h6>
-              <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-4 col-12 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="TreatmentStrategicData">Submit</b-button>
-            </div>
-          </div>
           <b-table
           id="user-table"
           show-empty
