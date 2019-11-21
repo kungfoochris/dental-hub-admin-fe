@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'loginvisualization','visualizations','settingsvisualization','treatmentvisualizationbarchart','treatmentvisualizationlinechart','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart'
+      'loginvisualization','visualizations','settingsvisualization','treatmentvisualizationbarchart','preventionrati_obj','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart','earlyintervention_obj','recalldistribution_obj'
     ])
   },
   watch: {
@@ -37,27 +37,27 @@ export default {
       }
     },
 
-    treatmentvisualizationbarchart: function(){
-      if(this.treatmentvisualizationbarchart.locationChart){
-        this.createTreatmentBarChart(this.tag);
-      }
-    },
+    // treatmentvisualizationbarchart: function(){
+    //   if(this.treatmentvisualizationbarchart.locationChart){
+    //     this.createTreatmentBarChart(this.tag);
+    //   }
+    // },
 
 
-    treatmentvisualizationlinechart: function(){
-      if(this.treatmentvisualizationlinechart.locationChart){
+    preventionrati_obj: function(){
+      if(this.preventionrati_obj.locationChart){
         this.createTreatmentLineChart(this.tag);
       }
     },
 
-    treatmentvisualizationlinechart1: function(){
-      if(this.treatmentvisualizationlinechart1.locationChart){
+    earlyintervention_obj: function(){
+      if(this.earlyintervention_obj.locationChart){
         this.createTreatmentLineChart1(this.tag);
       }
     },
 
-    treatmentvisualizationlinechart2: function(){
-      if(this.treatmentvisualizationlinechart2.locationChart){
+    recalldistribution_obj: function(){
+      if(this.recalldistribution_obj.locationChart){
         this.createTreatmentLineChart2(this.tag);
       }
     },
@@ -81,14 +81,16 @@ export default {
     this.listVisualization();
     this.listVisualizationChart();
     this.listTreatmentBarVisualizationChart();
-    this.listTreatmentLineVisualizationChart();
-    this.listTreatmentLineVisualizationChart1();
-    this.listTreatmentLineVisualizationChart2();
+    this.listTreatmentPreventionRatio();
     this.listWardLineVisualizationChart();
-      this.listLoginVisualization();
+    this.listLoginVisualization();
+    this.listEarlyIntervention();
+    this.listRecallDistribution();
+
+
   },
   methods:{
-    ...mapActions(['listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentLineVisualizationChart','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listLoginVisualization']),
+    ...mapActions(['listEarlyIntervention','listRecallDistribution','listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentPreventionRatio','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listLoginVisualization']),
 
 
     createSettingsChart() {
@@ -109,14 +111,14 @@ export default {
       });
     },
 
-    createTreatmentBarChart() {
-      const ctx = document.getElementById('uch1');
-      const _ = new Chart(ctx, {
-        type: 'bar',
-        data: this.treatmentvisualizationbarchart.locationChart.data,
-        options: this.treatmentvisualizationbarchart.locationChart.options,
-      });
-    },
+    // createTreatmentBarChart() {
+    //   const ctx = document.getElementById('uch1');
+    //   const _ = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: this.treatmentvisualizationbarchart.locationChart.data,
+    //     options: this.treatmentvisualizationbarchart.locationChart.options,
+    //   });
+    // },
 
     createTreatmentLineChart() {
       var randomData = function() {
@@ -125,28 +127,27 @@ export default {
       const ctx = document.getElementById('preventiveRatio');
       const _ = new Chart(ctx, {
         type: 'line',
-        data: this.treatmentvisualizationlinechart.locationChart.data,
-        options: this.treatmentvisualizationlinechart.locationChart.options,
+        data: this.preventionrati_obj.locationChart.data,
+        options: this.preventionrati_obj.locationChart.options,
       });
+    },
 
-
-
-
+    createTreatmentLineChart1() {
       const ctx1 = document.getElementById('interventionRatio');
       const __ = new Chart(ctx1, {
         type: 'line',
-        data: this.treatmentvisualizationlinechart1.locationChart.data,
-        options: this.treatmentvisualizationlinechart1.locationChart.options,
+        data: this.earlyintervention_obj.locationChart.data,
+        options: this.earlyintervention_obj.locationChart.options,
       });
+    },
 
 
-
-
+    createTreatmentLineChart2() {
       const ctx2 = document.getElementById('perRecall');
       const ___ = new Chart(ctx2, {
         type: 'line',
-        data: this.treatmentvisualizationlinechart2.locationChart.data,
-        options: this.treatmentvisualizationlinechart2.locationChart.options,
+        data: this.recalldistribution_obj.locationChart.data,
+        options: this.recalldistribution_obj.locationChart.options,
       });
     },
 

@@ -205,7 +205,7 @@
 
             <div class="col-lg-2 col-sm-12">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="BasicStrategicForm">Submit</b-button>
             </div>
           </div>
         </div>
@@ -383,13 +383,13 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['table3_obj','treatment_table_obj','treatmentstrategicdata_obj','geography'
+    ...mapState(['treatmenttablebasic_obj','treatment_table_obj','treatmentstrategicdata_obj','geography'
     ]),
 
     basic: function(){
-      if(this.$store.state.table3_obj.length > 0){
+      if(this.$store.state.treatmenttablebasic_obj.length > 0){
         var formattedRecord3 = []
-        this.$store.state.table3_obj.forEach(function(rec){
+        this.$store.state.treatmenttablebasic_obj.forEach(function(rec){
           formattedRecord3.push({
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
@@ -437,7 +437,7 @@ export default {
   },
 
   created(){
-    this.listTable3();
+    this.listTreatmentTableBasicData();
     this.listTreatmentTable();
     this.listTreatmentStrategicData();
     this.listGeography().then(() => {
@@ -469,6 +469,8 @@ export default {
       End_Date:"",
       location:"",
       options: [],
+      checkbox_options:[],
+      checkbox_selected:[],
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
@@ -522,7 +524,29 @@ export default {
   },
 
   methods:{
-    ...mapActions(['listTable3','listTreatmentTable','listTreatmentStrategicData','listGeography']),
+    ...mapActions(['listTreatmentTableBasicData','listTreatmentTable','listTreatmentStrategicData','listGeography']),
+
+    BasicStrategicForm(){
+      this.errors=[]
+      if(this.Start_Date==''){
+        this.errors['Start_Date']="Start date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.End_Date==""){
+        this.errors['End_Date']="End date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.location==""){
+        this.errors['location']="Location required."
+        this.$bvToast.show('error-toast');
+      }
+      else(
+          this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language}),
+          this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+      )
+
+
+    },
 
     Bargraphtreatment(){
       this.errors=[]

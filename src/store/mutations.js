@@ -68,8 +68,8 @@ export default{
 
 
 
-	setTable3(state,table3_obj){
-		state.table3_obj = table3_obj;
+	setTreatmentTableBasicData(state,treatmenttablebasic_obj){
+		state.treatmenttablebasic_obj = treatmenttablebasic_obj;
 	},
 	setTreatmentTable(state, treatment_table_obj){
 		state.treatment_table_obj=treatment_table_obj;
@@ -96,16 +96,16 @@ export default{
 		state.treatmentvisualizationbarchart = treatmentvisualizationbarchart;
 	},
 
-	setTreatmentLineVisualizationChart(state, treatmentvisualizationlinechart){
-		state.treatmentvisualizationlinechart = treatmentvisualizationlinechart;
+	setTreatmentPreventionRatio(state, preventionrati_obj){
+		state.preventionrati_obj = preventionrati_obj;
 	},
 
-	setTreatmentLineVisualizationChart1(state, treatmentvisualizationlinechart1){
-		state.treatmentvisualizationlinechart1 = treatmentvisualizationlinechart1;
+	setEarlyIntervention(state, earlyintervention_obj){
+		state.earlyintervention_obj = earlyintervention_obj;
 	},
 
-	setTreatmentLineVisualizationChart2(state, treatmentvisualizationlinechart2){
-		state.treatmentvisualizationlinechart2 = treatmentvisualizationlinechart2;
+	setRecallDistribution(state, recalldistribution_obj){
+		state.recalldistribution_obj = recalldistribution_obj;
 	},
 
 
