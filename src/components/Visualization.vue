@@ -1,5 +1,6 @@
 <template>
 <div id="app" class="app-content">
+  <b-spinner v-show="spinner" variant="primary" type="grow" label="Spinning"></b-spinner>
   <canvas :id="tag"></canvas>
   <!-- <div class="row pr-4">
     <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
@@ -176,7 +177,7 @@ export default {
 
   data(){
     return{
-
+      spinner: false
     }
   },
 

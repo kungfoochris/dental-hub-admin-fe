@@ -43,7 +43,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Prevention Ratio</h3>
+          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
           <div class="row">
             <div class="col-12">
               <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
