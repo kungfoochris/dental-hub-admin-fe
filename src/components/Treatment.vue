@@ -20,7 +20,15 @@
           <div class="row">
             <div class="col-lg-10 col-sm-12">
               <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <multiselect
+                class="mb-3"
+                v-model="selected_year"
+                :options="years_array"
+                :clear-on-select="false"
+                :preserve-search="true"
+                placeholder="Choose Year"
+              >
+              </multiselect>
             </div>
 
             <div class="col-lg-2 col-sm-12">
@@ -295,6 +303,12 @@
 </template>
 
 <script>
+const years = (back) => {
+  const year = new Date().getFullYear();
+  return Array.from({length: back}, (v, i) => year - back + i + 1);
+}
+
+
 import { mapState,mapActions } from 'vuex';
 import AppHeader from './Header.vue';
 import Visualization from './Visualization';
@@ -392,9 +406,11 @@ export default {
       type2: "pie",
       isActive: true,
       errors:[],
-      Start_Date:"",
-      End_Date:"",
-      location:"",
+      years_array: years(100).reverse(),
+      selected_year: "",
+      Start_Date: "",
+      End_Date: "",
+      location: "",
       options: [],
 
       basicFields: [
