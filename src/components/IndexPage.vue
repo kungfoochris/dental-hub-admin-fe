@@ -164,7 +164,7 @@
           <div class="row">
             <div class="col-12 text-center justify-content-center">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
+              <b-button variant="custom" class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
           </div>
 
@@ -221,7 +221,7 @@
           <div class="row">
             <div class="col-12 text-center">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
+              <b-button variant="custom" class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
           </div>
 
