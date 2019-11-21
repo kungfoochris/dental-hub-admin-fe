@@ -38,8 +38,8 @@ export default {
     ...mapActions(['listLoginVisualization']),
     createChart() {
       const ctx = document.getElementById(this.tag);
-      ctx.height = 385;
-      ctx.width = 770;
+      // ctx.height = 385;
+      // ctx.width = 770;
       const _ = new Chart(ctx, {
         type: 'pie',
         data: this.loginvisualization.locationChart.data,
