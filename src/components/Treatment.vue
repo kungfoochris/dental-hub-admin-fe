@@ -12,103 +12,38 @@
       </div>
     </div>
 
-    <!-- <div class="row mt-4">
-      <div class="col-lg-6 col-sm-12">
+    <div class="row mt-4">
+      <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Bar graph of basic data</h3>
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
-
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Month:</h6>
-              <b-input v-model="End_Date" type="date"/>
-            </div>
-          </div>
+          <h3 class="mb-4 text-center">Filter Line Charts</h3>
 
           <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
-              <h6>Location:</h6>
+            <div class="col-lg-10 col-sm-12">
+              <h6>Select Year:</h6>
               <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
+                class="mb-3"
+                v-model="selected_year"
+                :options="years_array"
+                :clear-on-select="false"
+                :preserve-search="true"
+                placeholder="Choose Year"
               >
               </multiselect>
             </div>
 
-            <div class="col-lg-4 col-12 text-center">
+            <div class="col-lg-2 col-sm-12">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="GenderVisualization">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
             </div>
           </div>
-
-          <Visualization :tag="uch" :type="type1" :clean-data="userChart"></Visualization>
         </div>
       </div>
-
-      <div class="col-lg-6 col-sm-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Bar graph of treatment data</h3>
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
-
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Month:</h6>
-              <b-input v-model="End_Date" type="date"/>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
-              <h6>Location:</h6>
-              <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-4 col-12 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="Bargraphtreatment">Submit</b-button>
-            </div>
-          </div>
-
-          <Visualization :tag="uch1" :type="type1" :clean-data="userChart"></Visualization>
-        </div>
-      </div>
-    </div> -->
+    </div>
 
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Line Chart of Prevention Ratio</h3>
-          <div class="row mt-3">
-            <div class="col-lg-10 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
-
-            <div class="col-lg-2 col-sm-12 mb-3 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="">Submit</b-button>
-            </div>
-          </div>
           <div class="row">
             <div class="col-12">
               <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
@@ -373,6 +308,7 @@ import AppHeader from './Header.vue';
 import Visualization from './Visualization';
 import userChart from '../js/userchart.js';
 import locationChart from '../js/locationchart.js';
+import years from '../js/year_array.js';
 
 // const axios = require('axios');
 export default {
@@ -465,9 +401,11 @@ export default {
       type2: "pie",
       isActive: true,
       errors:[],
-      Start_Date:"",
-      End_Date:"",
-      location:"",
+      years_array: years(100).reverse(),
+      selected_year: "",
+      Start_Date: "",
+      End_Date: "",
+      location: "",
       options: [],
       checkbox_options:[],
       checkbox_selected:[],
