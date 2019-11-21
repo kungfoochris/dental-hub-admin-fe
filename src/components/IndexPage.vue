@@ -272,27 +272,25 @@
         <div class="card shadow">
           <h3 class="mb-3">Line graph of number of contacts by month by Ward</h3>
           <div class="row mt-3">
-            <div class="col-lg-10 col-sm-12 mb-3">
+            <div class="col-lg-10 col-sm-12">
               <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <multiselect
+                class="mb-3"
+                v-model="selected_year"
+                :options="years_array"
+                :clear-on-select="false"
+                :preserve-search="true"
+                placeholder="Choose Year"
+              >
+              </multiselect>
             </div>
 
-            <div class="col-lg-2 col-sm-12 mb-3 text-center">
-              <!-- <h6>Location:</h6>
-              <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect> -->
+            <div class="col-lg-2 col-sm-12">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="WardLineVisualization">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
             </div>
           </div>
+
           <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization>
         </div>
       </div>
@@ -307,6 +305,7 @@ import AppHeader from './Header.vue';
 import Visualization from './Visualization';
 import userChart from '../js/userchart.js';
 import locationChart from '../js/locationchart.js';
+import years from '../js/year_array.js';
 
 // const axios = require('axios');
 export default {
@@ -414,6 +413,8 @@ export default {
       isActive: true,
       location: "",
       options: [],
+      years_array: years(100).reverse(),
+      selected_year: "",
 
       checkbox_selected: [], // Must be an array reference!
       checkbox_options: [],
