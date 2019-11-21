@@ -12,10 +12,10 @@
       </div>
     </div>
 
-    <div class="row mt-4 text-center">
+    <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-4">Filter Line Charts</h3>
+          <h3 class="mb-4 text-center">Filter Line Charts</h3>
 
           <div class="row">
             <div class="col-lg-10 col-sm-12">
