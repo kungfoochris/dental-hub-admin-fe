@@ -83,14 +83,20 @@
         <div class="card shadow">
           <h3 class="mb-3">Overview</h3>
           <b-table
-          id="user-table"
-          show-empty
-          :items="basic"
-          :fields="basicFields"
-          bordered
-          responsive
-          hover
+            id="user-table"
+            show-empty
+            :items="basic"
+            :fields="basicFields"
+            bordered
+            responsive
+            hover
+            :busy="isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
           </b-table>
           <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
@@ -243,7 +249,13 @@
               bordered
               responsive
               hover
+              :busy = "isBusy"
             >
+              <template v-slot:table-busy>
+                <div class="text-center text-primary my-2">
+                  <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+                </div>
+              </template>
             </b-table>
         </div>
       </div>
@@ -261,7 +273,13 @@
               bordered
               responsive
               hover
+              :busy = "isBusy"
             >
+              <template v-slot:table-busy>
+                <div class="text-center text-primary my-2">
+                  <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+                </div>
+              </template>
             </b-table>
         </div>
       </div>
@@ -320,6 +338,7 @@ export default {
     ]),
 
     basic: function(){
+      this.isBusy = true;
       if(this.$store.state.overview_obj.length > 0){
         var formattedRecord = []
         this.$store.state.overview_obj.forEach(function(rec){
@@ -327,6 +346,7 @@ export default {
            type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
           })
         })
+        this.isBusy = false;
         return formattedRecord;
 
       }else{
@@ -335,6 +355,7 @@ export default {
     },
 
     treatmentTableItemsActivity: function(){
+      this.isBusy = true;
       if(this.$store.state.treatment_by_activity_obj.length > 0){
         var formattedRecord1 = []
         this.$store.state.treatment_by_activity_obj.forEach(function(rec){
@@ -342,6 +363,7 @@ export default {
            type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
           })
         })
+        this.isBusy = false;
         return formattedRecord1;
 
       }else{
@@ -350,6 +372,7 @@ export default {
     },
 
     treatmentTableItemsWard: function(){
+      this.isBusy = true;
       if(this.$store.state.treatment_by_ward_obj.length > 0){
         var formattedRecord2 = []
         this.$store.state.treatment_by_ward_obj.forEach(function(rec){
@@ -357,6 +380,7 @@ export default {
            type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
           })
         })
+        this.isBusy = false;
         return formattedRecord2;
 
       }else{
@@ -415,6 +439,7 @@ export default {
       options: [],
       years_array: years(100).reverse(),
       selected_year: "",
+      isBusy: false,
 
       checkbox_selected: [], // Must be an array reference!
       checkbox_options: [],
