@@ -174,7 +174,7 @@
             </div>
           </div>
 
-          <Visualization :tag="settingsgraph" :type="type1"></Visualization>
+          <Visualization :tag="settingsgraph"></Visualization>
         </div>
       </div>
 
@@ -289,7 +289,16 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Line graph of number of contacts by month by Ward</h3>
-          <div class="row mt-3">
+          <!-- <div class="row mt-3">
+            <div class="col-12">
+              <b-form-group>
+                <b-form-checkbox-group id="checkbox-group-2" v-model="ward_selected">
+                    <b-form-checkbox v-for="wards in geography" :value="wards.name">{{ wards.name }}</b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
+            </div>
+          </div> -->
+          <!-- <div class="row mt-3">
             <div class="col-lg-10 col-sm-12">
               <h6>Select Year:</h6>
               <multiselect
@@ -307,9 +316,9 @@
               <h6>Click Here:</h6>
               <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
             </div>
-          </div>
+          </div> -->
 
-          <Visualization :tag="lch6" :type="type2" :clean-data="locationChart"></Visualization>
+          <Visualization :tag="lch6"></Visualization>
         </div>
       </div>
     </div>
@@ -432,9 +441,7 @@ export default {
       uch:"uch",
       settingsgraph: "settingsgraph",
       lch:"lch",
-      type1: "bar",
       piechart: "piechart",
-      type2: "pie",
       lch6:"lch6",
       errors:[],
       isActive: true,
@@ -443,6 +450,7 @@ export default {
       years_array: years(100).reverse(),
       selected_year: "",
       isBusy: false,
+      ward_selected: ['Test ward', 'Lakeside', 'Sarangkot', 'Kaskikot', 'Salyan', 'Thumki', 'Deurali', 'Rupakot', 'Hansapur', 'Tilahar', 'Katuwachaupari'],
 
       checkbox_selected: [], // Must be an array reference!
       checkbox_options: [],
