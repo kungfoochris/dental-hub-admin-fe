@@ -17,7 +17,7 @@
         <div class="card shadow">
           <h3 class="mb-3">Filter Data</h3>
           <div class="row mb-3">
-            <div class="col-6">
+            <div class="col-md-6">
               <h6>Select Start Date:</h6>
               <b-input type="date"/>
             </div>
@@ -28,39 +28,9 @@
             </div>
           </div>
 
-          <div class="row mt-3">
-            <div class="col-12">
-              <h6>Select Activities:</h6>
-              <b-form-group>
-                <b-form-checkbox-group
-                v-model="checkbox_selected"
-                :options="checkbox_options"
-                switches
-                size="lg"
-                ></b-form-checkbox-group>
-              </b-form-group>
-            </div>
-          </div>
-
-          <div class="row  mt-3">
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Clinic:</h6> -->
-              <multiselect
-              :options="clinic"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Indicator Age"
-              label="clinic"
-              track-by="clinic"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Seminar:</h6> -->
+          <div class="row mb-3">
+            <div class="col-md-4 col-sm-12">
+              <h6>Select the Reason for Visit:</h6>
               <multiselect
               :options="seminar"
               :multiple="true"
@@ -75,8 +45,8 @@
               </multiselect>
             </div>
 
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Outreach:</h6> -->
+            <div class="col-md-4 col-sm-12">
+              <h6>Select Referral Type:</h6>
               <multiselect
               :options="outreach"
               :multiple="true"
@@ -89,6 +59,41 @@
               :preselect-first="true"
               >
               </multiselect>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+              <h6>Select Indicator Age:</h6>
+              <multiselect
+              :options="clinic"
+              :multiple="true"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :preserve-search="true"
+              placeholder="Indicator Age"
+              label="clinic"
+              track-by="clinic"
+              :preselect-first="true"
+              >
+              </multiselect>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-10 col-sm-12">
+              <h6>Select Activities:</h6>
+              <b-form-group>
+                <b-form-checkbox-group
+                v-model="checkbox_selected"
+                :options="checkbox_options"
+                switches
+                size="lg"
+                ></b-form-checkbox-group>
+              </b-form-group>
+            </div>
+
+            <div class="col-lg-2 col-sm-12">
+              <h6>Click Here:</h6>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
             </div>
           </div>
         </div>
