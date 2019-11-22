@@ -13,12 +13,12 @@
     </div>
 
     <b-tabs class="mt-4" pills>
-      <b-tab title="Sample Frame #1" active>
+      <b-tab :title="sample_frame[0]" active>
         <!-- <b-card-text> -->
           <div class="row mt-4 text-center">
             <div class="col-12">
               <div class="card shadow">
-                <h3 class="mb-3">Filter Data of Sample Frame #1</h3>
+                <h3 class="mb-3">Filter Data of {{ this.sample_frame [0] }}</h3>
                 <div class="row mb-3">
                   <div class="col-6">
                     <h6>Select Start Date:</h6>
@@ -153,7 +153,7 @@
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
-                <h3 class="mb-3 text-center">Longitudinal Measures for Sample Frame #1</h3>
+                <h3 class="mb-3 text-center">Longitudinal Measures for {{ this.sample_frame [0] }}</h3>
 
                 <!-- <b-table
                 id="user-table"
@@ -204,12 +204,12 @@
       </b-tab>
 
 
-      <b-tab title="Sample Frame #2">
+      <b-tab :title="sample_frame[1]">
         <!-- <b-card-text> -->
           <div class="row mt-4 text-center">
             <div class="col-12">
               <div class="card shadow">
-                <h3 class="mb-3">Filter Data of Sample Frame #2</h3>
+                <h3 class="mb-3">Filter Data of {{ this.sample_frame [1] }}</h3>
                 <div class="row mb-3">
                   <div class="col-6">
                     <h6>Select Start Date:</h6>
@@ -344,7 +344,7 @@
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
-                <h3 class="mb-3 text-center">Longitudinal Measures for Sample Frame #2</h3>
+                <h3 class="mb-3 text-center">Longitudinal Measures for {{ this.sample_frame [1] }}</h3>
 
                 <!-- <b-table
                 id="user-table"
@@ -459,6 +459,7 @@ export default {
       outreach: [],
       seminar: [],
       training: [],
+      sample_frame: ['Sample Frame #1', 'Sample Frame #2'],
 
       longitudinalFields: [
         { key: 'type', label: '' },
