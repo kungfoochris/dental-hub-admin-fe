@@ -12,191 +12,388 @@
       </div>
     </div>
 
-    <div class="row mt-4 text-center">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Filter Data</h3>
-          <div class="row mb-3">
-            <div class="col-6">
-              <h6>Select Start Date:</h6>
-              <b-input type="date"/>
-            </div>
+    <b-tabs class="mt-4" pills>
+      <b-tab title="Sample Frame #1" active>
+        <!-- <b-card-text> -->
+          <div class="row mt-4 text-center">
+            <div class="col-12">
+              <div class="card shadow">
+                <h3 class="mb-3">Filter Data of Sample Frame #1</h3>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <h6>Select Start Date:</h6>
+                    <b-input type="date"/>
+                  </div>
 
-            <div class="col-6">
-              <h6>Select End Date:</h6>
-              <b-input type="date"/>
+                  <div class="col-6">
+                    <h6>Select End Date:</h6>
+                    <b-input type="date"/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Clinic:</h6> -->
+                    <multiselect
+                    :options="clinic"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Clinic"
+                    label="clinic"
+                    track-by="clinic"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Seminar:</h6> -->
+                    <multiselect
+                    :options="seminar"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Seminar"
+                    label="seminar"
+                    track-by="seminar"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Outreach:</h6> -->
+                    <multiselect
+                    :options="outreach"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Outreach"
+                    label="outreach"
+                    track-by="outreach"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Training:</h6> -->
+                    <multiselect
+                    :options="training"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Training"
+                    label="training"
+                    track-by="training"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Clinic:</h6> -->
+                    <multiselect
+                    :options="clinic"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Indicator Age"
+                    label="clinic"
+                    track-by="clinic"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Seminar:</h6> -->
+                    <multiselect
+                    :options="seminar"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Reason For Visit"
+                    label="seminar"
+                    track-by="seminar"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Outreach:</h6> -->
+                    <multiselect
+                    :options="outreach"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Referral Type"
+                    label="outreach"
+                    track-by="outreach"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Clinic:</h6> -->
-              <multiselect
-              :options="clinic"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Clinic"
-              label="clinic"
-              track-by="clinic"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="card shadow">
+                <h3 class="mb-3 text-center">Longitudinal Measures for Sample Frame #1</h3>
 
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Seminar:</h6> -->
-              <multiselect
-              :options="seminar"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Seminar"
-              label="seminar"
-              track-by="seminar"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
+                <!-- <b-table
+                id="user-table"
+                show-empty
+                :items="longitudinalItems"
+                :fields="longitudinalFields"
+                bordered
+                responsive
+                hover
+                >
+                  <template slot="[type]" slot-scope="data">
+                    <b>{{ data.item.type }}</b>
+                  </template>
+                </b-table> -->
+                <b-table-simple hover responsive>
+                  <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col/>
+                    <col />
+                    <col />
+                  </colgroup>
+                  <b-thead head-variant="dark">
+                    <b-th class="text-center" v-for="fields in longitudinalFields">{{ fields.label }}</b-th>
+                  </b-thead>
 
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Outreach:</h6> -->
-              <multiselect
-              :options="outreach"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Outreach"
-              label="outreach"
-              track-by="outreach"
-              :preselect-first="true"
-              >
-              </multiselect>
+                  <b-tbody>
+                    <b-tr v-for="items in longitudinalItems">
+                      <th v-html="items.type"> {{ items.type }} </th>
+                      <td class="text-center"> {{ items.tw1 }} </td>
+                      <td class="text-center"> {{ items.tw2 }} </td>
+                      <td class="text-center"> {{ items.realDifference }} </td>
+                      <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
+                      <!-- <td class="text-center align-middle" v-else></td> -->
+                      <td class="text-center"> {{ items.propDifference }} </td>
+                      <td class="text-center"> {{ items.pValue }} </td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
+                <div class="row pr-4">
+                  <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
+                </div>
+              </div>
             </div>
+          </div>
+        <!-- </b-card-text> -->
+      </b-tab>
 
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Training:</h6> -->
-              <multiselect
-              :options="training"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Training"
-              label="training"
-              track-by="training"
-              :preselect-first="true"
-              >
-              </multiselect>
+
+      <b-tab title="Sample Frame #2">
+        <!-- <b-card-text> -->
+          <div class="row mt-4 text-center">
+            <div class="col-12">
+              <div class="card shadow">
+                <h3 class="mb-3">Filter Data of Sample Frame #2</h3>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <h6>Select Start Date:</h6>
+                    <b-input type="date"/>
+                  </div>
+
+                  <div class="col-6">
+                    <h6>Select End Date:</h6>
+                    <b-input type="date"/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Clinic:</h6> -->
+                    <multiselect
+                    :options="clinic"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Clinic"
+                    label="clinic"
+                    track-by="clinic"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Seminar:</h6> -->
+                    <multiselect
+                    :options="seminar"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Seminar"
+                    label="seminar"
+                    track-by="seminar"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Outreach:</h6> -->
+                    <multiselect
+                    :options="outreach"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Outreach"
+                    label="outreach"
+                    track-by="outreach"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 mb-3">
+                    <!-- <h6>Select Training:</h6> -->
+                    <multiselect
+                    :options="training"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Select Training"
+                    label="training"
+                    track-by="training"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Clinic:</h6> -->
+                    <multiselect
+                    :options="clinic"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Indicator Age"
+                    label="clinic"
+                    track-by="clinic"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Seminar:</h6> -->
+                    <multiselect
+                    :options="seminar"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Reason For Visit"
+                    label="seminar"
+                    track-by="seminar"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 mb-3">
+                    <!-- <h6>Select Outreach:</h6> -->
+                    <multiselect
+                    :options="outreach"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Referral Type"
+                    label="outreach"
+                    track-by="outreach"
+                    :preselect-first="true"
+                    >
+                    </multiselect>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Clinic:</h6> -->
-              <multiselect
-              :options="clinic"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Indicator Age"
-              label="clinic"
-              track-by="clinic"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="card shadow">
+                <h3 class="mb-3 text-center">Longitudinal Measures for Sample Frame #2</h3>
 
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Seminar:</h6> -->
-              <multiselect
-              :options="seminar"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Reason For Visit"
-              label="seminar"
-              track-by="seminar"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
+                <!-- <b-table
+                id="user-table"
+                show-empty
+                :items="longitudinalItems"
+                :fields="longitudinalFields"
+                bordered
+                responsive
+                hover
+                >
+                  <template slot="[type]" slot-scope="data">
+                    <b>{{ data.item.type }}</b>
+                  </template>
+                </b-table> -->
+                <b-table-simple hover responsive>
+                  <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col/>
+                    <col />
+                    <col />
+                  </colgroup>
+                  <b-thead head-variant="dark">
+                    <b-th class="text-center" v-for="fields in longitudinalFields">{{ fields.label }}</b-th>
+                  </b-thead>
 
-            <div class="col-md-4 col-sm-12 mb-3">
-              <!-- <h6>Select Outreach:</h6> -->
-              <multiselect
-              :options="outreach"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Referral Type"
-              label="outreach"
-              track-by="outreach"
-              :preselect-first="true"
-              >
-              </multiselect>
+                  <b-tbody>
+                    <b-tr v-for="items in longitudinalItems">
+                      <th v-html="items.type"> {{ items.type }} </th>
+                      <td class="text-center"> {{ items.tw1 }} </td>
+                      <td class="text-center"> {{ items.tw2 }} </td>
+                      <td class="text-center"> {{ items.realDifference }} </td>
+                      <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
+                      <!-- <td class="text-center align-middle" v-else></td> -->
+                      <td class="text-center"> {{ items.propDifference }} </td>
+                      <td class="text-center"> {{ items.pValue }} </td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
+                <div class="row pr-4">
+                  <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3 text-center">Longitudinal Measures</h3>
-
-          <!-- <b-table
-          id="user-table"
-          show-empty
-          :items="longitudinalItems"
-          :fields="longitudinalFields"
-          bordered
-          responsive
-          hover
-          >
-            <template slot="[type]" slot-scope="data">
-              <b>{{ data.item.type }}</b>
-            </template>
-          </b-table> -->
-          <b-table-simple hover responsive>
-            <colgroup>
-              <col />
-              <col />
-              <col />
-              <col/>
-              <col />
-              <col />
-            </colgroup>
-            <b-thead head-variant="dark">
-              <b-th class="text-center" v-for="fields in longitudinalFields">{{ fields.label }}</b-th>
-            </b-thead>
-
-            <b-tbody>
-              <b-tr v-for="items in longitudinalItems">
-                <th v-html="items.type"> {{ items.type }} </th>
-                <td class="text-center"> {{ items.tw1 }} </td>
-                <td class="text-center"> {{ items.tw2 }} </td>
-                <td class="text-center"> {{ items.realDifference }} </td>
-                <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
-                <!-- <td class="text-center align-middle" v-else></td> -->
-                <td class="text-center"> {{ items.propDifference }} </td>
-                <td class="text-center"> {{ items.pValue }} </td>
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-          <div class="row pr-4">
-            <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
-          </div>
-        </div>
-      </div>
-    </div>
+        <!-- </b-card-text> -->
+      </b-tab>
+    </b-tabs>
   </div>
 </div>
 </template>
