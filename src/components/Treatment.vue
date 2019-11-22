@@ -337,7 +337,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['treatmenttablebasic_obj','treatment_table_obj','treatmentstrategicdata_obj','geography'
+    ...mapState(['treatmenttablebasic_obj','treatment_table_obj','treatmentstrategicdata_obj','geography', 'activities_obj'
     ]),
 
     basic: function(){
@@ -404,7 +404,11 @@ export default {
     this.listTreatmentTable();
     this.listTreatmentStrategicData();
     this.listGeography().then(() => {
-      this.updateOptions();})
+      this.updateOptions();
+    });
+    this.listActivitie().then(() => {
+      this.checkbox_optionsupdate();
+    });
   },
 
   data() {
@@ -490,7 +494,7 @@ export default {
   },
 
   methods:{
-    ...mapActions(['listTreatmentTableBasicData','listTreatmentTable','listTreatmentStrategicData','listGeography']),
+    ...mapActions(['listTreatmentTableBasicData','listTreatmentTable','listTreatmentStrategicData','listGeography', 'listActivitie']),
 
     BasicStrategicForm(){
       this.errors=[]
@@ -617,6 +621,17 @@ export default {
             geography_data.push({'name':geography_obj.name,'language':geography_obj.id})
         })
         this.options = geography_data
+      }
+
+    },
+
+    checkbox_optionsupdate(){
+      var activities_data=[]
+      if (this.activities_obj.length>0){
+        this.activities_obj.forEach(function(activity){
+            activities_data.push({'text':activity.name,'value':activity.id})
+        })
+        this.checkbox_options = activities_data
       }
 
     },
