@@ -414,29 +414,45 @@ export default {
     // 'Visualization': Visualization
   },
   computed: {
-    ...mapState(['sectionaltable_obj'
+    ...mapState(['sectionaltable_obj','longitudinalmeasures_obj'
   ]),
 
-  basic: function(){
-    if(this.$store.state.sectionaltable_obj.length > 0){
-      var formattedRecord = []
-      this.$store.state.sectionaltable_obj.forEach(function(rec){
-        formattedRecord.push({
+  // basic: function(){
+  //   if(this.$store.state.sectionaltable_obj.length > 0){
+  //     var formattedRecord = []
+  //     this.$store.state.sectionaltable_obj.forEach(function(rec){
+  //       formattedRecord.push({
+  //        type: rec[0],tw1: rec[1],tw2: rec[2],realDifference: rec[3],propDifference: rec[4],pValue: rec[5], older: rec[6]
+  //      })
+  //     })
+  //     return formattedRecord;
+  //
+  //   }else{
+  //     return []
+  //   }
+  //
+  // },
+
+  longitudinalItems: function(){
+    if(this.$store.state.longitudinalmeasures_obj.length > 0){
+      var formattedRecord1 = []
+      this.$store.state.longitudinalmeasures_obj.forEach(function(rec){
+        formattedRecord1.push({
          type: rec[0],tw1: rec[1],tw2: rec[2],realDifference: rec[3],propDifference: rec[4],pValue: rec[5], older: rec[6]
        })
       })
-      return formattedRecord;
+      return formattedRecord1;
 
     }else{
       return []
     }
 
-  }
-
+  },
   },
 
   created(){
     this.listSectionalTable();
+    this.listLongitudinalMeasures();
   },
 
   data() {
@@ -469,28 +485,28 @@ export default {
         { key: 'propDifference', label: 'Proportional Difference' },
         { key: 'pValue', label: 'P-value' },
       ],
-      longitudinalItems:[
-        { type: 'Carries Risk'},
-        { type: '<span class="ml-4">Low</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: '<span class="ml-4">Medium</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-        { type: '<span class="ml-4">High</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-        { type: 'Any untreated caries present', tw1: '50', tw2: '20', propDifference: '15', pValue: '70' },
-        { type: 'Number of decayed primary teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-        { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-        { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-        { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-        { type: 'Active infection', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-        { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-        { type: 'Need ART filling', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-        { type: 'Need SDF', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-        { type: 'Need Extraction', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-
-      ],
+      // longitudinalItems:[
+      //   { type: 'Carries Risk'},
+      //   { type: '<span class="ml-4">Low</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
+      //   { type: '<span class="ml-4">Medium</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+      //   { type: '<span class="ml-4">High</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+      //   { type: 'Any untreated caries present', tw1: '50', tw2: '20', propDifference: '15', pValue: '70' },
+      //   { type: 'Number of decayed primary teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
+      //   { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
+      //   { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //   { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //   { type: 'Active infection', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
+      //   { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //   { type: 'Need ART filling', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //   { type: 'Need SDF', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //   { type: 'Need Extraction', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
+      //
+      // ],
     }
   },
 
   methods:{
-    ...mapActions(['listSectionalTable']),
+    ...mapActions(['listSectionalTable','listLongitudinalMeasures']),
 
 
   }

@@ -117,6 +117,11 @@ export default{
 		state.activities_obj = activities_obj;
 	},
 
+	setLongitudinalMeasures(state, longitudinalmeasures_obj){
+		state.longitudinalmeasures_obj = longitudinalmeasures_obj;
+	},
+
+
 
 
 

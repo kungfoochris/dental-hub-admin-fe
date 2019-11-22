@@ -653,9 +653,15 @@ export default {
     },
 
 
-
-
-
-
+    listLongitudinalMeasures ({commit}){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .get('http://localhost:6061/api/v1/longitudinal',)
+      .then(response => {
+        if(response.status==200){
+          commit("setLongitudinalMeasures",response.data);
+        }
+      })
+    },
 
 }

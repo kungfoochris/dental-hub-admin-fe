@@ -31,4 +31,5 @@ export default{
     'wardvisualizationlinechart':[],
     'loginvisualization1':"",
     'activities_obj':[],
+    'longitudinalmeasures_obj':[],
 }
