@@ -91,7 +91,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
             <!-- <template slot="S.N." slot-scope="data">
               {{ data.index + 1 + '.' }}
             </template> -->
@@ -148,7 +154,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
           </b-table>
         </div>
       </div>
@@ -167,7 +179,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
             <!-- <template slot="S.N." slot-scope="data">
               {{ data.index + 1 + '.' }}
             </template> -->
@@ -323,6 +341,7 @@ export default {
     ]),
 
     basic: function(){
+      this.isBusy = true;
       if(this.$store.state.treatmenttablebasic_obj.length > 0){
         var formattedRecord3 = []
         this.$store.state.treatmenttablebasic_obj.forEach(function(rec){
@@ -330,15 +349,18 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false;
         return formattedRecord3;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     },
 
     treatment: function(){
+      this.isBusy = true;
       if(this.$store.state.treatment_table_obj.length > 0){
         var formattedRecord4 = []
         this.$store.state.treatment_table_obj.forEach(function(rec){
@@ -346,15 +368,18 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false
         return formattedRecord4;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     },
 
     strategic: function(){
+      this.isBusy = true;
       if(this.$store.state.treatmentstrategicdata_obj.length > 0){
         var formattedRecord5 = []
         this.$store.state.treatmentstrategicdata_obj.forEach(function(rec){
@@ -362,10 +387,12 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false;
         return formattedRecord5;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     }
@@ -409,6 +436,7 @@ export default {
       options: [],
       checkbox_options:[],
       checkbox_selected:[],
+      isBusy: false,
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
