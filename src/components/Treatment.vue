@@ -12,75 +12,6 @@
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-4 text-center">Filter Line Charts</h3>
-
-          <div class="row">
-            <div class="col-lg-10 col-sm-12">
-              <h6>Select Year:</h6>
-              <multiselect
-                class="mb-3"
-                v-model="selected_year"
-                :options="years_array"
-                :clear-on-select="false"
-                :preserve-search="true"
-                placeholder="Choose Year"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-lg-6 col-sm-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 col-sm-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row my-5 justify-content-center">
-      <div class="dropdown-divider shadow"></div>
-    </div>
-
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
@@ -160,7 +91,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
             <!-- <template slot="S.N." slot-scope="data">
               {{ data.index + 1 + '.' }}
             </template> -->
@@ -217,7 +154,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
           </b-table>
         </div>
       </div>
@@ -236,7 +179,13 @@
           bordered
           responsive
           hover
+          :busy = "isBusy"
           >
+            <template v-slot:table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
+              </div>
+            </template>
             <!-- <template slot="S.N." slot-scope="data">
               {{ data.index + 1 + '.' }}
             </template> -->
@@ -244,6 +193,75 @@
           <!-- <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
           </div> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row my-5 justify-content-center">
+      <div class="dropdown-divider shadow"></div>
+    </div> -->
+
+    <!-- <div class="row mt-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-4 text-center">Filter Line Charts</h3>
+
+          <div class="row">
+            <div class="col-lg-10 col-sm-12">
+              <h6>Select Year:</h6>
+              <multiselect
+                class="mb-3"
+                v-model="selected_year"
+                :options="years_array"
+                :clear-on-select="false"
+                :preserve-search="true"
+                placeholder="Choose Year"
+              >
+              </multiselect>
+            </div>
+
+            <div class="col-lg-2 col-sm-12">
+              <h6>Click Here:</h6>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -323,6 +341,7 @@ export default {
     ]),
 
     basic: function(){
+      this.isBusy = true;
       if(this.$store.state.treatmenttablebasic_obj.length > 0){
         var formattedRecord3 = []
         this.$store.state.treatmenttablebasic_obj.forEach(function(rec){
@@ -330,15 +349,18 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false;
         return formattedRecord3;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     },
 
     treatment: function(){
+      this.isBusy = true;
       if(this.$store.state.treatment_table_obj.length > 0){
         var formattedRecord4 = []
         this.$store.state.treatment_table_obj.forEach(function(rec){
@@ -346,15 +368,18 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false
         return formattedRecord4;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     },
 
     strategic: function(){
+      this.isBusy = true;
       if(this.$store.state.treatmentstrategicdata_obj.length > 0){
         var formattedRecord5 = []
         this.$store.state.treatmentstrategicdata_obj.forEach(function(rec){
@@ -362,10 +387,12 @@ export default {
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
+        this.isBusy = false;
         return formattedRecord5;
 
       }else{
         return []
+        this.isBusy = false;
       }
 
     }
@@ -409,6 +436,7 @@ export default {
       options: [],
       checkbox_options:[],
       checkbox_selected:[],
+      isBusy: false,
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
