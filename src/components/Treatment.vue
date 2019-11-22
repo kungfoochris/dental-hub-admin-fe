@@ -12,75 +12,6 @@
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-4 text-center">Filter Line Charts</h3>
-
-          <div class="row">
-            <div class="col-lg-10 col-sm-12">
-              <h6>Select Year:</h6>
-              <multiselect
-                class="mb-3"
-                v-model="selected_year"
-                :options="years_array"
-                :clear-on-select="false"
-                :preserve-search="true"
-                placeholder="Choose Year"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-lg-6 col-sm-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 col-sm-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
-          <div class="row">
-            <div class="col-12">
-              <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row my-5 justify-content-center">
-      <div class="dropdown-divider shadow"></div>
-    </div>
-
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
@@ -244,6 +175,75 @@
           <!-- <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
           </div> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row my-5 justify-content-center">
+      <div class="dropdown-divider shadow"></div>
+    </div> -->
+
+    <!-- <div class="row mt-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-4 text-center">Filter Line Charts</h3>
+
+          <div class="row">
+            <div class="col-lg-10 col-sm-12">
+              <h6>Select Year:</h6>
+              <multiselect
+                class="mb-3"
+                v-model="selected_year"
+                :options="years_array"
+                :clear-on-select="false"
+                :preserve-search="true"
+                placeholder="Choose Year"
+              >
+              </multiselect>
+            </div>
+
+            <div class="col-lg-2 col-sm-12">
+              <h6>Click Here:</h6>
+              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+        <div class="card shadow">
+          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
+          <div class="row">
+            <div class="col-12">
+              <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
+            </div>
+          </div>
         </div>
       </div>
     </div>
