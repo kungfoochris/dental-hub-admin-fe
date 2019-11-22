@@ -153,7 +153,7 @@
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Age Group:</h6>
+              <h6>Age Group/Activity:</h6>
               <multiselect
               v-model="location"
               :options="options"
@@ -210,7 +210,7 @@
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Treatment Type:</h6>
+              <h6>Treatment Type/Activity:</h6>
               <multiselect
               v-model="location"
               :options="options"
