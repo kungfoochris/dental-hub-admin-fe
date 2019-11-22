@@ -384,6 +384,7 @@ export default {
         return formattedRecord2;
 
       }else{
+        this.isBusy = false;
         return []
       }
     },
