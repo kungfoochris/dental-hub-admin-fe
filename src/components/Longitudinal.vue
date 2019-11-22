@@ -183,7 +183,8 @@
                 <th v-html="items.type"> {{ items.type }} </th>
                 <td class="text-center"> {{ items.tw1 }} </td>
                 <td class="text-center"> {{ items.tw2 }} </td>
-                <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td>
+                <td class="text-center"> {{ items.realDifference }} </td>
+                <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
                 <!-- <td class="text-center align-middle" v-else></td> -->
                 <td class="text-center"> {{ items.propDifference }} </td>
                 <td class="text-center"> {{ items.pValue }} </td>
