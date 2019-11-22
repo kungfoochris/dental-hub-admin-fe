@@ -28,73 +28,21 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Clinic:</h6> -->
-              <multiselect
-              :options="clinic"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Clinic"
-              label="clinic"
-              track-by="clinic"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Seminar:</h6> -->
-              <multiselect
-              :options="seminar"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Seminar"
-              label="seminar"
-              track-by="seminar"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Outreach:</h6> -->
-              <multiselect
-              :options="outreach"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Outreach"
-              label="outreach"
-              track-by="outreach"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-md-3 col-sm-12 mb-3">
-              <!-- <h6>Select Training:</h6> -->
-              <multiselect
-              :options="training"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Training"
-              label="training"
-              track-by="training"
-              :preselect-first="true"
-              >
-              </multiselect>
+          <div class="row mt-3">
+            <div class="col-12">
+              <h6>Select Activities:</h6>
+              <b-form-group>
+                <b-form-checkbox-group
+                v-model="checkbox_selected"
+                :options="checkbox_options"
+                switches
+                size="lg"
+                ></b-form-checkbox-group>
+              </b-form-group>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row  mt-3">
             <div class="col-md-4 col-sm-12 mb-3">
               <!-- <h6>Select Clinic:</h6> -->
               <multiselect
@@ -201,7 +149,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['sectionaltable_obj'
+    ...mapState(['sectionaltable_obj', 'activities_obj'
   ]),
 
   basic: function(){
@@ -224,6 +172,9 @@ export default {
 
   created(){
     this.listSectionalTable();
+    this.listActivitie().then(() => {
+      this.checkbox_optionsupdate();
+    });
   },
 
   data() {
@@ -246,6 +197,8 @@ export default {
       outreach: [],
       seminar: [],
       training: [],
+      checkbox_options:[],
+      checkbox_selected:[],
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
@@ -295,9 +248,18 @@ export default {
   },
 
   methods:{
-    ...mapActions(['listSectionalTable']),
+    ...mapActions(['listSectionalTable', 'listActivitie']),
 
+    checkbox_optionsupdate(){
+      var activities_data=[]
+      if (this.activities_obj.length>0){
+        this.activities_obj.forEach(function(activity){
+            activities_data.push({'text':activity.name,'value':activity.id})
+        })
+        this.checkbox_options = activities_data
+      }
 
+    },
   }
 };
 </script>
