@@ -351,6 +351,7 @@ export default {
 
       }else{
         return []
+        this.isBusy = false;
       }
     },
 
@@ -368,6 +369,7 @@ export default {
 
       }else{
         return []
+        this.isBusy = false;
       }
     },
 
@@ -384,8 +386,8 @@ export default {
         return formattedRecord2;
 
       }else{
-        this.isBusy = false;
         return []
+        this.isBusy = false;
       }
     },
 
