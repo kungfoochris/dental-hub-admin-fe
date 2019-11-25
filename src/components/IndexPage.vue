@@ -97,6 +97,10 @@
                 <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
               </div>
             </template>
+
+            <template v-slot:cell(basic)="row">
+              {{ row.item.full_name }}
+            </template>
           </b-table>
           <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
@@ -118,6 +122,12 @@
       <div v-if="errors.location">
         <p>{{ errors.location }}</p>
       </div>
+
+      <div v-if="errors.date_error">
+        <p>{{ errors.date_error }}</p>
+      </div>
+
+
     </b-toast>
 
 
@@ -454,6 +464,7 @@ export default {
 
       checkbox_selected: [], // Must be an array reference!
       checkbox_options: [],
+      date_error:'',
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
@@ -498,6 +509,8 @@ export default {
           a++;
       })
       this.errors=[]
+      console.log("++++++++++++++++++++++++++++++++")
+        console.log(moment().diff(this.Start_Date, this.End_Date))
       if(this.Start_Date==''){
         this.errors['Start_Date']="Start date required."
         this.$bvToast.show('error-toast');
@@ -510,6 +523,11 @@ export default {
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
+      // else if(this.Start_Date.diff(this.End_Date)<0){
+      //   this.errors['date_error']="Start_Date must be less ten End_Date."
+      //   this.$bvToast.show('error-toast');
+      //
+      // }
       else(
           this.$store.dispatch("CreateOverViewVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
       )

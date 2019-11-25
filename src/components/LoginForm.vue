@@ -96,10 +96,10 @@ export default {
         this.$bvToast.show('error-toast');
       }
       else{
-        axios.post('http://app.abhiyantrik.com:6061/api/v1/checkuser',{'email':this.$data.username}).then(response=>{
+        axios.post('http://localhost:6061/api/v1/checkuser',{'email':this.$data.username}).then(response=>{
           this.setAdminUsername(response.data.username)
           var formData = {'username': this.adminusername, 'password': this.$data.password}
-          axios.post('http://app.abhiyantrik.com:6061/api/v1/token/obtain',formData)
+          axios.post('http://localhost:6061/api/v1/token/obtain',formData)
           .then(response => {
             window.localStorage.setItem("token", response.data.token);
             this.setToken(response.data.token);
