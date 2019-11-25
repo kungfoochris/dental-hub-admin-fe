@@ -78,10 +78,10 @@
       </div>
     </div>
 
-    <div class="row mt-4 text-center">
+    <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Overview</h3>
+          <h3 class="mb-3 text-center">Overview</h3>
           <b-table
             id="user-table"
             show-empty
@@ -91,7 +91,12 @@
             responsive
             hover
             :busy="isBusy"
+            class="text-center"
           >
+            <template v-slot:cell(type)="row">
+              <span v-html="row.item.type">{{ row.item.type }}</span>
+            </template>
+
             <template v-slot:table-busy>
               <div class="text-center text-primary my-2">
                 <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
@@ -467,7 +472,7 @@ export default {
       date_error:'',
 
       basicFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
+        { key: 'type', label: '', tdClass: 'font-weight-bold text-left'},
         { key: 'check', label: 'Check'},
         { key: 'ext', label: 'EXT'},
         { key: 'art', label: 'ART'},
