@@ -88,7 +88,6 @@
           show-empty
           :items="basic"
           :fields="basicFields"
-          bordered
           responsive
           hover
           :busy = "isBusy"
@@ -176,7 +175,6 @@
           show-empty
           :items="strategic"
           :fields="strategicFields"
-          bordered
           responsive
           hover
           :busy = "isBusy"
