@@ -664,4 +664,27 @@ export default {
       })
     },
 
+    listDashboardPieChart ({commit}){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .get('http://localhost:6061/api/v1/piechart',)
+      .then(response => {
+        if(response.status==200){
+          commit("setDashboardPieChart",response.data);
+        }
+      })
+    },
+
+    CreateDashboardPieChart({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://localhost:6061/api/v1/piechartfilter', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setDashboardPieChart",response.data);
+          // state.table1_obj.update(response.data);
+        }
+
+      })
+    },
 }

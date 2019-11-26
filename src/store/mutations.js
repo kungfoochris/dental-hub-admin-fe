@@ -121,6 +121,10 @@ export default{
 		state.longitudinalmeasures_obj = longitudinalmeasures_obj;
 	},
 
+	setDashboardPieChart(state, dashboard_piechart){
+		state.dashboard_piechart = dashboard_piechart;
+	},
+
 
 
 

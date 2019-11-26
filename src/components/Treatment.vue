@@ -312,6 +312,12 @@
       <div v-if="errors.location">
         <p>{{ errors.location }}</p>
       </div>
+
+      <div v-if="errors.checkbox_selected">
+        <p>{{ errors.checkbox_selected }}</p>
+      </div>
+
+
     </b-toast>
 
   </div>
@@ -495,6 +501,12 @@ export default {
     ...mapActions(['listTreatmentTableBasicData','listTreatmentTable','listTreatmentStrategicData','listGeography', 'listActivitie']),
 
     BasicStrategicForm(){
+      var l=[0,0,0,0]
+      var a=0
+      this.checkbox_selected.forEach(function(e){
+          l[a]=e;
+          a++;
+      })
       this.errors=[]
       if(this.Start_Date==''){
         this.errors['Start_Date']="Start date required."
@@ -508,9 +520,13 @@ export default {
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
+      else if(this.checkbox_selected==""){
+        this.errors['checkbox_selected']="Select on of the activities required."
+        this.$bvToast.show('error-toast');
+      }
       else(
-          this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language}),
-          this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}),
+          this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
       )
 
 
