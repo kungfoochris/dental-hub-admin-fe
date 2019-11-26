@@ -40,19 +40,6 @@
               :preselect-first="true"
               >
               </multiselect>
-              <!-- <multiselect
-              v-model="location"
-              :options="options"
-
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect> -->
             </div>
           </div>
 
@@ -82,6 +69,17 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3 text-center">Overview</h3>
+          <div class="row mb-3 text-center">
+            <div class="col-6">
+              <p><strong>Start Date: </strong>11/26/2019</p>
+              <p><strong>End Date: </strong>05/26/2019</p>
+            </div>
+
+            <div class="col-6">
+              <p><strong>Location(s): </strong>Location 1, Location 2</p>
+              <p><strong>Activities: </strong>N/A</p>
+            </div>
+          </div>
           <b-table
             id="user-table"
             show-empty
@@ -245,6 +243,17 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Treatment by Activity</h3>
+          <div class="row mb-3 text-center">
+            <div class="col-6">
+              <p><strong>Start Date: </strong>11/26/2019</p>
+              <p><strong>End Date: </strong>05/26/2019</p>
+            </div>
+
+            <div class="col-6">
+              <p><strong>Location(s): </strong>Location 1, Location 2</p>
+              <p><strong>Activities: </strong>N/A</p>
+            </div>
+          </div>
             <b-table
               id="treatments-table"
               show-empty
@@ -268,6 +277,17 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Treatment by Ward</h3>
+          <div class="row mb-3 text-center">
+            <div class="col-6">
+              <p><strong>Start Date: </strong>11/26/2019</p>
+              <p><strong>End Date: </strong>05/26/2019</p>
+            </div>
+
+            <div class="col-6">
+              <p><strong>Location(s): </strong>Location 1, Location 2</p>
+              <p><strong>Activities: </strong>N/A</p>
+            </div>
+          </div>
             <b-table
               id="treatments-table"
               show-empty
