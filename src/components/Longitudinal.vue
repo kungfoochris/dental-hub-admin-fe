@@ -17,14 +17,36 @@
         <div class="card shadow">
           <h3 class="mb-3">Filter Data</h3>
           <div class="row mb-3">
-            <div class="col-6">
-              <h6>Select Start Date:</h6>
-              <b-input type="date"/>
+            <div class="col-md-6 col-sm-12">
+              <h5>Time Frame 1</h5>
+
+              <div class="row">
+                <div class="col-6">
+                  <h6>Select Start Date:</h6>
+                  <b-input type="date"/>
+                </div>
+
+                <div class="col-6">
+                  <h6>Select End Date:</h6>
+                  <b-input type="date"/>
+                </div>
+              </div>
             </div>
 
-            <div class="col-6">
-              <h6>Select End Date:</h6>
-              <b-input type="date"/>
+            <div class="col-md-6 col-sm-12">
+              <h5>Time Frame 2</h5>
+
+              <div class="row">
+                <div class="col-6">
+                  <h6>Select Start Date:</h6>
+                  <b-input type="date"/>
+                </div>
+
+                <div class="col-6">
+                  <h6>Select End Date:</h6>
+                  <b-input type="date"/>
+                </div>
+              </div>
             </div>
           </div>
 
