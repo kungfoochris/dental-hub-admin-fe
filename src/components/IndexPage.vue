@@ -87,7 +87,6 @@
             show-empty
             :items="basic"
             :fields="basicFields"
-            bordered
             responsive
             hover
             :busy="isBusy"
@@ -261,7 +260,6 @@
               show-empty
               :items="treatmentTableItemsActivity"
               :fields="basicFields"
-              bordered
               responsive
               hover
               :busy = "isBusy"
@@ -285,7 +283,6 @@
               show-empty
               :items="treatmentTableItemsWard"
               :fields="basicFields"
-              bordered
               responsive
               hover
               :busy = "isBusy"
