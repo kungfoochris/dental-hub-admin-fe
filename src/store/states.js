@@ -32,4 +32,5 @@ export default{
     'loginvisualization1':"",
     'activities_obj':[],
     'longitudinalmeasures_obj':[],
+    'dashboard_piechart':[],
 }

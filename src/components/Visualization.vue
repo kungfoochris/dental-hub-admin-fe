@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'loginvisualization','visualizations','settingsvisualization','treatmentvisualizationbarchart','preventionrati_obj','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart','earlyintervention_obj','recalldistribution_obj'
+      'dashboard_piechart','visualizations','settingsvisualization','treatmentvisualizationbarchart','preventionrati_obj','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart','earlyintervention_obj','recalldistribution_obj'
     ])
   },
   watch: {
@@ -78,9 +78,9 @@ export default {
       }
     },
 
-    loginvisualization: function(){
+    dashboard_piechart: function(){
       this.spinner = false;
-      if(this.loginvisualization.locationChart){
+      if(this.dashboard_piechart.locationChart){
         this.createLoginPiChart();
       }
     },
@@ -94,14 +94,14 @@ export default {
     this.listTreatmentBarVisualizationChart();
     this.listTreatmentPreventionRatio();
     this.listWardLineVisualizationChart();
-    this.listLoginVisualization();
+    this.listdashboard_piechart();
     this.listEarlyIntervention();
     this.listRecallDistribution();
-
+    this.listDashboardPieChart();
 
   },
   methods:{
-    ...mapActions(['listEarlyIntervention','listRecallDistribution','listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentPreventionRatio','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listLoginVisualization']),
+    ...mapActions(['listDashboardPieChart','listEarlyIntervention','listRecallDistribution','listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentPreventionRatio','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listdashboard_piechart']),
 
 
     createSettingsChart() {
@@ -177,8 +177,8 @@ export default {
       const ctx = document.getElementById('piechart');
       const _ = new Chart(ctx, {
         type: 'pie',
-        data: this.loginvisualization.locationChart.data,
-        options: this.loginvisualization.locationChart.options,
+        data: this.dashboard_piechart.locationChart.data,
+        options: this.dashboard_piechart.locationChart.options,
 
       });
 

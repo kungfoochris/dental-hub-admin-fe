@@ -99,6 +99,10 @@
                 <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
               </div>
             </template>
+
+            <template v-slot:cell(basic)="row">
+              {{ row.item.full_name }}
+            </template>
           </b-table>
           <div class="row pr-4">
             <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
@@ -120,6 +124,20 @@
       <div v-if="errors.location">
         <p>{{ errors.location }}</p>
       </div>
+
+      <div v-if="errors.age_group">
+        <p>{{ errors.age_group }}</p>
+      </div>
+
+      <div v-if="errors.age_group1">
+        <p>{{ errors.age_group1 }}</p>
+      </div>
+
+      <div v-if="errors.checkbox_selected">
+        <p>{{ errors.checkbox_selected }}</p>
+      </div>
+
+
     </b-toast>
 
 
@@ -157,8 +175,8 @@
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Age Group/Activity:</h6>
               <multiselect
-              v-model="location"
-              :options="options"
+              v-model="age_group"
+              :options="options1"
               :preserve-search="true"
               placeholder="Select Age Groups"
               label="name"
@@ -214,8 +232,8 @@
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Treatment Type/Activity:</h6>
               <multiselect
-              v-model="location"
-              :options="options"
+              v-model="age_group1s"
+              :options="options2"
               :preserve-search="true"
               placeholder="Select Treatment Types"
               label="name"
@@ -229,7 +247,7 @@
           <div class="row">
             <div class="col-12 text-center">
               <h6>Click Here:</h6>
-              <b-button variant="custom" class="mb-4" @click="Bargraphtreatment">Submit</b-button>
+              <b-button variant="custom" class="mb-4" @click="PieChartForm">Submit</b-button>
             </div>
           </div>
 
@@ -457,6 +475,8 @@ export default {
   data() {
     return {
       Start_Date:"",
+      age_group:"",
+      age_group1:"",
       End_Date:"",
       userChart: userChart,
       locationChart: locationChart,
@@ -469,13 +489,16 @@ export default {
       isActive: true,
       location: "",
       options: [],
+      options1:[{"name":"Age Group"},{"name":"Activity"}],
+      options2:[{"name":"Age Group"},{"name":"Treatment Type"}],
       years_array: years(100).reverse(),
       selected_year: "",
       isBusy: false,
       ward_selected: ['Test ward', 'Lakeside', 'Sarangkot', 'Kaskikot', 'Salyan', 'Thumki', 'Deurali', 'Rupakot', 'Hansapur', 'Tilahar', 'Katuwachaupari'],
 
-      checkbox_selected: [], // Must be an array reference!
+      checkbox_selected: [], // Must be an arranamey reference!
       checkbox_options: [],
+      date_error:'',
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold text-left'},
@@ -532,6 +555,10 @@ export default {
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
+      else if(this.checkbox_selected==""){
+        this.errors['checkbox_selected']="Select on of the activities required."
+        this.$bvToast.show('error-toast');
+      }
       else(
           this.$store.dispatch("CreateOverViewVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
       )
@@ -552,13 +579,67 @@ export default {
       else if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
+      }else if(this.age_group==null){
+        this.errors['age_group']="Age Group required."
+        this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTreatmentBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group['name']})
+      )
+
+
+    },    Bargraphtreatment(){
+      this.errors=[]
+      if(this.Start_Date==''){
+        this.errors['Start_Date']="Start date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.End_Date==""){
+        this.errors['End_Date']="End date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.location==""){
+        this.errors['location']="Location required."
+        this.$bvToast.show('error-toast');
+      }else if(this.age_group==null){
+        this.errors['age_group']="Age Group required."
+        this.$bvToast.show('error-toast');
+      }
+      else(
+          this.$store.dispatch("CreateTreatmentBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group['name']})
       )
 
 
     },
+
+
+    PieChartForm(){
+      this.errors=[]
+      if(this.Start_Date==''){
+        this.errors['Start_Date']="Start date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.End_Date==""){
+        this.errors['End_Date']="End date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.location==""){
+        this.errors['location']="Location required."
+        this.$bvToast.show('error-toast');
+      }else if(this.age_group1==null){
+        this.errors['age_group1']="Treatment Type/Age Group required."
+        this.$bvToast.show('error-toast');
+      }
+      else(
+          this.$store.dispatch("CreateDashboardPieChart",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group1['name']})
+      )
+
+
+    },
+
+
+
+
 
     WardLineVisualization(){
       this.errors=[]
