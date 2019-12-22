@@ -19,12 +19,12 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <h6>Select Start Date:</h6>
-              <b-input type="date"/>
+              <b-input v-model="returndate_obj.last_30_days" type="date"/>
             </div>
 
             <div class="col-6">
               <h6>Select End Date:</h6>
-              <b-input type="date"/>
+              <b-input v-model="returndate_obj.today_date" type="date"/>
             </div>
           </div>
 
@@ -32,30 +32,27 @@
             <div class="col-md-4 col-sm-12">
               <h6>Select the Reason for Visit:</h6>
               <multiselect
+              v-model="seminar_obj"
               :options="seminar"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
               :preserve-search="true"
               placeholder="Reason For Visit"
-              label="seminar"
-              track-by="seminar"
+              label="name"
+              track-by="name"
               :preselect-first="true"
               >
               </multiselect>
+
             </div>
 
             <div class="col-md-4 col-sm-12">
               <h6>Select Referral Type:</h6>
               <multiselect
+              v-model="outreach_obj"
               :options="outreach"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
               :preserve-search="true"
               placeholder="Referral Type"
-              label="outreach"
-              track-by="outreach"
+              label="name"
+              track-by="name"
               :preselect-first="true"
               >
               </multiselect>
@@ -93,11 +90,37 @@
 
             <div class="col-lg-2 col-sm-12">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="CrossSectionalForm">Submit</b-button>
             </div>
           </div>
         </div>
       </div>
+
+
+      <b-toast id="error-toast" variant="warning" solid append-toast toaster="b-toaster-bottom-full">
+        <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+          <strong class="mr-auto">Overview filter required error</strong>
+        </div>
+        <div v-if="errors.Start_Date">
+          <p>{{ errors.Start_Date }}</p>
+        </div>
+        <div v-if="errors.End_Date">
+          <p>{{ errors.End_Date }}</p>
+        </div>
+        <div v-if="errors.seminar_obj">
+          <p>{{ errors.seminar_obj }}</p>
+        </div>
+
+        <div v-if="errors.outreach_obj">
+          <p>{{ errors.outreach_obj }}</p>
+        </div>
+        <div v-if="errors.checkbox_selected">
+          <p>{{ errors.checkbox_selected }}</p>
+        </div>
+
+
+      </b-toast>
+
     </div>
 
     <div class="row mt-4">
@@ -154,7 +177,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['sectionaltable_obj', 'activities_obj'
+    ...mapState(['returndate_obj','sectionaltable_obj', 'activities_obj'
   ]),
 
   basic: function(){
@@ -162,7 +185,7 @@ export default {
       var formattedRecord = []
       this.$store.state.sectionaltable_obj.forEach(function(rec){
         formattedRecord.push({
-         type: rec[0],sixyo: rec[1],twelveyo: rec[2],fifteenyo: rec[3],child: rec[4],adult: rec[5], older: rec[6]
+         type: rec[0],sixyo: rec[1],twelveyo: rec[2],fifteenyo: rec[3],child: rec[4],adult: rec[5], older: rec[6], _rowVariant:rec[7]
        })
       })
       return formattedRecord;
@@ -176,6 +199,7 @@ export default {
   },
 
   created(){
+    this.listReturnDate();
     this.listSectionalTable();
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();
@@ -184,13 +208,9 @@ export default {
 
   data() {
     return {
-      // username: '',
-      // password: '',
-      // text: "Login Form",
-      // available: false,
-      // show: false,
-      // errors: {'auth':''},
-      // disabledLogin: true
+      errors:[],
+      Start_Date:"",
+      End_Date:"",
       userChart: userChart,
       locationChart: locationChart,
       uch:"uch",
@@ -199,8 +219,10 @@ export default {
       type2: "pie",
       isActive: true,
       clinic: [],
-      outreach: [],
-      seminar: [],
+      outreach: [{"name":"Refer Hp","value":true},{"name":"Refer Hyg","value":true},{"name":"Refer Dent","value":true},{"name":"Refer Dr","value":true},{"name":"Refer Other","value":true}],
+      outreach_obj:"",
+      seminar: [{"name":"Checkup / Screening"},{"name":"Relief of pain"},{"name":"Continuation of treatment plan"},{"name":"Other Problem"}],
+      seminar_obj:"",
       training: [],
       checkbox_options:[],
       checkbox_selected:[],
@@ -215,23 +237,6 @@ export default {
         { key: 'adult', label: 'Adult'},
         { key: 'older', label: 'Older Adults'},
       ],
-      // basic:[
-      //   {type: 'Career Risk', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '31'},
-      //   // {type: 'M', check: '10', ext: '30', art: '10', seal: '15', sdf: '15', fv: '40', referhp: '31', referhyg: '13', referdent: '12', referdr: '5', referother:'12'},
-      //   // {type: 'F', check: '10', ext: '30', art: '10', seal: '15', sdf: '15', fv: '40', referhp: '31', referhyg: '13', referdent: '12', referdr: '5', referother:'12'},
-      //   {type: 'Any untreated caries present', sixyo: '50', twelveyo: '20', fifteenyo: '30', child: '15', adolescent: '25', adult: '70', older: '22'},
-      //   {type: 'Number of decayed primary teeth', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '34'},
-      //   {type: 'Number of decayed permanent teeth', sixyo: '10', twelveyo: '30', fifteenyo: '10', child: '15', adolescent: '15', adult: '40', older: '11'},
-      //   {type: 'Cavity permanent molar or premolar', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Cavity permanent anterior', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Active infection', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Mouth pain due to reversible pulpitis', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need ART filling', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need SDF', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //   {type: 'Need Extraction', sixyo: '80', twelveyo: '110', fifteenyo: '60', child: '60', adolescent: '70', adult: '190', older: '98'},
-      //
-      // ],
-
       treatmentFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
         { key: 'exo', label: 'EXO'},
@@ -253,7 +258,7 @@ export default {
   },
 
   methods:{
-    ...mapActions(['listSectionalTable', 'listActivitie']),
+    ...mapActions(['listReturnDate','listSectionalTable', 'listActivitie']),
 
     checkbox_optionsupdate(){
       var activities_data=[]
@@ -265,6 +270,31 @@ export default {
       }
 
     },
+
+    CrossSectionalForm(){
+      var l=[0,0,0,0]
+      var a=0
+      this.checkbox_selected.forEach(function(e){
+          l[a]=e;
+          a++;
+      })
+      this.errors=[]
+      if(this.seminar_obj==null){
+        this.errors['seminar_obj']="Reason For Visit required."
+        this.$bvToast.show('error-toast');
+      }else if(this.outreach_obj==null){
+        this.errors['outreach_obj']="Referral Type required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.checkbox_selected==""){
+        this.errors['checkbox_selected']="Select on of the activities required."
+        this.$bvToast.show('error-toast');
+      }
+      else(
+      this.$store.dispatch("CreateSectionalTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+    )
+
+    }
   }
 };
 </script>

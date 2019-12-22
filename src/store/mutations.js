@@ -24,26 +24,11 @@ export default{
 		state.geography = geography;
 	},
 
-	setActivity(state, activities){
-		state.activities = activities;
-	},
-	setVisualization(state, visualizations){
-		state.visualizations = visualizations;
-	},
-	setVisualization1(state, visualizations1){
-		state.visualizations1 = visualizations1;
-	},
-	setUserobjet(state, user_obj){
-		state.user_obj = user_obj;
-	},
-	setAdminUsername(state, adminusername){
-		state.adminusername = adminusername;
+	setActivities(state, activities_obj){
+		state.activities_obj = activities_obj;
 	},
 	setWards(state, wards_obj){
 		state.wards_obj = wards_obj;
-	},
-	setAddresses(state, address_obj){
-		state.address_obj = address_obj;
 	},
 	setRole(state, role_obj){
 		state.role_obj = role_obj;
@@ -54,8 +39,8 @@ export default{
 	setLoginVisualization1(state, loginvisualization1){
 		state.loginvisualization1 = loginvisualization1;
 	},
-	setOverview(state,overview_obj){
-		state.overview_obj=overview_obj;
+	setOverviewTable(state,overviewtable_obj){
+		state.overviewtable_obj=overviewtable_obj;
 	},
 
 	setTreatmentbyActivity(state,treatment_by_activity_obj){
@@ -66,20 +51,48 @@ export default{
 		state.treatment_by_ward_obj=treatment_by_ward_obj;
 	},
 
+	setOverviewBarGraph(state, overviewbargraph_obj){
+		state.overviewbargraph_obj = overviewbargraph_obj;
+	},
+
+	setOverviewPieChartGraph(state, overviewpiechart_obj){
+		state.overviewpiechart_obj = overviewpiechart_obj;
+	},
+
+	setDashboardLineChartGraph(state, overviewlinechart_obj){
+		state.overviewlinechart_obj = overviewlinechart_obj;
+	},
+
+	setTreatmentPreventionRatio(state, preventionrati_obj){
+		state.preventionrati_obj = preventionrati_obj;
+	},
+
+	setEarlyIntervention(state, earlyintervention_obj){
+		state.earlyintervention_obj = earlyintervention_obj;
+	},
+
+	setRecallDistribution(state, recalldistribution_obj){
+		state.recalldistribution_obj = recalldistribution_obj;
+	},
+
+	setTreatmentTableBasicData(state, treatment_tablebasicdata_obj){
+		state.treatment_tablebasicdata_obj=treatment_tablebasicdata_obj;
+	},
 
 
-	setTreatmentTableBasicData(state,treatmenttablebasic_obj){
-		state.treatmenttablebasic_obj = treatmenttablebasic_obj;
-	},
-	setTreatmentTable(state, treatment_table_obj){
-		state.treatment_table_obj=treatment_table_obj;
-	},
+
 	setTreatmentStrategicData(state, treatmentstrategicdata_obj){
 		state.treatmentstrategicdata_obj = treatmentstrategicdata_obj;
 	},
 
-	setVisualizationSettings(state, settingsvisualization){
-		state.settingsvisualization = settingsvisualization;
+
+
+	setOverviewBarGraphPost(state, overviewbargraphpost_obj){
+		state.overviewbargraphpost_obj = overviewbargraphpost_obj;
+	},
+
+	setDashboardPieChartPost(state, dashboard_piechartpost){
+		state.dashboard_piechartpost = dashboard_piechartpost;
 	},
 
 
@@ -96,33 +109,13 @@ export default{
 		state.treatmentvisualizationbarchart = treatmentvisualizationbarchart;
 	},
 
-	setTreatmentPreventionRatio(state, preventionrati_obj){
-		state.preventionrati_obj = preventionrati_obj;
-	},
-
-	setEarlyIntervention(state, earlyintervention_obj){
-		state.earlyintervention_obj = earlyintervention_obj;
-	},
-
-	setRecallDistribution(state, recalldistribution_obj){
-		state.recalldistribution_obj = recalldistribution_obj;
-	},
-
-
-	setWardLineVisualizationChart(state, wardvisualizationlinechart){
-		state.wardvisualizationlinechart = wardvisualizationlinechart;
-	},
-
-	setActivities(state, activities_obj){
-		state.activities_obj = activities_obj;
-	},
-
 	setLongitudinalMeasures(state, longitudinalmeasures_obj){
 		state.longitudinalmeasures_obj = longitudinalmeasures_obj;
 	},
 
-	setDashboardPieChart(state, dashboard_piechart){
-		state.dashboard_piechart = dashboard_piechart;
+
+	setReturnDate(state, returndate_obj){
+		state.returndate_obj = returndate_obj;
 	},
 
 

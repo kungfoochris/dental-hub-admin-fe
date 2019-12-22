@@ -24,117 +24,100 @@ export default {
   },
   computed: {
     ...mapState([
-      'dashboard_piechart','visualizations','settingsvisualization','treatmentvisualizationbarchart','preventionrati_obj','treatmentvisualizationlinechart1','treatmentvisualizationlinechart2','wardvisualizationlinechart','earlyintervention_obj','recalldistribution_obj'
+      'overviewbargraph_obj','overviewbargraphpost_obj','overviewpiechart_obj','dashboard_piechartpost', 'overviewlinechart_obj','preventionrati_obj','earlyintervention_obj','recalldistribution_obj'
     ])
   },
   watch: {
-    visualizations: function(){
-    if(this.visualizations.locationChart){
+    overviewbargraphpost_obj: function(){
       this.spinner = false;
-          this.createGenderChart(this.tag);
-        }
-    },
-
-    settingsvisualization: function(){
-      this.spinner = false;
-      if(this.settingsvisualization.locationChart){
-        this.createSettingsChart(this.tag);
+      if(this.overviewbargraphpost_obj.locationChart){
+        this.createOverViewBarGraphPost();
       }
     },
 
-    // treatmentvisualizationbarchart: function(){
-    //   if(this.treatmentvisualizationbarchart.locationChart){
-    //     this.createTreatmentBarChart(this.tag);
-    //   }
-    // },
-
-
-    preventionrati_obj: function(){
+    dashboard_piechartpost: function(){
       this.spinner = false;
-      if(this.preventionrati_obj.locationChart){
-        this.createTreatmentLineChart(this.tag);
-      }
-    },
-
-    earlyintervention_obj: function(){
-      this.spinner = false;
-      if(this.earlyintervention_obj.locationChart){
-        this.createTreatmentLineChart1(this.tag);
-      }
-    },
-
-    recalldistribution_obj: function(){
-      this.spinner = false;
-      if(this.recalldistribution_obj.locationChart){
-        this.createTreatmentLineChart2(this.tag);
-      }
-    },
-
-
-    wardvisualizationlinechart: function(){
-      this.spinner = false;
-      if(this.wardvisualizationlinechart.locationChart){
-        this.createWardLineChart(this.tag);
-      }
-    },
-
-    dashboard_piechart: function(){
-      this.spinner = false;
-      if(this.dashboard_piechart.locationChart){
-        this.createLoginPiChart();
+      if(this.dashboard_piechartpost.locationChart){
+        this.createOverViewPiChartGraphPost();
       }
     },
   },
 
   created(){
-    this.spinner = true;
-    this.listVisualizationSettings();
-    this.listVisualization();
-    this.listVisualizationChart();
-    this.listTreatmentBarVisualizationChart();
-    this.listTreatmentPreventionRatio();
-    this.listWardLineVisualizationChart();
-    this.listdashboard_piechart();
-    this.listEarlyIntervention();
-    this.listRecallDistribution();
-    this.listDashboardPieChart();
+    // this.spinner = true;
+    this.listOverviewBarGraph().then(() => {
+      this.createOverViewBarGraph();})
+
+    this.listOverviewPieChartGraph().then(() =>{
+      this.createOverViewPiChartGraph();})
+
+    this.listDashboardLineChartGraph().then(() => {
+      this.createOverViewLineChart();})
+
+    this.listTreatmentPreventionRatio().then(() => {
+      this.createTreatmentLineChart();})
+
+    this.listEarlyIntervention().then(() =>{
+      this.createTreatmentLineChart1();})
+
+    this.listRecallDistribution().then(() =>{
+      this.createTreatmentLineChart2();})
 
   },
   methods:{
-    ...mapActions(['listDashboardPieChart','listEarlyIntervention','listRecallDistribution','listVisualization','listVisualizationChart','listVisualizationSettings','listTreatmentBarVisualizationChart','listTreatmentPreventionRatio','listWardLineVisualizationChart','listTreatmentLineVisualizationChart1','listTreatmentLineVisualizationChart2','listdashboard_piechart']),
+    ...mapActions(['listOverviewBarGraph','listOverviewPieChartGraph','listDashboardLineChartGraph','listEarlyIntervention','listRecallDistribution','listTreatmentPreventionRatio',]),
 
 
-    createSettingsChart() {
+    createOverViewBarGraph() {
       const ctx = document.getElementById('settingsgraph');
       const _ = new Chart(ctx, {
         type: 'bar',
-        data: this.settingsvisualization.locationChart.data,
-        options: this.settingsvisualization.locationChart.options,
+        data: this.overviewbargraph_obj.locationChart.data,
+        options: this.overviewbargraph_obj.locationChart.options,
       });
     },
-
-    createGenderChart() {
-      const ctx = document.getElementById('uch');
+    createOverViewBarGraphPost() {
+      const ctx = document.getElementById('settingsgraphpost');
       const _ = new Chart(ctx, {
         type: 'bar',
-        data: this.visualizations.locationChart.data,
-        options: this.visualizations.locationChart.options,
+        data: this.overviewbargraphpost_obj.locationChart.data,
+        options: this.overviewbargraphpost_obj.locationChart.options,
       });
     },
 
-    // createTreatmentBarChart() {
-    //   const ctx = document.getElementById('uch1');
-    //   const _ = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: this.treatmentvisualizationbarchart.locationChart.data,
-    //     options: this.treatmentvisualizationbarchart.locationChart.options,
-    //   });
-    // },
+    createOverViewLineChart() {
+      const ctx = document.getElementById('lch6');
+      const _ = new Chart(ctx, {
+        type: 'line',
+        data: this.overviewlinechart_obj.locationChart.data,
+        options: this.overviewlinechart_obj.locationChart.options,
+
+      });
+    },
+
+    createOverViewPiChartGraph(){
+      const ctx = document.getElementById('piechart');
+      const _ = new Chart(ctx, {
+        type: 'pie',
+        data: this.overviewpiechart_obj.locationChart.data,
+        options: this.overviewpiechart_obj.locationChart.options,
+
+      })
+
+    },
+
+    createOverViewPiChartGraphPost(){
+      const ctx = document.getElementById('piechartpost');
+      const _ = new Chart(ctx, {
+        type: 'pie',
+        data: this.dashboard_piechartpost.locationChart.data,
+        options: this.dashboard_piechartpost.locationChart.options,
+
+      });
+
+    },
 
     createTreatmentLineChart() {
-      var randomData = function() {
-        return Math.round(Math.random() * 100);
-      };
       const ctx = document.getElementById('preventiveRatio');
       const _ = new Chart(ctx, {
         type: 'line',
@@ -144,8 +127,8 @@ export default {
     },
 
     createTreatmentLineChart1() {
-      const ctx1 = document.getElementById('interventionRatio');
-      const __ = new Chart(ctx1, {
+      const ctx = document.getElementById('interventionRatio');
+      const _ = new Chart(ctx, {
         type: 'line',
         data: this.earlyintervention_obj.locationChart.data,
         options: this.earlyintervention_obj.locationChart.options,
@@ -154,35 +137,13 @@ export default {
 
 
     createTreatmentLineChart2() {
-      const ctx2 = document.getElementById('perRecall');
-      const ___ = new Chart(ctx2, {
+      const ctx = document.getElementById('perRecall');
+      const _ = new Chart(ctx, {
         type: 'line',
         data: this.recalldistribution_obj.locationChart.data,
         options: this.recalldistribution_obj.locationChart.options,
       });
     },
-
-
-    createWardLineChart() {
-      const ctx = document.getElementById('lch6');
-      const _ = new Chart(ctx, {
-        type: 'line',
-        data: this.wardvisualizationlinechart.locationChart.data,
-        options: this.wardvisualizationlinechart.locationChart.options,
-
-      });
-    },
-
-    createLoginPiChart(){
-      const ctx = document.getElementById('piechart');
-      const _ = new Chart(ctx, {
-        type: 'pie',
-        data: this.dashboard_piechart.locationChart.data,
-        options: this.dashboard_piechart.locationChart.options,
-
-      });
-
-    }
   },
 
   data(){

@@ -7,30 +7,41 @@ export default{
     'errormessage':'',
     'message':'',
     'geography': [],
-    'activities': [],
-    'visualizations':'',
-    'visualizations1':'',
-    'user_obj':'',
+    // 'visualizations':'',
+    // 'visualizations1':'',
     'adminusername':'',
     'wards_obj':[],
-    'address_obj':'',
+    // 'address_obj':'',
     'role_obj':[],
     'loginvisualization':'',
-    'overview_obj':'',
-    'treatment_by_activity_obj':'',
-    'treatment_by_ward_obj':'',
-    'treatmenttablebasic_obj':'',
-    'treatment_table_obj':'',
-    'treatmentstrategicdata_obj':'',
-    'settingsvisualization':'',
-    'sectionaltable_obj':[],
-    'treatmentvisualizationbarchart':[],
+
+    'overviewtable_obj':"",
+    'treatment_by_activity_obj':"",
+    'treatment_by_ward_obj':"",
+    'overviewbargraph_obj':[],
+    'overviewpiechart_obj':[],
+    'overviewlinechart_obj':"",
+
     'preventionrati_obj':[],
     'earlyintervention_obj':[],
     'recalldistribution_obj':[],
-    'wardvisualizationlinechart':[],
+    'treatment_tablebasicdata_obj':[],
+
+    'overviewbargraphpost_obj':[],
+
+
+
+    'treatmenttablebasic_obj':'',
+    'treatmentstrategicdata_obj':'',
+
+
+    'sectionaltable_obj':[],
+    'treatmentvisualizationbarchart':[],
+
     'loginvisualization1':"",
     'activities_obj':[],
     'longitudinalmeasures_obj':[],
-    'dashboard_piechart':[],
+
+    'dashboard_piechartpost':[],
+    'returndate_obj':[],
 }

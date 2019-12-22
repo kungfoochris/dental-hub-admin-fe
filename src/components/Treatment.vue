@@ -20,12 +20,12 @@
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
               <h6>Select Start Date:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <b-input v-model="returndate_obj.last_30_days" type="date"/>
             </div>
 
             <div class="col-lg-4 col-sm-12 mb-4">
               <h6>Select End Date:</h6>
-              <b-input v-model="End_Date" type="date"/>
+              <b-input v-model="returndate_obj.today_date" type="date"/>
             </div>
 
             <div class="col-lg-4 col-sm-12 mb-4">
@@ -33,26 +33,15 @@
               <multiselect
               v-model="location"
               :options="options"
+              :multiple="true"
               :preserve-search="true"
               placeholder="Select Location"
               label="name"
               track-by="name"
+              open-direction="bottom"
               :preselect-first="true"
               >
               </multiselect>
-              <!-- <multiselect
-              v-model="location"
-              :options="options"
-
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect> -->
             </div>
           </div>
 
@@ -83,6 +72,18 @@
         <div class="card shadow">
           <h3 class="mb-3">Basic Data</h3>
 
+          <div class="row mb-3 text-center" v-show="tablefilterdata">
+            <div class="col-6">
+              <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
+              <p><strong>End Date: </strong>{{this.table_end_date}}</p>
+            </div>
+
+            <div class="col-6">
+              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
+            </div>
+          </div>
+
           <b-table
           id="user-table"
           show-empty
@@ -97,78 +98,27 @@
                 <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
               </div>
             </template>
-            <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
           </b-table>
-          <!-- <div class="row pr-4">
-            <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
-          </div> -->
         </div>
       </div>
     </div>
-
-
-    <!-- <div class="row mt-4 text-center">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-3">Treatments</h3>
-          <div class="row mt-3">
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Year:</h6>
-              <b-input v-model="Start_Date" type="date"/>
-            </div>
-
-            <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Select Month:</h6>
-              <b-input v-model="End_Date" type="date"/>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-sm-12 mb-3">
-              <h6>Location:</h6>
-              <multiselect
-              v-model="location"
-              :options="options"
-              :preserve-search="true"
-              placeholder="Select Location"
-              label="name"
-              track-by="name"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-4 col-12 text-center">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="TreatmentPageTreatmenttable">Submit</b-button>
-            </div>
-          </div>
-          <b-table
-          id="user-table"
-          show-empty
-          :items="treatment"
-          :fields="treatmentFields"
-          bordered
-          responsive
-          hover
-          :busy = "isBusy"
-          >
-            <template v-slot:table-busy>
-              <div class="text-center text-primary my-2">
-                <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
-              </div>
-            </template>
-          </b-table>
-        </div>
-      </div>
-    </div> -->
 
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Strategic Data</h3>
+
+          <div class="row mb-3 text-center" v-show="tablefilterdata">
+            <div class="col-6">
+              <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
+              <p><strong>End Date: </strong>{{this.table_end_date}}</p>
+            </div>
+
+            <div class="col-6">
+              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
+            </div>
+          </div>
 
           <b-table
           id="user-table"
@@ -184,48 +134,10 @@
                 <b-spinner class="align-middle" type="grow" style="width: 5rem; height: 5rem;"></b-spinner>
               </div>
             </template>
-            <!-- <template slot="S.N." slot-scope="data">
-              {{ data.index + 1 + '.' }}
-            </template> -->
           </b-table>
-          <!-- <div class="row pr-4">
-            <small class="ml-auto"><a href=""><i class="fas fa-file-export mr-1"></i>Export Now</a></small>
-          </div> -->
         </div>
       </div>
     </div>
-
-    <!-- <div class="row my-5 justify-content-center">
-      <div class="dropdown-divider shadow"></div>
-    </div> -->
-
-    <!-- <div class="row mt-4">
-      <div class="col-12">
-        <div class="card shadow">
-          <h3 class="mb-4 text-center">Filter Line Charts</h3>
-
-          <div class="row">
-            <div class="col-lg-10 col-sm-12">
-              <h6>Select Year:</h6>
-              <multiselect
-                class="mb-3"
-                v-model="selected_year"
-                :options="years_array"
-                :clear-on-select="false"
-                :preserve-search="true"
-                placeholder="Choose Year"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
 
     <div class="row mt-4">
       <div class="col-12">
@@ -269,14 +181,6 @@
         <div class="card shadow">
           <h3 class="mb-3">Download Reports</h3>
           <div class="row text-center">
-            <!-- <div class="col-md-4 col-12">
-              <b-dropdown text="Monthly Report" variant="outline-info" class="m-2" dropup>
-                <b-dropdown-item href="#">August, 2019</b-dropdown-item>
-                <b-dropdown-item href="#">July, 2019</b-dropdown-item>
-                <b-dropdown-item href="#">June, 2019</b-dropdown-item>
-              </b-dropdown>
-            </div> -->
-
             <div class="col-md-6 col-12">
               <b-dropdown text="Quaterly Report" variant="outline-info" class="m-2" dropup>
                 <b-dropdown-item href="#">December, 2018</b-dropdown-item>
@@ -341,14 +245,14 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['treatmenttablebasic_obj','treatment_table_obj','treatmentstrategicdata_obj','geography', 'activities_obj'
+    ...mapState(['returndate_obj','treatment_tablebasicdata_obj','treatmentstrategicdata_obj','geography', 'activities_obj'
     ]),
 
     basic: function(){
       this.isBusy = true;
-      if(this.$store.state.treatmenttablebasic_obj.length > 0){
+      if(this.$store.state.treatment_tablebasicdata_obj.length > 0){
         var formattedRecord3 = []
-        this.$store.state.treatmenttablebasic_obj.forEach(function(rec){
+        this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec){
           formattedRecord3.push({
            type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
          })
@@ -356,31 +260,30 @@ export default {
         this.isBusy = false;
         return formattedRecord3;
 
-      }else{
-        return []
+      }
+      else{
         this.isBusy = false;
+        return []
+
       }
 
     },
 
-    treatment: function(){
-      this.isBusy = true;
-      if(this.$store.state.treatment_table_obj.length > 0){
-        var formattedRecord4 = []
-        this.$store.state.treatment_table_obj.forEach(function(rec){
-          formattedRecord4.push({
-           type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
-         })
-        })
-        this.isBusy = false
-        return formattedRecord4;
-
-      }else{
-        return []
-        this.isBusy = false;
-      }
-
-    },
+    // treatment: function(){
+    //   this.isBusy = true;
+    //   if(this.$store.state.treatment_tablebasicdata_obj.length > 0){
+    //     var formattedRecord4 = []
+    //     this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec){
+    //       formattedRecord4.push({
+    //        type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
+    //      })
+    //     })
+    //     this.isBusy = false
+    //     return formattedRecord4;
+    //
+    //   }
+    //
+    // },
 
     strategic: function(){
       this.isBusy = true;
@@ -393,19 +296,20 @@ export default {
         })
         this.isBusy = false;
         return formattedRecord5;
-
-      }else{
-        return []
-        this.isBusy = false;
       }
+      // else{
+      //   this.isBusy = false;
+      //   return []
+      //
+      // }
 
     }
 
   },
 
   created(){
+    this.listReturnDate();
     this.listTreatmentTableBasicData();
-    this.listTreatmentTable();
     this.listTreatmentStrategicData();
     this.listGeography().then(() => {
       this.updateOptions();
@@ -417,13 +321,6 @@ export default {
 
   data() {
     return {
-      // username: '',
-      // password: '',
-      // text: "Login Form",
-      // available: false,
-      // show: false,
-      // errors: {'auth':''},
-      // disabledLogin: true
       userChart: userChart,
       locationChart: locationChart,
       uch:"uch",
@@ -440,11 +337,17 @@ export default {
       selected_year: "",
       Start_Date: "",
       End_Date: "",
-      location: "",
-      options: [],
+      location: [],
+      options: [{'name':'All Location','language':null}],
       checkbox_options:[],
       checkbox_selected:[],
       isBusy: false,
+      user_location:[],
+      tablefilterdata:false,
+      table_start_date:"",
+      table_end_date:"",
+      table_activities:[],
+      table_location:[],
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
@@ -455,28 +358,15 @@ export default {
         { key: 'senior', label: 'Other Adult (>60Y)'},
         { key: 'total', label: 'Total'},
       ],
-      // basic:[
-      //   {type: 'Number of Cavities Prevented', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-      //   {type: 'Contacts', male: '10', female: '30', child: '10', adult: '15', senior: '15', total: '40'},
 
-      // ],
-
-      treatmentFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
-        { key: 'male', label: 'Male'},
-        { key: 'female', label: 'Female'},
-        { key: 'child', label: 'Child (< 18Y)'},
-        { key: 'adult', label: 'Adult (19Y - 60Y)'},
-        { key: 'senior', label: 'Other Adult (>60Y)'},
-        { key: 'total', label: 'Total'},
-      ],
-      // treatment:[
-      //   {type: 'EXO', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-      //   {type: 'ART', male: '10', female: '30', child: '10', adult: '15', senior: '15', total: '40'},
-      //   {type: 'SEAL', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-      //   {type: 'SDF', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-      //   {type: 'FV', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-
+      // treatmentFields: [
+      //   { key: 'type', label: '', tdClass: 'font-weight-bold'},
+      //   { key: 'male', label: 'Male'},
+      //   { key: 'female', label: 'Female'},
+      //   { key: 'child', label: 'Child (< 18Y)'},
+      //   { key: 'adult', label: 'Adult (19Y - 60Y)'},
+      //   { key: 'senior', label: 'Other Adult (>60Y)'},
+      //   { key: 'total', label: 'Total'},
       // ],
 
       strategicFields: [
@@ -488,45 +378,51 @@ export default {
         { key: 'senior', label: 'Other Adult (>60Y)'},
         { key: 'total', label: 'Total'},
       ],
-      // strategic:[
-      //   {type: 'Preventive Ratio', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-      //   {type: 'Early Intervention Ratio', male: '10', female: '30', child: '10', adult: '15', senior: '15', total: '40'},
-      //   {type: '% Recall', male: '50', female: '20', child: '30', adult: '15', senior: '25', total: '70'},
-
-      // ]
     }
   },
 
   methods:{
-    ...mapActions(['listTreatmentTableBasicData','listTreatmentTable','listTreatmentStrategicData','listGeography', 'listActivitie']),
+    ...mapActions(['listReturnDate','listTreatmentStrategicData','listTreatmentTableBasicData','listGeography', 'listActivitie']),
 
     BasicStrategicForm(){
+      var activities_details = this.activities_obj
+      var table_activities = []
       var l=[0,0,0,0]
+      var p = []
       var a=0
       this.checkbox_selected.forEach(function(e){
+        p.push(e)
           l[a]=e;
           a++;
       })
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
+      if (this.location.length>0){
+        var geography_id =[]
+        var geography_name = []
+        this.location.forEach(function(location_id){
+          if (location_id.language!=null){
+            geography_id.push(location_id.language)
+            geography_name.push(location_id.name)
+          }
+
+          })
+        this.user_location = geography_id
+        this.table_location = geography_name
       }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.checkbox_selected==""){
+      if(this.checkbox_selected==""){
         this.errors['checkbox_selected']="Select on of the activities required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}),
-          this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+        p.forEach(function(activities_id){
+          table_activities.push(activities_details.find(evt => evt.id == activities_id).name)
+        }),
+        this.table_start_date=this.returndate_obj.last_30_days,
+        this.table_end_date = this.returndate_obj.today_date,
+        this.table_activities = table_activities,
+        this.tablefilterdata = true,
+        this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}),
+        this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
       )
 
 
@@ -534,102 +430,62 @@ export default {
 
     Bargraphtreatment(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
+      if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentPageBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+        this.$store.dispatch("CreateTreatmentPageBarVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
       )
     },
 
     GenderVisualization(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
+      if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentPageGenderVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTreatmentPageGenderVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
       )
     },
 
     TreatmentBasicDataTable(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
+      if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentBasicDataTable",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTreatmentBasicDataTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
       )
     },
 
     TreatmentPageTreatmenttable(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
+      if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentPageTreatmentTable",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTreatmentPageTreatmentTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
       )
     },
 
     TreatmentStrategicData(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
+      if(this.location==""){
         this.errors['location']="Location required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateTreatmentStrategicData",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language})
+          this.$store.dispatch("CreateTreatmentStrategicData",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
       )
     },
 
 
     updateOptions(){
-      var geography_data=[]
+      var geography_data=[{'name':'All Location','language':null}]
       if (this.geography.length>0){
         this.geography.forEach(function(geography_obj){
             geography_data.push({'name':geography_obj.name,'language':geography_obj.id})
@@ -641,11 +497,14 @@ export default {
 
     checkbox_optionsupdate(){
       var activities_data=[]
+      var activities_data1=[]
       if (this.activities_obj.length>0){
         this.activities_obj.forEach(function(activity){
             activities_data.push({'text':activity.name,'value':activity.id})
+            activities_data1.push(activity.id)
         })
         this.checkbox_options = activities_data
+        this.checkbox_selected = activities_data1
       }
 
     },

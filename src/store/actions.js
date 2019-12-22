@@ -1,20 +1,16 @@
 const axios = require('axios');
 
 export default {
-    // listProfile({commit}){
-    //     axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
-    //     return axios
-    //       .get('http://app.abhiyantrik.com:6061/api/v1/profile', {})
-    //       .then(response => {
-    //           commit('setProfile',response.data)
-    //       })
-    //       .catch(error=>{
-    //         if (error.response.status==401){
-    //           window.app.abhiyantrik.com.replace("/logout");
-    //         }
-    //       })
-    //   },
-
+  listReturnDate({commit}){
+    axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+    return axios
+    .get('http://app.abhiyantrik.com:6061/api/v1/returndate',)
+    .then(response => {
+      if(response.status==200){
+        commit("setReturnDate",response.data);
+      }
+    })
+  },
       updateProfile({state,commit}, updateprofile){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
@@ -26,7 +22,6 @@ export default {
         .catch(error => {
           if(error){
             commit("setErrorMessage", 'errormessage');
-            // commit("setMessage", error.response.data.message);
           }
         })
       },
@@ -40,15 +35,6 @@ export default {
           })
       },
 
-      listActivitie({commit}){
-        axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
-        return axios
-          .get('http://app.abhiyantrik.com:6061/api/v1/events', {})
-          .then(response => {
-              commit('setActivities',response.data);
-          })
-      },
-
       createUser({state,commit}, user_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
@@ -56,7 +42,6 @@ export default {
         .then(response => {
           if(response.status==200){
             commit("setSuccessMessage",'success')
-            // commit("setUserobjet",response.data);
             state.users.push(response.data);
           }
         })
@@ -85,7 +70,6 @@ export default {
           }
         })
       },
-
       deleteUser({state,commit},user_id){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
@@ -96,6 +80,40 @@ export default {
             state.users.push(response.data);
           }
         })
+      },
+
+      updateUserStatus({state,commit}, user_obj){
+        axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+        return axios
+        .post('http://app.abhiyantrik.com:6061/api/v1/userstatus/'+user_obj.userid,user_obj)
+        .then(response => {
+          if(response.status==200){
+            var userdetail
+            if(user_obj.status_obj== false || user_obj.status_obj== "false"){
+              userdetail = state.users.find(evt => evt.id == user_obj.userid)
+              userdetail.active="true"
+            }else if(user_obj.status_obj== true || user_obj.status_obj== "true") {
+              userdetail = state.users.find(evt => evt.id == user_obj.userid)
+              userdetail.active="false"
+              }
+            }
+            commit("setSuccessMessage",'success')
+          })
+        .catch(error => {
+          if(error){
+            commit("setErrorMessage", 'errormessage')
+            commit("setMessage", error.response.data.message);
+          }
+        })
+      },
+
+      listActivitie({commit}){
+        axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
+        return axios
+          .get('http://app.abhiyantrik.com:6061/api/v1/events', {})
+          .then(response => {
+              commit('setActivities',response.data);
+          })
       },
 
       listGeography({commit}){
@@ -128,7 +146,10 @@ export default {
         return axios
         .put('http://app.abhiyantrik.com:6061/api/v1/geography/'+ geography_obj.id, geography_obj)
         .then(response => {
-          commit("setSuccessMessage",'success')
+          if(response.status==200){
+            commit("setSuccessMessage",'success')
+          }
+
         })
         .catch(error => {
           if(error){
@@ -142,59 +163,6 @@ export default {
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
         .delete('http://app.abhiyantrik.com:6061/api/v1/geography/'+geography_id)
-        .then(response => {
-          if(response.status==204){
-            commit("setSuccessMessage",'success')
-            state.geography.push(response.data);
-          }
-        })
-      },
-
-      listActivity({commit}){
-        axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
-        return axios
-        .get('http://app.abhiyantrik.com:6061/api/v1/activities', {})
-        .then(response => {
-          commit('setActivity',response.data);
-        })
-      },
-
-      createActivity({state,commit}, activity_obj){
-        axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-        return axios
-        .post('http://app.abhiyantrik.com:6061/api/v1/activities', activity_obj)
-        .then(response => {
-          commit("setSuccessMessage",'success')
-          state.activities.push(response.data);
-        })
-        .catch(error => {
-          if(error){
-            commit("setErrorMessage", 'errormessage')
-            commit("setMessage", error.response.data.message);
-          }
-        })
-      },
-
-      UpdateActivity({state,commit}, activity_obj){
-        axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-        return axios
-        .put('http://app.abhiyantrik.com:6061/api/v1/activities/'+activity_obj.id, activity_obj)
-        .then(response => {
-          commit("setSuccessMessage",'success')
-          state.activities.push(response.data);
-        })
-        .catch(error => {
-          if(error){
-            commit("setErrorMessage", 'errormessage')
-            commit("setMessage", error.response.data.message);
-          }
-        })
-      },
-
-      deleteActivity({state,commit},activity_id){
-        axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-        return axios
-        .delete('http://app.abhiyantrik.com:6061/api/v1/activities/'+activity_id)
         .then(response => {
           if(response.status==204){
             commit("setSuccessMessage",'success')
@@ -220,38 +188,22 @@ export default {
         })
       },
 
-
-      listVisualization({commit}){
+      resetPassword({commit}, resetpassword_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .get('http://app.abhiyantrik.com:6061/api/v1/visualizations',)
+        .post('http://app.abhiyantrik.com:6061/api/v1/adminresetpassword', resetpassword_obj)
         .then(response => {
           if(response.status==200){
-          commit("setVisualization",response.data);
+            commit("setSuccessMessage",'success');
           }
-      })
-    },
-
-    listVisualizationChart({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/visualizations',)
-      .then(response => {
-        if(response.status==200){
-          commit("setVisualization1",response.data);
-        }
-      })
-    },
-
-    listAddress({commit}){
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/addresses',)
-      .then(response => {
-        if(response.status==200){
-          commit("setAddresses",response.data);
-        }
-      })
-    },
+        })
+        .catch(error => {
+          if(error){
+            commit("setErrorMessage", 'errormessage')
+            commit("setMessage", error.response.data.message);
+          }
+        })
+      },
 
     listRole({commit}){
       return axios
@@ -283,57 +235,40 @@ export default {
       })
     },
 
-    updateUserStatus({state,commit}, user_obj){
+
+    listDashboardLineChartGraph({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://app.abhiyantrik.com:6061/api/v1/userstatus/'+user_obj.userid,user_obj)
+      .get('http://app.abhiyantrik.com:6061/api/v1/dashboardlinechart',)
       .then(response => {
         if(response.status==200){
-          var userdetail
-          if(user_obj.status_obj== false || user_obj.status_obj== "false"){
-            userdetail = state.users.find(evt => evt.id == user_obj.userid)
-            userdetail.active="true"
-          }else if(user_obj.status_obj== true || user_obj.status_obj== "true") {
-            userdetail = state.users.find(evt => evt.id == user_obj.userid)
-            userdetail.active="false"
-            }
-          }
-          commit("setSuccessMessage",'success')
-        })
-      .catch(error => {
-        if(error){
-          commit("setErrorMessage", 'errormessage')
-          commit("setMessage", error.response.data.message);
+          commit("setDashboardLineChartGraph",response.data);
         }
       })
     },
 
 
-    resetPassword({commit}, resetpassword_obj){
+
+    listOverviewTable({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://app.abhiyantrik.com:6061/api/v1/adminresetpassword', resetpassword_obj)
+      .get('http://app.abhiyantrik.com:6061/api/v1/overviewvisualization',)
       .then(response => {
         if(response.status==200){
-          commit("setSuccessMessage",'success');
-        }
-      })
-      .catch(error => {
-        if(error){
-          commit("setErrorMessage", 'errormessage')
-          commit("setMessage", error.response.data.message);
+          commit("setOverviewTable",response.data);
         }
       })
     },
 
-    listOverview({commit}){
+    CreateOverViewVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/overviewvisualization1',)
+      .post('http://app.abhiyantrik.com:6061/api/v1/overviewvisualization', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
-          commit("setOverview",response.data);
+          commit("setOverviewTable",response.data);
         }
+
       })
     },
 
@@ -348,16 +283,90 @@ export default {
       })
     },
 
+    CreateTreatmentbyActivity({commit}, treatmentactivitie_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/treatmentactivities', treatmentactivitie_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setTreatmentbyActivity",response.data);
+        }
+
+      })
+    },
+
     listTreatmentbyWard({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/overviewwardtreatmenttable',)
+      .get('http://app.abhiyantrik.com:6061/api/v1/treatmentwards',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentbyWard",response.data);
         }
       })
     },
+
+    CreateTreatmentbyWard({commit}, treatmentward_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/treatmentwards', treatmentward_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setTreatmentbyWard",response.data);
+        }
+
+      })
+    },
+
+    listOverviewBarGraph({commit}){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .get('http://app.abhiyantrik.com:6061/api/v1/overviewbargraph',)
+      .then(response => {
+        if(response.status==200){
+          commit("setOverviewBarGraph",response.data);
+        }
+      })
+    },
+
+    CreateTreatmentBarGraph({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/settingsgraphfilter', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setOverviewBarGraphPost",response.data);
+          // commit("setOverviewBarGraph",response.data);
+        }
+
+      })
+    },
+
+    listOverviewPieChartGraph ({commit}){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .get('http://app.abhiyantrik.com:6061/api/v1/overviewpiechart',)
+      .then(response => {
+        if(response.status==200){
+          commit("setOverviewPieChartGraph",response.data);
+        }
+      })
+    },
+
+    CreateDashboardPieChart({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/piechartfilter', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+            commit("setDashboardPieChartPost",response.data);
+            // commit("setOverviewPieChartGraph",response.data);
+        }
+
+      })
+    },
+
+
 
 
     listTreatmentTableBasicData({commit}){
@@ -367,18 +376,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTreatmentTableBasicData",response.data);
-        }
-      })
-    },
-
-
-    listTreatmentTable({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/treatmenttable',)
-      .then(response => {
-        if(response.status==200){
-          commit("setTreatmentTable",response.data);
         }
       })
     },
@@ -395,16 +392,7 @@ export default {
       })
     },
 
-    listVisualizationSettings({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/settingsgraph',)
-      .then(response => {
-        if(response.status==200){
-          commit("setVisualizationSettings",response.data);
-        }
-      })
-    },
+
 
     listWards({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
@@ -430,8 +418,6 @@ export default {
     },
 
 
-
-
     updateWard({state,commit}, ward_id_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
@@ -449,18 +435,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setSectionalTable",response.data);
-        }
-      })
-    },
-
-
-    listTreatmentBarVisualizationChart({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/treatmentnargraph',)
-      .then(response => {
-        if(response.status==200){
-          commit("setTreatmentBarVisualizationChart",response.data);
         }
       })
     },
@@ -500,50 +474,6 @@ export default {
     },
 
 
-
-
-
-
-
-    listWardLineVisualizationChart({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/wardlineVisualization',)
-      .then(response => {
-        if(response.status==200){
-          commit("setWardLineVisualizationChart",response.data);
-        }
-      })
-    },
-
-
-    CreateOverViewVisualization({commit}, overviewvisualization_obj){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .post('http://app.abhiyantrik.com:6061/api/v1/overviewvisualization1', overviewvisualization_obj)
-      .then(response => {
-        if(response.status==200){
-          commit("setOverview",response.data);
-          // state.table1_obj.update(response.data);
-        }
-
-      })
-    },
-
-    CreateTreatmentBarVisualization({commit}, overviewvisualization_obj){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .post('http://app.abhiyantrik.com:6061/api/v1/settingsgraphfilter', overviewvisualization_obj)
-      .then(response => {
-        if(response.status==200){
-          commit("setVisualizationSettings",response.data);
-          // state.table1_obj.update(response.data);
-        }
-
-      })
-    },
-
-
     CreateWardLineVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
@@ -551,7 +481,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setWardLineVisualizationChart",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -565,7 +494,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTreatmentBarVisualizationChart",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -579,7 +507,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setVisualization",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -593,7 +520,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTable3",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -607,7 +533,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTable4",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -620,7 +545,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTable5",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -633,7 +557,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTreatmentTableBasicData",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -646,7 +569,6 @@ export default {
       .then(response => {
         if(response.status==200){
           commit("setTreatmentStrategicData",response.data);
-          // state.table1_obj.update(response.data);
         }
 
       })
@@ -664,27 +586,34 @@ export default {
       })
     },
 
-    listDashboardPieChart ({commit}){
-      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
-      return axios
-      .get('http://app.abhiyantrik.com:6061/api/v1/piechart',)
-      .then(response => {
-        if(response.status==200){
-          commit("setDashboardPieChart",response.data);
-        }
-      })
-    },
 
-    CreateDashboardPieChart({commit}, overviewvisualization_obj){
+
+    CreateSectionalTable({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://app.abhiyantrik.com:6061/api/v1/piechartfilter', overviewvisualization_obj)
+      .post('http://app.abhiyantrik.com:6061/api/v1/sectional', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
-          commit("setDashboardPieChart",response.data);
-          // state.table1_obj.update(response.data);
+          commit("setSectionalTable",response.data);
         }
 
       })
     },
+
+
+    CreateLongitudinal({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/longitudinal', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setLongitudinalMeasures",response.data);
+        }
+
+      })
+    },
+
+
+
+
 }

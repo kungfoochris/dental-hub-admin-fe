@@ -107,8 +107,8 @@ export default {
     if(this.loginvisualization1){
       this.treatment_obj = this.loginvisualization1.total_encounter
       this.contacted_obj = this.loginvisualization1.total_patient
-      this.cavities_obj = 100
-      this.endVal =[this.loginvisualization1.total_encounter,100,this.loginvisualization1.total_patient]
+      this.cavities_obj = this.loginvisualization1.cavities_restored
+      this.endVal =[this.loginvisualization1.total_encounter,this.loginvisualization1.cavities_restored,this.loginvisualization1.total_patient]
         }
     },
   },

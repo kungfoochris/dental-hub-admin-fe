@@ -23,12 +23,12 @@
               <div class="row">
                 <div class="col-6">
                   <h6>Select Start Date:</h6>
-                  <b-input type="date"/>
+                  <b-input v-model="frame1_start_date" type="date"/>
                 </div>
 
                 <div class="col-6">
                   <h6>Select End Date:</h6>
-                  <b-input type="date"/>
+                  <b-input v-model="frame1_end_date"  type="date"/>
                 </div>
               </div>
             </div>
@@ -39,12 +39,12 @@
               <div class="row">
                 <div class="col-6">
                   <h6>Select Start Date:</h6>
-                  <b-input type="date"/>
+                  <b-input v-model="frame2_start_date"  type="date"/>
                 </div>
 
                 <div class="col-6">
                   <h6>Select End Date:</h6>
-                  <b-input type="date"/>
+                  <b-input v-model="frame2_end_date"  type="date"/>
                 </div>
               </div>
             </div>
@@ -53,15 +53,14 @@
           <div class="row mb-3">
             <div class="col-md-4 col-sm-12">
               <h6>Select the Reason for Visit:</h6>
+
               <multiselect
+              v-model="seminar_obj"
               :options="seminar"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
               :preserve-search="true"
-              placeholder="Reason For Visit"
-              label="seminar"
-              track-by="seminar"
+              placeholder="Reason for Visit"
+              label="name"
+              track-by="name"
               :preselect-first="true"
               >
               </multiselect>
@@ -70,14 +69,12 @@
             <div class="col-md-4 col-sm-12">
               <h6>Select Referral Type:</h6>
               <multiselect
+              v-model="outreach_obj"
               :options="outreach"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
               :preserve-search="true"
               placeholder="Referral Type"
-              label="outreach"
-              track-by="outreach"
+              label="name"
+              track-by="name"
               :preselect-first="true"
               >
               </multiselect>
@@ -115,12 +112,45 @@
 
             <div class="col-lg-2 col-sm-12">
               <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
+              <b-button variant="custom" block class="mb-4" @click="LongitudinalForm">Submit</b-button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+
+    <b-toast id="error-toast" variant="warning" solid append-toast toaster="b-toaster-bottom-full">
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Overview filter required error</strong>
+      </div>
+      <div v-if="errors.frame1_start_date">
+        <p>{{ errors.frame1_start_date }}</p>
+      </div>
+      <div v-if="errors.frame1_end_date">
+        <p>{{ errors.frame1_end_date }}</p>
+      </div>
+
+      <div v-if="errors.frame2_start_date">
+        <p>{{ errors.frame2_start_date }}</p>
+      </div>
+      <div v-if="errors.frame2_end_date">
+        <p>{{ errors.frame2_end_date }}</p>
+      </div>
+
+      <div v-if="errors.seminar_obj">
+        <p>{{ errors.seminar_obj }}</p>
+      </div>
+
+      <div v-if="errors.outreach_obj">
+        <p>{{ errors.outreach_obj }}</p>
+      </div>
+
+      <div v-if="errors.checkbox_selected">
+        <p>{{ errors.checkbox_selected }}</p>
+      </div>
+
+    </b-toast>
 
     <b-tabs class="mt-4" pills>
       <b-tab :title="sample_frame[0]" active>
@@ -129,20 +159,6 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">Longitudinal Measures for {{ this.sample_frame [0] }}</h3>
-
-                <!-- <b-table
-                id="user-table"
-                show-empty
-                :items="longitudinalItems"
-                :fields="longitudinalFields"
-                bordered
-                responsive
-                hover
-                >
-                  <template slot="[type]" slot-scope="data">
-                    <b>{{ data.item.type }}</b>
-                  </template>
-                </b-table> -->
                 <b-table-simple hover responsive>
                   <colgroup>
                     <col />
@@ -186,19 +202,6 @@
               <div class="card shadow">
                 <h3 class="mb-3 text-center">Longitudinal Measures for {{ this.sample_frame [1] }}</h3>
 
-                <!-- <b-table
-                id="user-table"
-                show-empty
-                :items="longitudinalItems"
-                :fields="longitudinalFields"
-                bordered
-                responsive
-                hover
-                >
-                  <template slot="[type]" slot-scope="data">
-                    <b>{{ data.item.type }}</b>
-                  </template>
-                </b-table> -->
                 <b-table-simple hover responsive>
                   <colgroup>
                     <col />
@@ -234,6 +237,7 @@
         <!-- </b-card-text> -->
       </b-tab>
     </b-tabs>
+
   </div>
 </div>
 </template>
@@ -256,22 +260,6 @@ export default {
   computed: {
     ...mapState(['sectionaltable_obj','longitudinalmeasures_obj', 'activities_obj'
   ]),
-
-  // basic: function(){
-  //   if(this.$store.state.sectionaltable_obj.length > 0){
-  //     var formattedRecord = []
-  //     this.$store.state.sectionaltable_obj.forEach(function(rec){
-  //       formattedRecord.push({
-  //        type: rec[0],tw1: rec[1],tw2: rec[2],realDifference: rec[3],propDifference: rec[4],pValue: rec[5], older: rec[6]
-  //      })
-  //     })
-  //     return formattedRecord;
-  //
-  //   }else{
-  //     return []
-  //   }
-  //
-  // },
 
   longitudinalItems: function(){
     if(this.$store.state.longitudinalmeasures_obj.length > 0){
@@ -300,27 +288,26 @@ export default {
 
   data() {
     return {
-      // username: '',
-      // password: '',
-      // text: "Login Form",
-      // available: false,
-      // show: false,
-      // errors: {'auth':''},
-      // disabledLogin: true
-      userChart: userChart,
+      frame1_start_date:"",
+      frame1_end_date:"",
+      frame2_start_date:"",
+      frame2_end_date:"",
       locationChart: locationChart,
       uch:"uch",
       lch:"lch",
       type1: "bar",
       type2: "pie",
       isActive: true,
+      outreach: [{"name":"Refer Hp","value":true},{"name":"Refer Hyg","value":true},{"name":"Refer Dent","value":true},{"name":"Refer Dr","value":true},{"name":"Refer Other","value":true}],
+      outreach_obj:"",
+      seminar: [{"name":"Checkup / Screening"},{"name":"Relief of pain"},{"name":"Continuation of treatment plan"},{"name":"Other Problem"}],
+      seminar_obj:"",
       clinic: [],
-      outreach: [],
-      seminar: [],
       training: [],
       sample_frame: ['Sample Frame #1', 'Sample Frame #2'],
       checkbox_options:[],
       checkbox_selected:[],
+      errors:[],
 
       longitudinalFields: [
         { key: 'type', label: '' },
@@ -363,6 +350,45 @@ export default {
       }
 
     },
+
+    LongitudinalForm(){
+      var l=[0,0,0,0]
+      var a=0
+      this.checkbox_selected.forEach(function(e){
+          l[a]=e;
+          a++;
+      })
+      this.errors=[]
+      if(this.frame1_start_date==''){
+        this.errors['frame1_start_date']="Frame1 Start date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.frame1_end_date==""){
+        this.errors['frame1_end_date']="Frame1 End date required."
+        this.$bvToast.show('error-toast');
+      }else if(this.frame2_start_date==""){
+        this.errors['frame2_start_date']="Frame2 Start date required."
+        this.$bvToast.show('error-toast');
+      }else if(this.frame2_end_date==""){
+        this.errors['frame2_end_date']="Frame2 End date required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.seminar_obj==null){
+        this.errors['seminar_obj']="Reason For Visit required."
+        this.$bvToast.show('error-toast');
+      }else if(this.outreach_obj==null){
+        this.errors['outreach_obj']="Referral Type required."
+        this.$bvToast.show('error-toast');
+      }
+      else if(this.checkbox_selected==""){
+        this.errors['checkbox_selected']="Select on of the activities required."
+        this.$bvToast.show('error-toast');
+      }
+      else(
+      this.$store.dispatch("CreateLongitudinal",{'frame1_start_date':this.frame1_start_date,'frame1_end_date':this.frame1_end_date,'frame2_start_date':this.frame2_start_date,'frame2_end_date':this.frame2_end_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+    )
+
+  }
   }
 };
 </script>

@@ -97,9 +97,9 @@ export default {
       }
       else{
         axios.post('http://app.abhiyantrik.com:6061/api/v1/checkuser',{'email':this.$data.username}).then(response=>{
-          this.setAdminUsername(response.data.username)
-          var formData = {'username': this.adminusername, 'password': this.$data.password}
-          axios.post('http://app.abhiyantrik.com:6061/api/v1/token/obtain',formData)
+          // this.setAdminUsername(response.data.username)
+          var formData = {'username': response.data.username, 'password': this.$data.password}
+          axios.post('http://app.abhiyantrik.com:6061/api/v1/token',formData)
           .then(response => {
             window.localStorage.setItem("token", response.data.token);
             this.setToken(response.data.token);

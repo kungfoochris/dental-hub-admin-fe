@@ -20,12 +20,12 @@
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
               <h6>Select Start Date:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <b-input v-model="returndate_obj.last_30_days" type="date"/>
             </div>
 
             <div class="col-lg-4 col-sm-12 mb-4">
               <h6>Select End Date:</h6>
-              <b-input v-model="End_Date" type="date"/>
+              <b-input v-model="returndate_obj.today_date" type="date"/>
             </div>
 
             <div class="col-lg-4 col-sm-12 mb-4">
@@ -33,11 +33,15 @@
               <multiselect
               v-model="location"
               :options="options"
+              :multiple="true"
               :preserve-search="true"
               placeholder="Select Location"
               label="name"
               track-by="name"
+              open-direction="bottom"
               :preselect-first="true"
+
+
               >
               </multiselect>
             </div>
@@ -50,6 +54,7 @@
                 <b-form-checkbox-group
                 v-model="checkbox_selected"
                 :options="checkbox_options"
+                checked=true
                 switches
                 size="lg"
                 ></b-form-checkbox-group>
@@ -69,15 +74,16 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3 text-center">Overview</h3>
-          <div class="row mb-3 text-center">
+
+          <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
-              <p><strong>Start Date: </strong>11/26/2019</p>
-              <p><strong>End Date: </strong>05/26/2019</p>
+              <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
+              <p><strong>End Date: </strong>{{this.table_end_date}}</p>
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong>Location 1, Location 2</p>
-              <p><strong>Activities: </strong>N/A</p>
+              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
             </div>
           </div>
           <b-table
@@ -87,11 +93,12 @@
             :fields="basicFields"
             responsive
             hover
+
             :busy="isBusy"
             class="text-center"
           >
             <template v-slot:cell(type)="row">
-              <span v-html="row.item.type">{{ row.item.type }}</span>
+              <span v-html="row.item.type" >{{ row.item.type }}</span>
             </template>
 
             <template v-slot:table-busy>
@@ -148,12 +155,12 @@
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select Start Date:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <b-input v-model="returndate_obj.last_30_days" type="date"/>
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select End Date:</h6>
-              <b-input v-model="End_Date" type="date"/>
+              <b-input v-model="returndate_obj.today_date" type="date"/>
             </div>
           </div>
 
@@ -161,11 +168,13 @@
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Location:</h6>
               <multiselect
-              v-model="location"
+              v-model="bar_location"
               :options="options"
+              :multiple="true"
               :preserve-search="true"
               placeholder="Select Location"
               label="name"
+              open-direction="bottom"
               track-by="name"
               :preselect-first="true"
               >
@@ -194,7 +203,8 @@
             </div>
           </div>
 
-          <Visualization :tag="settingsgraph"></Visualization>
+          <Visualization :tag="settingsgraph" v-show="showdataget1"></Visualization>
+          <Visualization :tag="settingsgraphpost" v-show="showdatapost1"></Visualization>
         </div>
       </div>
 
@@ -205,12 +215,12 @@
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select Start Date:</h6>
-              <b-input v-model="Start_Date" type="date"/>
+              <b-input v-model="returndate_obj.last_30_days" type="date"/>
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select End Date:</h6>
-              <b-input v-model="End_Date" type="date"/>
+              <b-input v-model="returndate_obj.today_date" type="date"/>
             </div>
           </div>
 
@@ -218,8 +228,9 @@
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Location:</h6>
               <multiselect
-              v-model="location"
+              v-model="pie_location"
               :options="options"
+              :multiple="true"
               :preserve-search="true"
               placeholder="Select Location"
               label="name"
@@ -230,9 +241,9 @@
             </div>
 
             <div class="col-lg-6 col-sm-12 mb-3">
-              <h6>Treatment Type/Activity:</h6>
+              <h6>Treatment Type:</h6>
               <multiselect
-              v-model="age_group1s"
+              v-model="age_group1"
               :options="options2"
               :preserve-search="true"
               placeholder="Select Treatment Types"
@@ -251,7 +262,8 @@
             </div>
           </div>
 
-          <Visualization :tag="piechart"></Visualization>
+          <Visualization :tag="piechart" v-show="showdataget"></Visualization>
+          <Visualization :tag="piechartpost" v-show="showdatapost"></Visualization>
         </div>
       </div>
     </div>
@@ -261,17 +273,19 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Treatment by Activity</h3>
-          <div class="row mb-3 text-center">
+
+          <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
-              <p><strong>Start Date: </strong>11/26/2019</p>
-              <p><strong>End Date: </strong>05/26/2019</p>
+              <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
+              <p><strong>End Date: </strong>{{this.table_end_date}}</p>
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong>Location 1, Location 2</p>
-              <p><strong>Activities: </strong>N/A</p>
+              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
             </div>
           </div>
+
             <b-table
               id="treatments-table"
               show-empty
@@ -295,17 +309,19 @@
       <div class="col-12">
         <div class="card shadow">
           <h3 class="mb-3">Treatment by Ward</h3>
-          <div class="row mb-3 text-center">
+
+          <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
-              <p><strong>Start Date: </strong>11/26/2019</p>
-              <p><strong>End Date: </strong>05/26/2019</p>
+              <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
+              <p><strong>End Date: </strong>{{this.table_end_date}}</p>
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong>Location 1, Location 2</p>
-              <p><strong>Activities: </strong>N/A</p>
+              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
             </div>
           </div>
+
             <b-table
               id="treatments-table"
               show-empty
@@ -328,36 +344,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line graph of number of contacts by month by Ward</h3>
-          <!-- <div class="row mt-3">
-            <div class="col-12">
-              <b-form-group>
-                <b-form-checkbox-group id="checkbox-group-2" v-model="ward_selected">
-                    <b-form-checkbox v-for="wards in geography" :value="wards.name">{{ wards.name }}</b-form-checkbox>
-                </b-form-checkbox-group>
-              </b-form-group>
-            </div>
-          </div> -->
-          <!-- <div class="row mt-3">
-            <div class="col-lg-10 col-sm-12">
-              <h6>Select Year:</h6>
-              <multiselect
-                class="mb-3"
-                v-model="selected_year"
-                :options="years_array"
-                :clear-on-select="false"
-                :preserve-search="true"
-                placeholder="Choose Year"
-              >
-              </multiselect>
-            </div>
-
-            <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
-              <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
-            </div>
-          </div> -->
-
+          <h3 class="mb-3">Line graph on number of contacts by month by Ward</h3>
           <Visualization :tag="lch6"></Visualization>
         </div>
       </div>
@@ -383,24 +370,24 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['overview_obj','treatment_by_activity_obj','treatment_by_ward_obj', 'geography','activities_obj'
+    ...mapState(['returndate_obj', 'overviewtable_obj', 'treatment_by_activity_obj', 'treatment_by_ward_obj', 'geography', 'activities_obj'
     ]),
 
     basic: function(){
       this.isBusy = true;
-      if(this.$store.state.overview_obj.length > 0){
+      if(this.$store.state.overviewtable_obj.length > 0){
         var formattedRecord = []
-        this.$store.state.overview_obj.forEach(function(rec){
+        this.$store.state.overviewtable_obj.forEach(function(rec){
           formattedRecord.push({
-           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
-          })
+           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12],_rowVariant:rec[13]})
         })
         this.isBusy = false;
         return formattedRecord;
 
       }else{
-        return []
         this.isBusy = false;
+        return []
+
       }
     },
 
@@ -417,8 +404,9 @@ export default {
         return formattedRecord1;
 
       }else{
-        return []
         this.isBusy = false;
+        return []
+
       }
     },
 
@@ -433,41 +421,22 @@ export default {
         })
         this.isBusy = false;
         return formattedRecord2;
-
       }else{
-        return []
         this.isBusy = false;
+        return []
       }
     },
 
 
-
-
-    // treatment: function(){
-    //   if(this.$store.state.treatment_by_activity_obj.length > 0){
-    //     var formattedRecord1 = []
-    //     this.$store.state.treatment_by_activity_obj.forEach(function(rec){
-    //       formattedRecord1.push({
-    //        type: rec[0], exo: rec[1], art: rec[2], seal: rec[3], sdf: rec[4], fv: rec[5], contact: rec[6]
-    //      })
-    //     })
-    //     return formattedRecord1;
-    //
-    //   }else{
-    //     return []
-    //   }
-    //
-    // }
-
   },
 
   created(){
-    this.listOverview();
+    this.listReturnDate();
+    this.listOverviewTable();
     this.listTreatmentbyActivity();
     this.listTreatmentbyWard();
     this.listGeography().then(() => {
       this.updateOptions();})
-
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();})
   },
@@ -487,18 +456,32 @@ export default {
       lch6:"lch6",
       errors:[],
       isActive: true,
-      location: "",
-      options: [],
+      location: [],
+      pie_location:[],
+      bar_location:[],
+      options: [{'name':'All Location','language':null}],
       options1:[{"name":"Age Group"},{"name":"Activity"}],
-      options2:[{"name":"Age Group"},{"name":"Treatment Type"}],
+      options2:[{"name":"EXO","value":"exo"},{"name":"ART","value":"art"},{"name":"SEAL","value":"seal"},{"name":"SDF","value":"sdf"},{"name":"FV","value":"fv"}],
       years_array: years(100).reverse(),
       selected_year: "",
       isBusy: false,
+      tablefilterdata: false,
       ward_selected: ['Test ward', 'Lakeside', 'Sarangkot', 'Kaskikot', 'Salyan', 'Thumki', 'Deurali', 'Rupakot', 'Hansapur', 'Tilahar', 'Katuwachaupari'],
 
-      checkbox_selected: [], // Must be an arranamey reference!
+      checkbox_selected: [],
       checkbox_options: [],
       date_error:'',
+      showdataget:true,
+      showdatapost:false,
+      showdataget1:true,
+      showdatapost1:false,
+      piechartpost: "piechartpost",
+      settingsgraphpost:"settingsgraphpost",
+      user_location:[],
+      table_start_date:'',
+      table_end_date:'',
+      table_location:[],
+      table_activities:[],
 
       basicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold text-left'},
@@ -515,52 +498,45 @@ export default {
         { key: 'referdr', label: 'Refer Dr'},
         { key: 'referother', label: 'Refer Other'},
       ],
-
-      // treatmentTableItemsActivity:[
-      //   {type: 'Clinic', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      //   {type: 'Seminar', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      //   {type: 'Outreach', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      //   {type: 'Training', check: '35', ext: '1', art: '1', seal: '0', sdf: '0', fv: '20', refer: '17'},
-      // ],
-
-      // treatmentTableItemsWard:[
-      //   {type: 'Ward 1', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-      //   {type: 'Ward 2', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-      //   {type: 'Ward 3', check: '0', ext: '0', art: '0', seal: '0', sdf: '0', fv: '0', refer: '0'},
-      //   {type: 'Ward 4', check: '4', ext: '1', art: '0', seal: '0', sdf: '0', fv: '0', refer: '3'},
-      // ]
     }
   },
 
   methods:{
-    ...mapActions(['listOverview','listTreatmentbyActivity','listGeography','listActivitie','listTreatmentbyWard']),
+    ...mapActions(['listReturnDate','listOverviewTable','listTreatmentbyActivity','listTreatmentbyWard','listGeography','listActivitie']),
 
     OverviewTable(){
-      var l=[0,0,0,0]
-      var a=0
-      this.checkbox_selected.forEach(function(e){
-          l[a]=e;
-          a++;
-      })
+      var activities_details = this.activities_obj
+      var table_activities1 = []
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
+      if (this.location.length>0){
+        var geography_id =[]
+        var geography_name = []
+        this.location.forEach(function(location_id){
+          if (location_id.language!=null){
+            geography_id.push(location_id.language)
+            geography_name.push(location_id.name)
+          }
+
+          })
+        this.user_location = geography_id
+        this.table_location = geography_name
       }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.checkbox_selected==""){
+      if(this.checkbox_selected==""){
         this.errors['checkbox_selected']="Select on of the activities required."
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateOverViewVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+
+        this.checkbox_selected.forEach(function(activities_id){
+          table_activities1.push(activities_details.find(evt => evt.id == activities_id).name)
+        }),
+        this.table_start_date=this.returndate_obj.last_30_days,
+        this.table_end_date = this.returndate_obj.today_date,
+        this.table_activities = table_activities1,
+        this.tablefilterdata = true,
+        this.$store.dispatch("CreateOverViewVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected}),
+        this.$store.dispatch("CreateTreatmentbyActivity",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected}),
+        this.$store.dispatch("CreateTreatmentbyWard",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected})
       )
 
 
@@ -568,78 +544,50 @@ export default {
 
     Bargraphtreatment(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
+      if (this.bar_location.length>0){
+        var geography_id = []
+        this.bar_location.forEach(function(location_id){
+          if (location_id.language!=null){
+            geography_id.push(location_id.language)
+          }
+        })
       }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }else if(this.age_group==null){
+      if(this.age_group==null){
         this.errors['age_group']="Age Group required."
         this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group['name']})
-      )
-
-
-    },    Bargraphtreatment(){
-      this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }else if(this.age_group==null){
-        this.errors['age_group']="Age Group required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentBarVisualization",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group['name']})
+      }else(
+        this.showdatapost1 = true,
+        this.showdataget1 = false,
+        this.$store.dispatch("CreateTreatmentBarGraph",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":geography_id,"age_group":this.age_group['name']})
       )
 
 
     },
-
 
     PieChartForm(){
       this.errors=[]
-      if(this.Start_Date==''){
-        this.errors['Start_Date']="Start date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.End_Date==""){
-        this.errors['End_Date']="End date required."
-        this.$bvToast.show('error-toast');
-      }
-      else if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }else if(this.age_group1==null){
+      if (this.pie_location.length>0){
+        var geography_id = []
+        this.pie_location.forEach(function(location_id){
+          if (location_id.language!=null){
+            geography_id.push(location_id.language)
+          }
+        })
+        this.user_location = geography_id
+      }if(this.age_group1==null){
         this.errors['age_group1']="Treatment Type/Age Group required."
+        this.showdataget = true
         this.$bvToast.show('error-toast');
       }
       else(
-          this.$store.dispatch("CreateDashboardPieChart",{'start_date':this.Start_Date,'end_date':this.End_Date,"location":this.location.language,"age_group":this.age_group1['name']})
+        this.showdatapost = true,
+        this.showdataget = false,
+        this.$store.dispatch("CreateDashboardPieChart",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"age_group":this.age_group1['value']})
+
       )
 
 
     },
-
-
-
-
 
     WardLineVisualization(){
       this.errors=[]
@@ -655,13 +603,8 @@ export default {
     },
 
 
-
-
-
-
-
     updateOptions(){
-      var geography_data=[]
+      var geography_data=[{'name':'All Location','language':null}]
       if (this.geography.length>0){
         this.geography.forEach(function(geography_obj){
             geography_data.push({'name':geography_obj.name,'language':geography_obj.id})
@@ -673,11 +616,15 @@ export default {
 
     checkbox_optionsupdate(){
       var activities_data=[]
+      var activities_data1=[]
       if (this.activities_obj.length>0){
         this.activities_obj.forEach(function(activity){
             activities_data.push({'text':activity.name,'value':activity.id})
+            activities_data1.push(activity.id)
+
         })
         this.checkbox_options = activities_data
+        this.checkbox_selected = activities_data1
       }
 
     },
@@ -690,5 +637,8 @@ export default {
 
 <style lang="scss" scoped>
   @import "../css/index.scss";
+  .pk{
+    color: red;
+  }
 
 </style>
