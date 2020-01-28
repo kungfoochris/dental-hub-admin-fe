@@ -114,6 +114,11 @@ export default{
 	},
 
 
+	setLongitudinalMeasures1(state, longitudinalmeasures_obj1){
+		state.longitudinalmeasures_obj1 = longitudinalmeasures_obj1;
+	},
+
+
 	setReturnDate(state, returndate_obj){
 		state.returndate_obj = returndate_obj;
 	},

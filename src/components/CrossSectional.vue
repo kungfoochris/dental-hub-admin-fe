@@ -58,7 +58,7 @@
               </multiselect>
             </div>
 
-            <div class="col-md-4 col-sm-12">
+            <!-- <div class="col-md-4 col-sm-12">
               <h6>Select Indicator Age:</h6>
               <multiselect
               :options="clinic"
@@ -72,7 +72,7 @@
               :preselect-first="true"
               >
               </multiselect>
-            </div>
+            </div> -->
           </div>
 
           <div class="row">
@@ -89,7 +89,7 @@
             </div>
 
             <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" block class="mb-4" @click="CrossSectionalForm">Submit</b-button>
             </div>
           </div>
@@ -118,7 +118,18 @@
           <p>{{ errors.checkbox_selected }}</p>
         </div>
 
+        <div v-if="message.length>0">
+          <p>{{this.message }}</p>
+        </div>
 
+
+      </b-toast>
+
+      <b-toast id="success-toast" variant="custom-success" solid append-toast toaster="b-toaster-bottom-full">
+        <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+          <strong class="mr-auto">Filtered success</strong>
+        </div>
+          Data is Successfully  Filtered
       </b-toast>
 
     </div>
@@ -177,7 +188,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['returndate_obj','sectionaltable_obj', 'activities_obj'
+    ...mapState(['message','errormessage','successmessage','returndate_obj','sectionaltable_obj', 'activities_obj'
   ]),
 
   basic: function(){
@@ -260,13 +271,29 @@ export default {
   methods:{
     ...mapActions(['listReturnDate','listSectionalTable', 'listActivitie']),
 
+    // checkbox_optionsupdate(){
+    //   var activities_data=[]
+    //   if (this.activities_obj.length>0){
+    //     this.activities_obj.forEach(function(activity){
+    //         activities_data.push({'text':activity.name,'value':activity.id})
+    //     })
+    //     this.checkbox_options = activities_data
+    //   }
+    //
+    // },
+
+
     checkbox_optionsupdate(){
       var activities_data=[]
+      var activities_data1=[]
       if (this.activities_obj.length>0){
         this.activities_obj.forEach(function(activity){
             activities_data.push({'text':activity.name,'value':activity.id})
+            activities_data1.push(activity.id)
+
         })
         this.checkbox_options = activities_data
+        this.checkbox_selected = activities_data1
       }
 
     },
@@ -291,7 +318,15 @@ export default {
         this.$bvToast.show('error-toast');
       }
       else(
-      this.$store.dispatch("CreateSectionalTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+      this.$store.dispatch("CreateSectionalTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}).then(() => {
+        if(this.errormessage.length>0){
+          this.$bvToast.show('error-toast');
+        }else if(this.successmessage=='success'){
+          this.message = "",
+          this.$bvToast.show('success-toast');
+        }
+
+      })
     )
 
     }

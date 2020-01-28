@@ -62,7 +62,7 @@
             </div>
 
             <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" block class="mb-4" @click="OverviewTable">Submit</b-button>
             </div>
           </div>
@@ -82,8 +82,8 @@
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
-              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
+              <p><strong>Location(s): </strong><span v-for ="(location,index) in table_location" :key="index">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "(activity,index) in table_activities" :key="index">{{activity}},</span></p>
             </div>
           </div>
           <b-table
@@ -144,14 +144,26 @@
         <p>{{ errors.checkbox_selected }}</p>
       </div>
 
+      <div v-if="message.length>0">
+        <p>{{this.message }}</p>
+      </div>
 
+
+    </b-toast>
+
+
+    <b-toast id="success-toast" variant="custom-success" solid append-toast toaster="b-toaster-bottom-full">
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Filtered success</strong>
+      </div>
+        Data is Successfully  filtered
     </b-toast>
 
 
     <div class="row mt-4">
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Bar graph of treatment type</h3>
+          <h3 class="mb-3">Treatment Distribution by Age/Activity</h3>
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select Start Date:</h6>
@@ -198,7 +210,7 @@
 
           <div class="row">
             <div class="col-12 text-center justify-content-center">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" class="mb-4" @click="Bargraphtreatment">Submit</b-button>
             </div>
           </div>
@@ -210,7 +222,7 @@
 
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Pie Chart of contacts by Activity</h3>
+          <h3 class="mb-3">Activity Distribution</h3>
 
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
@@ -246,10 +258,11 @@
               v-model="age_group1"
               :options="options2"
               :preserve-search="true"
-              placeholder="Select Treatment Types"
+              placeholder="Select Activity"
               label="name"
               track-by="name"
               :preselect-first="true"
+
               >
               </multiselect>
             </div>
@@ -257,7 +270,7 @@
 
           <div class="row">
             <div class="col-12 text-center">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" class="mb-4" @click="PieChartForm">Submit</b-button>
             </div>
           </div>
@@ -281,8 +294,8 @@
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
-              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
+              <p><strong>Location(s): </strong><span v-for ="(location,index) in table_location" :key="index">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "(activity,index) in table_activities" :key="index">{{activity}},</span></p>
             </div>
           </div>
 
@@ -317,8 +330,8 @@
             </div>
 
             <div class="col-6">
-              <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
-              <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
+              <p><strong>Location(s): </strong><span v-for ="(location,index) in table_location" :key="index">{{location}},</span></p>
+              <p><strong>Activities: </strong><span v-for = "(activity,index) in table_activities" :key="index">{{activity}},</span></p>
             </div>
           </div>
 
@@ -370,7 +383,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['returndate_obj', 'overviewtable_obj', 'treatment_by_activity_obj', 'treatment_by_ward_obj', 'geography', 'activities_obj'
+    ...mapState(['errormessage','successmessage','message','overviewbargraphpost_obj','dashboard_piechartpost','returndate_obj', 'overviewtable_obj', 'treatment_by_activity_obj', 'treatment_by_ward_obj', 'geography', 'activities_obj'
     ]),
 
     basic: function(){
@@ -379,19 +392,15 @@ export default {
         var formattedRecord = []
         this.$store.state.overviewtable_obj.forEach(function(rec){
           formattedRecord.push({
-           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12],_rowVariant:rec[13]})
-        })
+           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12],_rowVariant:rec[13]
+         });
+       });
         this.isBusy = false;
         return formattedRecord;
-
-      }else{
-        this.isBusy = false;
-        return []
-
       }
     },
 
-    treatmentTableItemsActivity: function(){
+    treatmentTableItemsActivity:function(){
       this.isBusy = true;
       if(this.$store.state.treatment_by_activity_obj.length > 0){
         var formattedRecord1 = []
@@ -402,11 +411,6 @@ export default {
         })
         this.isBusy = false;
         return formattedRecord1;
-
-      }else{
-        this.isBusy = false;
-        return []
-
       }
     },
 
@@ -416,14 +420,11 @@ export default {
         var formattedRecord2 = []
         this.$store.state.treatment_by_ward_obj.forEach(function(rec){
           formattedRecord2.push({
-           type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
-          })
-        })
+            type: rec[0], check: rec[1], ext: rec[2], art: rec[3], seal: rec[4], sdf: rec[5],fullmouthsdf:rec[6], fv: rec[7], referhp: rec[8], referhyg: rec[9], referdent: rec[10], referdr: rec[11], referother:rec[12]
+          });
+        });
         this.isBusy = false;
         return formattedRecord2;
-      }else{
-        this.isBusy = false;
-        return []
       }
     },
 
@@ -461,7 +462,7 @@ export default {
       bar_location:[],
       options: [{'name':'All Location','language':null}],
       options1:[{"name":"Age Group"},{"name":"Activity"}],
-      options2:[{"name":"EXO","value":"exo"},{"name":"ART","value":"art"},{"name":"SEAL","value":"seal"},{"name":"SDF","value":"sdf"},{"name":"FV","value":"fv"}],
+      options2:[{"name":"All Treatment Type","value":"alltreatment"},{"name":"EXO","value":"exo"},{"name":"ART","value":"art"},{"name":"SEAL","value":"seal"},{"name":"SDF","value":"sdf"},{"name":"FV","value":"fv"}],
       years_array: years(100).reverse(),
       selected_year: "",
       isBusy: false,
@@ -536,7 +537,15 @@ export default {
         this.tablefilterdata = true,
         this.$store.dispatch("CreateOverViewVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected}),
         this.$store.dispatch("CreateTreatmentbyActivity",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected}),
-        this.$store.dispatch("CreateTreatmentbyWard",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected})
+        this.$store.dispatch("CreateTreatmentbyWard",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"activities":this.checkbox_selected}).then(() => {
+          if(this.errormessage.length>0){
+            this.$bvToast.show('error-toast');
+          }else if(this.successmessage=='success'){
+            this.message = "",
+            this.$bvToast.show('success-toast');
+          }
+
+        })
       )
 
 
@@ -558,6 +567,7 @@ export default {
       }else(
         this.showdatapost1 = true,
         this.showdataget1 = false,
+        this.overviewbargraphpost_obj = [],
         this.$store.dispatch("CreateTreatmentBarGraph",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":geography_id,"age_group":this.age_group['name']})
       )
 
@@ -582,6 +592,7 @@ export default {
       else(
         this.showdatapost = true,
         this.showdataget = false,
+        this.dashboard_piechartpost=[],
         this.$store.dispatch("CreateDashboardPieChart",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"age_group":this.age_group1['value']})
 
       )

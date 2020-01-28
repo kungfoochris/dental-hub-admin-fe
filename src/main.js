@@ -19,6 +19,7 @@ import Chart from 'chart.js'
 
 import ICountUp from 'vue-countup-v2'
 
+
 Vue.component('ICountUp', ICountUp)
 
 Vue.component('multiselect', window.VueMultiselect.default)

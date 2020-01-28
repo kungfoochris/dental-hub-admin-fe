@@ -80,7 +80,7 @@
               </multiselect>
             </div>
 
-            <div class="col-md-4 col-sm-12">
+            <!-- <div class="col-md-4 col-sm-12">
               <h6>Select Indicator Age:</h6>
               <multiselect
               :options="clinic"
@@ -94,7 +94,7 @@
               :preselect-first="true"
               >
               </multiselect>
-            </div>
+            </div> -->
           </div>
 
           <div class="row">
@@ -104,6 +104,7 @@
                 <b-form-checkbox-group
                 v-model="checkbox_selected"
                 :options="checkbox_options"
+                checked=true
                 switches
                 size="lg"
                 ></b-form-checkbox-group>
@@ -111,7 +112,7 @@
             </div>
 
             <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" block class="mb-4" @click="LongitudinalForm">Submit</b-button>
             </div>
           </div>
@@ -150,7 +151,19 @@
         <p>{{ errors.checkbox_selected }}</p>
       </div>
 
+      <div v-if="message">
+        <p>{{this.message }}</p>
+      </div>
+
     </b-toast>
+
+    <b-toast id="success-toast" variant="custom-success" solid append-toast toaster="b-toaster-bottom-full">
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Filtered success</strong>
+      </div>
+        Data is Successfully  Filtered
+    </b-toast>
+
 
     <b-tabs class="mt-4" pills>
       <b-tab :title="sample_frame[0]" active>
@@ -216,7 +229,7 @@
                   </b-thead>
 
                   <b-tbody>
-                    <b-tr v-for="items in longitudinalItems">
+                    <b-tr v-for="items in longitudinalItems1">
                       <th v-html="items.type"> {{ items.type }} </th>
                       <td class="text-center"> {{ items.tw1 }} </td>
                       <td class="text-center"> {{ items.tw2 }} </td>
@@ -258,7 +271,7 @@ export default {
     // 'Visualization': Visualization
   },
   computed: {
-    ...mapState(['sectionaltable_obj','longitudinalmeasures_obj', 'activities_obj'
+    ...mapState(['successmessage','sectionaltable_obj','longitudinalmeasures_obj','longitudinalmeasures_obj1', 'activities_obj','errormessage', 'message'
   ]),
 
   longitudinalItems: function(){
@@ -270,6 +283,22 @@ export default {
        })
       })
       return formattedRecord1;
+
+    }else{
+      return []
+    }
+
+  },
+
+  longitudinalItems1: function(){
+    if(this.$store.state.longitudinalmeasures_obj1.length > 0){
+      var formattedRecord2 = []
+      this.$store.state.longitudinalmeasures_obj1.forEach(function(rec){
+        formattedRecord2.push({
+         type: rec[0],tw1: rec[1],tw2: rec[2],realDifference: rec[3],propDifference: rec[4],pValue: rec[5], older: rec[6]
+       })
+      })
+      return formattedRecord2;
 
     }else{
       return []
@@ -342,11 +371,14 @@ export default {
 
     checkbox_optionsupdate(){
       var activities_data=[]
+      var activities_data1=[]
       if (this.activities_obj.length>0){
         this.activities_obj.forEach(function(activity){
             activities_data.push({'text':activity.name,'value':activity.id})
+            activities_data1.push(activity.id)
         })
         this.checkbox_options = activities_data
+        this.checkbox_selected = activities_data1
       }
 
     },
@@ -385,7 +417,15 @@ export default {
         this.$bvToast.show('error-toast');
       }
       else(
-      this.$store.dispatch("CreateLongitudinal",{'frame1_start_date':this.frame1_start_date,'frame1_end_date':this.frame1_end_date,'frame2_start_date':this.frame2_start_date,'frame2_end_date':this.frame2_end_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
+      this.$store.dispatch("CreateLongitudinal",{'frame1_start_date':this.frame1_start_date,'frame1_end_date':this.frame1_end_date,'frame2_start_date':this.frame2_start_date,'frame2_end_date':this.frame2_end_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}).then(() => {
+        if(this.errormessage=='errormessage'){
+          this.$bvToast.show('error-toast');
+        }else if(this.successmessage=='success'){
+          this.$bvToast.show('success-toast');
+        }
+
+      }),
+      this.$store.dispatch("CreateLongitudinal1",{'frame1_start_date':this.frame1_start_date,'frame1_end_date':this.frame1_end_date,'frame2_start_date':this.frame2_start_date,'frame2_end_date':this.frame2_end_date,"reason_for_visit":this.seminar_obj['name'],"referral_type":this.outreach_obj['name'],"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
     )
 
   }

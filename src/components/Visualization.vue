@@ -29,24 +29,28 @@ export default {
   },
   watch: {
     overviewbargraphpost_obj: function(){
-      this.spinner = false;
+      this.spinner = true;
       if(this.overviewbargraphpost_obj.locationChart){
+        this.spinner = false;
         this.createOverViewBarGraphPost();
       }
     },
 
     dashboard_piechartpost: function(){
-      this.spinner = false;
+      this.spinner = true;
       if(this.dashboard_piechartpost.locationChart){
+        this.spinner = false;
         this.createOverViewPiChartGraphPost();
       }
     },
   },
 
   created(){
-    // this.spinner = true;
+    this.spinner = true;
     this.listOverviewBarGraph().then(() => {
-      this.createOverViewBarGraph();})
+      this.createOverViewBarGraph();
+    })
+
 
     this.listOverviewPieChartGraph().then(() =>{
       this.createOverViewPiChartGraph();})
@@ -62,6 +66,7 @@ export default {
 
     this.listRecallDistribution().then(() =>{
       this.createTreatmentLineChart2();})
+    this.spinner = false;
 
   },
   methods:{
@@ -78,7 +83,10 @@ export default {
     },
     createOverViewBarGraphPost() {
       const ctx = document.getElementById('settingsgraphpost');
-      const _ = new Chart(ctx, {
+      if (window.MyChart1 != undefined){
+        window.MyChart1.destroy();
+      }
+      window.MyChart1 = new Chart(ctx, {
         type: 'bar',
         data: this.overviewbargraphpost_obj.locationChart.data,
         options: this.overviewbargraphpost_obj.locationChart.options,
@@ -108,13 +116,15 @@ export default {
 
     createOverViewPiChartGraphPost(){
       const ctx = document.getElementById('piechartpost');
-      const _ = new Chart(ctx, {
-        type: 'pie',
-        data: this.dashboard_piechartpost.locationChart.data,
-        options: this.dashboard_piechartpost.locationChart.options,
+      if (window.MyChart != undefined){
+        window.MyChart.destroy();
+      }
+      window.MyChart = new Chart(ctx, {
+          type: 'pie',
+          data: this.dashboard_piechartpost.locationChart.data,
+          options: this.dashboard_piechartpost.locationChart.options,
 
-      });
-
+        });
     },
 
     createTreatmentLineChart() {

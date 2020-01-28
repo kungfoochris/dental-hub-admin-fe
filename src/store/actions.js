@@ -312,9 +312,17 @@ export default {
       .post('http://app.abhiyantrik.com:6061/api/v1/treatmentwards', treatmentward_obj)
       .then(response => {
         if(response.status==200){
+          commit("setErrorMessage", "")
+          commit("setSuccessMessage",'success')
           commit("setTreatmentbyWard",response.data);
         }
 
+      })
+      .catch(error => {
+        if(error){
+          commit("setErrorMessage", 'errormessage')
+          commit("setMessage", error.response.data.message);
+        }
       })
     },
 
@@ -568,9 +576,17 @@ export default {
       .post('http://app.abhiyantrik.com:6061/api/v1/treatmentstrategicdatas', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
+          commit("setErrorMessage", "")
+          commit("setSuccessMessage",'success')
           commit("setTreatmentStrategicData",response.data);
         }
 
+      })
+      .catch(error => {
+        if(error){
+          commit("setErrorMessage", 'errormessage')
+          commit("setMessage", error.response.data.message);
+        }
       })
     },
 
@@ -594,9 +610,17 @@ export default {
       .post('http://app.abhiyantrik.com:6061/api/v1/sectional', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
+          commit("setErrorMessage", "")
+          commit("setSuccessMessage",'success')
           commit("setSectionalTable",response.data);
         }
 
+      })
+      .catch(error => {
+        if(error){
+          commit("setErrorMessage", 'errormessage')
+          commit("setMessage", error.response.data.message);
+        }
       })
     },
 
@@ -607,7 +631,27 @@ export default {
       .post('http://app.abhiyantrik.com:6061/api/v1/longitudinal', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
+          commit("setErrorMessage", "")
+          commit("setSuccessMessage",'success')
           commit("setLongitudinalMeasures",response.data);
+        }
+
+      })
+      .catch(error => {
+        if(error){
+          commit("setErrorMessage", 'errormessage')
+          commit("setMessage", error.response.data.message);
+        }
+      })
+    },
+
+    CreateLongitudinal1({commit}, overviewvisualization_obj){
+      axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
+      return axios
+      .post('http://app.abhiyantrik.com:6061/api/v1/longitudinal1', overviewvisualization_obj)
+      .then(response => {
+        if(response.status==200){
+          commit("setLongitudinalMeasures1",response.data);
         }
 
       })

@@ -59,7 +59,7 @@
             </div>
 
             <div class="col-lg-2 col-sm-12">
-              <h6>Click Here:</h6>
+              <!-- <h6>Click Here:</h6> -->
               <b-button variant="custom" block class="mb-4" @click="BasicStrategicForm">Submit</b-button>
             </div>
           </div>
@@ -221,8 +221,20 @@
         <p>{{ errors.checkbox_selected }}</p>
       </div>
 
+      <div v-if="message.length>0">
+        <p>{{this.message }}</p>
+      </div>
+
 
     </b-toast>
+
+    <b-toast id="success-toast" variant="custom-success" solid append-toast toaster="b-toaster-bottom-full">
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Filtered success</strong>
+      </div>
+        Data is Successfully  Filtered
+    </b-toast>
+
 
   </div>
 </div>
@@ -245,7 +257,7 @@ export default {
     'Visualization': Visualization
   },
   computed: {
-    ...mapState(['returndate_obj','treatment_tablebasicdata_obj','treatmentstrategicdata_obj','geography', 'activities_obj'
+    ...mapState(['errormessage', 'successmessage', 'message','returndate_obj','treatment_tablebasicdata_obj','treatmentstrategicdata_obj','geography', 'activities_obj'
     ]),
 
     basic: function(){
@@ -261,29 +273,8 @@ export default {
         return formattedRecord3;
 
       }
-      else{
-        this.isBusy = false;
-        return []
-
-      }
 
     },
-
-    // treatment: function(){
-    //   this.isBusy = true;
-    //   if(this.$store.state.treatment_tablebasicdata_obj.length > 0){
-    //     var formattedRecord4 = []
-    //     this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec){
-    //       formattedRecord4.push({
-    //        type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
-    //      })
-    //     })
-    //     this.isBusy = false
-    //     return formattedRecord4;
-    //
-    //   }
-    //
-    // },
 
     strategic: function(){
       this.isBusy = true;
@@ -297,12 +288,6 @@ export default {
         this.isBusy = false;
         return formattedRecord5;
       }
-      // else{
-      //   this.isBusy = false;
-      //   return []
-      //
-      // }
-
     }
 
   },
@@ -359,16 +344,6 @@ export default {
         { key: 'total', label: 'Total'},
       ],
 
-      // treatmentFields: [
-      //   { key: 'type', label: '', tdClass: 'font-weight-bold'},
-      //   { key: 'male', label: 'Male'},
-      //   { key: 'female', label: 'Female'},
-      //   { key: 'child', label: 'Child (< 18Y)'},
-      //   { key: 'adult', label: 'Adult (19Y - 60Y)'},
-      //   { key: 'senior', label: 'Other Adult (>60Y)'},
-      //   { key: 'total', label: 'Total'},
-      // ],
-
       strategicFields: [
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
         { key: 'male', label: 'Male'},
@@ -422,64 +397,15 @@ export default {
         this.table_activities = table_activities,
         this.tablefilterdata = true,
         this.$store.dispatch("CreateTableBasicDataVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}),
-        this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]})
-      )
+        this.$store.dispatch("CreateStrategicDataVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.user_location,"health_post":l[0],"seminar":l[1],"outreach":l[2],"training":l[3]}).then(() => {
+          if(this.errormessage.length>0){
+            this.$bvToast.show('error-toast');
+          }else if(this.successmessage=='success'){
+            this.message = "",
+            this.$bvToast.show('success-toast');
+          }
 
-
-    },
-
-    Bargraphtreatment(){
-      this.errors=[]
-      if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-        this.$store.dispatch("CreateTreatmentPageBarVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
-      )
-    },
-
-    GenderVisualization(){
-      this.errors=[]
-      if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentPageGenderVisualization",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
-      )
-    },
-
-    TreatmentBasicDataTable(){
-      this.errors=[]
-      if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentBasicDataTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
-      )
-    },
-
-    TreatmentPageTreatmenttable(){
-      this.errors=[]
-      if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentPageTreatmentTable",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
-      )
-    },
-
-    TreatmentStrategicData(){
-      this.errors=[]
-      if(this.location==""){
-        this.errors['location']="Location required."
-        this.$bvToast.show('error-toast');
-      }
-      else(
-          this.$store.dispatch("CreateTreatmentStrategicData",{'start_date':this.returndate_obj.last_30_days,'end_date':this.returndate_obj.today_date,"location":this.location.language})
+        })
       )
     },
 
