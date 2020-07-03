@@ -1,6 +1,7 @@
 @import './style';
 
 .card{
+    width: 100%;
     .link-header{
         display: flex;
         .links{
@@ -23,7 +24,7 @@
                       &:hover{
                           color:$title-color;
                       }
-                      
+
                       &:focus{
                         &:after{
                             background-color: $active-color;
