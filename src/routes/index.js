@@ -10,6 +10,8 @@ import Logout from '../components/Logout.vue';
 import About from '../components/AboutPage.vue';
 import Help from '../components/HelpPage.vue';
 import PrivacyPolicy from '../components/PrivacyPolicyPage.vue';
+import EncounterModify from '../components/EncounterModify.vue';
+
 
 
 
@@ -18,6 +20,7 @@ export default[
   {path: '/treatment', name: 'treatment', component: Treatment},
   {path: '/users', name: 'users', component: Users},
   {path: '/geography', name: 'geography', component: Geography},
+  {path: '/encountermodify', name: 'encountermodify', component: EncounterModify},
   {path: '/cross-sectional', name: 'cross-sectional', component: CrossSectional},
   {path: '/longitudinal', name: 'longitudinal', component: Longitudinal},
   {path: '/settings', name: 'settings', component: Settings},
