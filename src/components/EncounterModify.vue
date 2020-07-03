@@ -28,7 +28,21 @@
         </b-form>
       </div> -->
        <div class="card shadow data-list">
-          <h3 class="pb-3">Flag</h3>
+           <div class="link-header">
+               <div class="heading">
+                    <h3 class="pb-3">Flag</h3>
+               </div>
+               <div class="links">
+                   <ul>
+                       <li><button to="/dashboard">new</button></li>
+                       <li><button to="/dashboard">modify</button></li>
+                       <li><button to="/dashboard">deleted</button></li>
+                       <li><button to="/dashboard">accepted</button></li>
+                       <li><button to="/dashboard">rejected</button></li>
+                       <li><button to="/dashboard">all</button></li>
+                   </ul>
+               </div>
+           </div>
           <b-form-group>
             <b-input-group>
               <b-input-group-prepend>
