@@ -35,7 +35,7 @@
                <div class="links">
                    <ul>
                        <li><button to="/dashboard">new</button></li>
-                       <li><button to="/dashboard">modify</button></li>
+                       <li><button v-on:click="HideItem =!HideItem" to="/dashboard">modify</button></li>
                        <li><button to="/dashboard">deleted</button></li>
                        <li><button to="/dashboard">accepted</button></li>
                        <li><button to="/dashboard">rejected</button></li>
@@ -66,12 +66,13 @@
           hover
           :current-page="currentPage"
           >
-            <template v-slot:cell(S.N.)="data">
-              {{ data.index + 1 + '.' }}
-            </template>
+            <!-- <template  v-slot:cell(S.N.)="data">
+              {{ data.index + 1 + '.' }} 
+            </template> -->
           </b-table>
         </div>
-     
+      <p v-show="!HideItem"> hello</p>
+      <p v-show="HideItem">aswin</p>
     </div>
 
     <!-- <b-toast id="error-toast" variant="warning" solid append-toast toaster="b-toaster-top-center">
@@ -162,6 +163,7 @@ export default {
       geography_obj:'',
       ward_obj:'',
       ward:'',
+      HideItem: true,
       fields: [
         'S.N.',
         { key: 'username', label: 'Username',sortable: true},
