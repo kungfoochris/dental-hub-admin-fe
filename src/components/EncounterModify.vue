@@ -21,7 +21,7 @@
                <div class="links">
                    <ul>
                        <li><button to="/dashboard">new</button></li>
-                       <li><button to="/dashboard">modify</button></li>
+                       <li><button v-on:click="HideItem =!HideItem" to="/dashboard">modify</button></li>
                        <li><button to="/dashboard">deleted</button></li>
                        <li><button to="/dashboard">accepted</button></li>
                        <li><button to="/dashboard">rejected</button></li>
