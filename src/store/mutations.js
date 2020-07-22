@@ -123,6 +123,11 @@ export default{
 		state.returndate_obj = returndate_obj;
 	},
 
+	setFlags(state, flag_obj){
+		state.flag_obj = flag_obj;
+	},
+
+
 
 
 

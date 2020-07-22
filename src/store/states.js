@@ -45,4 +45,5 @@ export default{
 
     'dashboard_piechartpost':[],
     'returndate_obj':[],
+    'flag_obj':[],
 }
