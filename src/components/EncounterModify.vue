@@ -75,9 +75,9 @@
             </template>
             <template v-slot:cell(actions)="row">
               <b-nav-item-dropdown>
-                <template slot="button-content>Edit</template>
-                 <b-dropdown-item><b-button variant="outline-info" >Accept Request</b-button></b-dropdown-item>
-                 <b-dropdown-item><b-button variant="outline-info" >Reject Request</b-button></b-dropdown-item>
+                <template slot="button-content">Edit</template>
+                  <b-dropdown-item to=""><b-button variant="outline-primary">Accept Request</b-button></b-dropdown-item>
+                  <b-dropdown-item to=""><b-button variant="outline-primary">Reject Request</b-button></b-dropdown-item>
               </b-nav-item-dropdown>
             </template>
           </b-table>
