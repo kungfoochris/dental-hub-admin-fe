@@ -19,14 +19,25 @@
                     <h3 class="pb-3">Flag</h3>
                </div>
                <div class="links">
-                   <ul>
-                       <li><button to="/dashboard">new</button></li>
-                       <li><button to="/dashboard">modify</button></li>
-                       <li><button to="/dashboard">deleted</button></li>
-                       <li><button to="/dashboard">accepted</button></li>
-                       <li><button to="/dashboard">rejected</button></li>
-                       <li><button to="/dashboard">all</button></li>
-                   </ul>
+                <b-col lg="6" class="my-1">
+                 <b-button-group
+                  label="Filter On"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                  label-size="sm"
+                  description="Leave all unchecked to filter on all data"
+                  class="mb-0">
+                    <b-button-group v-model="filterOn" class="mt-1">
+                    <b-button value="new">New</b-button>
+                    <b-button value="modify">Modify</b-button>
+                    <b-button value="delete">Delete</b-button>
+                    <b-button value="accepted">Accepted</b-button>
+                    <b-button value="rejected">Rejected</b-button>
+                    <b-button value="isActive">All</b-button>
+                  </b-button-group>
+                  </b-button-group>
+                </b-col>
+
                </div>
            </div>
           <b-form-group>
@@ -74,11 +85,10 @@
               </div>
             </template>
             <template v-slot:cell(actions)="row">
-              <b-nav-item-dropdown>
-                <template slot="button-content">Edit</template>
+              <b-dropdown right split text="Edit">
                   <b-dropdown-item to=""><b-button variant="outline-primary">Accept Request</b-button></b-dropdown-item>
                   <b-dropdown-item to=""><b-button variant="outline-primary">Reject Request</b-button></b-dropdown-item>
-              </b-nav-item-dropdown>
+              </b-dropdown>
             </template>
           </b-table>
         </div>
