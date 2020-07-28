@@ -8,6 +8,7 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+        <b-nav-item to="/encountermodify">Flag</b-nav-item>
         <b-nav-item to="/treatment">Treatment Data</b-nav-item>
         <b-nav-item to="/users">Users</b-nav-item>
         <b-nav-item to="/geography">Area</b-nav-item>
@@ -16,7 +17,6 @@
           <b-dropdown-item to="/cross-sectional">Cross-Sectional Measures</b-dropdown-item>
           <b-dropdown-item to="/longitudinal">Longitudinal Measures</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item to="/encountermodify">Flag</b-nav-item>
         <!-- <b-nav-item to="/activity">Activity</b-nav-item> -->
       </b-navbar-nav>
 
