@@ -74,8 +74,11 @@
               </div>
             </template>
             <template v-slot:cell(actions)="row">
-                <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="editFlag(row.item.id)">Edit</b-button>
-                  <b-button variant="outline-info" v-else @click="deleteFlag(row.item.id)">Delete</b-button>
+              <b-nav-item-dropdown>
+                <template slot="button-content>Edit</template>
+                 <b-dropdown-item><b-button variant="outline-info" >Accept Request</b-button></b-dropdown-item>
+                 <b-dropdown-item><b-button variant="outline-info" >Reject Request</b-button></b-dropdown-item>
+              </b-nav-item-dropdown>
             </template>
           </b-table>
         </div>
