@@ -20,12 +20,12 @@
                </div>
                <div class="links">
                    <ul>
-                       <li><button to="/dashboard">new</button></li>
-                       <li><button v-on:click="HideItem =!HideItem" to="/dashboard">modify</button></li>
-                       <li><button to="/dashboard">deleted</button></li>
-                       <li><button to="/dashboard">accepted</button></li>
-                       <li><button to="/dashboard">rejected</button></li>
-                       <li><button to="/dashboard">all</button></li>
+                       <li><button @click="filterNewFlag('pending')">new</button></li>
+                       <li><button @click="filterModifyFlag('modify')">modify</button></li>
+                       <li><button @click="filterDeleteFlag('deleted')">deleted</button></li>
+                       <li><button @click="filterAcceptFlag('approved')">accepted</button></li>
+                       <li><button @click="filterRejectedFlag('rejected')">rejected</button></li>
+                       <li><button @click="allFlagData">all</button></li>
                    </ul>
                </div>
            </div>
@@ -43,7 +43,7 @@
           <b-table
           id="user-table"
           show-empty
-          :items="flag_obj"
+          :items="data_obj"
           :fields="fields"
           bordered
           :filter="filter"
@@ -74,8 +74,10 @@
               </div>
             </template>
             <template v-slot:cell(actions)="row">
-                <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="editFlag(row.item.id)">Edit</b-button>
-                  <b-button variant="outline-info" v-else @click="deleteFlag(row.item.id)">Delete</b-button>
+                <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="editFlag(row.item.id)" :disabled="row.item.modify_status != 'pending'">Modify</b-button>
+                <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="rejectModifyFlag(row.item.id)" :disabled="row.item.modify_status != 'pending'">Reject</b-button>
+                <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="deleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Delete</b-button>
+                <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="rejectDeleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Reject</b-button>
             </template>
           </b-table>
         </div>
@@ -89,7 +91,7 @@
 
 <script>
 
-import { mapState,mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations} from 'vuex';
 import AppHeader from './Header.vue'
 
 // const axios = require('axios');
@@ -103,6 +105,14 @@ export default {
     ...mapState(['flag_obj','token','message','successmessage','errormessage']),
   },
 
+  watch: {
+    flag_obj: function(){
+      if(this.flag_obj.length>0){
+        this.data_obj =this.flag_obj;
+      }
+    },
+  },
+
   created(){
     this.listFlags();
   },
@@ -112,6 +122,7 @@ export default {
       filter: null,
       currentPage: 1,
       errors:[],
+      data_obj:[],
 
       fields: [
         'S.N.',
@@ -134,6 +145,37 @@ export default {
       this.currentPage = 1
     },
     ...mapActions(['listFlags']),
+    ...mapMutations(['setFlags']),
+
+    editFlag(flag_id){
+      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'modified','delete_status':'pending'} ).then(() => {
+        if(this.successmessage=='success'){
+          alert("Flag Data is Approved successfully for edit");
+          location.reload()
+        }else if(this.errormessage=='errormessage'){
+          alert(this.message);
+          location.reload();
+
+        }
+      })
+    },
+
+
+
+
+    rejectModifyFlag(flag_id){
+      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'rejected','delete_status':'pending'} ).then(() => {
+        if(this.successmessage=='success'){
+          alert("Flag Data is Rejected for deletion");
+          location.reload()
+        }else if(this.errormessage=='errormessage'){
+          alert(this.message);
+          location.reload();
+
+        }
+      })
+    },
+
 
     deleteFlag(flag_id){
       this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'pending','delete_status':'deleted'} ).then(() => {
@@ -148,10 +190,11 @@ export default {
       })
     },
 
-    editFlag(flag_id){
-      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'approved','delete_status':'pending'} ).then(() => {
+
+    rejectDeleteFlag(flag_id){
+      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'pending','delete_status':'rejected'} ).then(() => {
         if(this.successmessage=='success'){
-          alert("Flag Data is Approved successfully for edit");
+          alert("Flag Data is Rejected for deletion");
           location.reload()
         }else if(this.errormessage=='errormessage'){
           alert(this.message);
@@ -160,6 +203,131 @@ export default {
         }
       })
     },
+
+
+    filterModifyFlag(modify_status){
+      var formattedRecord1 = []
+      this.$store.state.flag_obj.forEach(function(rec){
+        if(rec.flag == modify_status){
+          formattedRecord1.push({
+           id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
+              patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
+              reason_for_modification: rec.reason_for_modification,modify_status: rec.modify_status,
+              reason_for_deletion: rec.reason_for_deletion,
+              other_reason_for_deletion: rec.other_reason_for_deletion,
+              delete_status: rec.delete_status, flag: rec.flag,
+              author: {id: rec.author.id,
+                username: rec.author.username,
+                full_name: rec.author.full_name
+              }
+         })
+        }
+      })
+      this.data_obj = formattedRecord1;
+      // var flag = this.flag_obj.find(evt => evt.modify_status == modify_status);
+      // this.dat(formattedRecord1)
+    },
+
+
+    filterNewFlag(modify_status){
+      var formattedRecord1 = []
+      this.$store.state.flag_obj.forEach(function(rec){
+        if(rec.modify_status == modify_status){
+          formattedRecord1.push({
+           id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
+              patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
+              reason_for_modification: rec.reason_for_modification,modify_status: rec.modify_status,
+              reason_for_deletion: rec.reason_for_deletion,
+              other_reason_for_deletion: rec.other_reason_for_deletion,
+              delete_status: rec.delete_status, flag: rec.flag,
+              author: {id: rec.author.id,
+                username: rec.author.username,
+                full_name: rec.author.full_name
+              }
+         })
+        }
+      })
+      this.data_obj = formattedRecord1;
+      // var flag = this.flag_obj.find(evt => evt.modify_status == modify_status);
+      // this.dat(formattedRecord1)
+    },
+
+
+    filterAcceptFlag(modify_status){
+      var formattedRecord1 = []
+      this.$store.state.flag_obj.forEach(function(rec){
+        if(rec.modify_status == modify_status){
+          formattedRecord1.push({
+           id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
+              patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
+              reason_for_modification: rec.reason_for_modification,modify_status: rec.modify_status,
+              reason_for_deletion: rec.reason_for_deletion,
+              other_reason_for_deletion: rec.other_reason_for_deletion,
+              delete_status: rec.delete_status, flag: rec.flag,
+              author: {id: rec.author.id,
+                username: rec.author.username,
+                full_name: rec.author.full_name
+              }
+         })
+        }
+      })
+      this.data_obj = formattedRecord1;
+      // var flag = this.flag_obj.find(evt => evt.modify_status == modify_status);
+      // this.dat(formattedRecord1)
+    },
+
+
+    filterDeleteFlag(modify_status){
+      var formattedRecord1 = []
+      this.$store.state.flag_obj.forEach(function(rec){
+        if(rec.delete_status == modify_status){
+          formattedRecord1.push({
+           id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
+              patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
+              reason_for_modification: rec.reason_for_modification,modify_status: rec.modify_status,
+              reason_for_deletion: rec.reason_for_deletion,
+              other_reason_for_deletion: rec.other_reason_for_deletion,
+              delete_status: rec.delete_status, flag: rec.flag,
+              author: {id: rec.author.id,
+                username: rec.author.username,
+                full_name: rec.author.full_name
+              }
+         })
+        }
+      })
+      this.data_obj = formattedRecord1;
+      // var flag = this.flag_obj.find(evt => evt.modify_status == modify_status);
+      // this.setFlags(formattedRecord1)
+    },
+
+    filterRejectedFlag(modify_status){
+      var formattedRecord1 = []
+      this.$store.state.flag_obj.forEach(function(rec){
+        if(rec.delete_status == modify_status || rec.modify_status == modify_status){
+          formattedRecord1.push({
+           id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
+              patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
+              reason_for_modification: rec.reason_for_modification,modify_status: rec.modify_status,
+              reason_for_deletion: rec.reason_for_deletion,
+              other_reason_for_deletion: rec.other_reason_for_deletion,
+              delete_status: rec.delete_status, flag: rec.flag,
+              author: {id: rec.author.id,
+                username: rec.author.username,
+                full_name: rec.author.full_name
+              }
+         })
+        }
+      })
+      this.data_obj = formattedRecord1;
+    },
+
+
+    allFlagData(){
+      this.data_obj = this.flag_obj;
+    }
+
+
+
 
 
   }
