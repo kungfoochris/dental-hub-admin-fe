@@ -112,9 +112,9 @@
                   <b-button variant="outline-primary">Reject Request</b-button>
                 </b-dropdown-item>
               </b-nav-item-dropdown> -->
-              <b-dropdown right split text="Edit">
-                  <b-dropdown-item to=""><b-button variant="outline-primary">Accept Request</b-button></b-dropdown-item>
-                  <b-dropdown-item to=""><b-button variant="outline-primary">Reject Request</b-button></b-dropdown-item>
+              <b-dropdown variant="edit-button" text="Edit" >
+                  <b-dropdown-item to="">Accept Request</b-dropdown-item>
+                  <b-dropdown-item to="">Reject Request</b-dropdown-item>
               </b-dropdown>
             </template>
           </b-table>
