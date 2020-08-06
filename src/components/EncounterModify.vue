@@ -20,12 +20,26 @@
                </div>
                <div class="links">
                    <ul>
-                       <li><button @click="filterNewFlag('pending')">new</button></li>
-                       <li><button @click="filterModifyFlag('modify')">modify</button></li>
-                       <li><button @click="filterDeleteFlag('deleted')">deleted</button></li>
-                       <li><button @click="filterAcceptFlag('approved')">accepted</button></li>
-                       <li><button @click="filterRejectedFlag('rejected')">rejected</button></li>
-                       <li><button @click="allFlagData">all</button></li>
+                     <div>
+                        <b-tabs
+                          active-nav-item-class="font-weight-bold text-uppercase text-danger"
+                          active-tab-class="font-weight-bold text-success"
+                          content-class="mt-3"
+                        >
+                          <b-tab title="new" active @click="filterNewFlag('pending')"></b-tab>
+                          <b-tab title="modify" @click="filterModifyFlag('modify')"></b-tab>
+                          <b-tab title="deleted" @click="filterDeleteFlag('deleted')"></b-tab>
+                          <b-tab title="accepted"  @click="filterNewFlag('approved')"></b-tab>
+                          <b-tab title="rejected"  @click="filterNewFlag('rejected')"></b-tab>
+                          <b-tab title="all"  @click="allFlagData"></b-tab>
+                        </b-tabs>
+                      </div>
+                       <!-- <li><button  @click="filterNewFlag('pending')">new</button></li>
+                       <li><button  @click="filterModifyFlag('modify')">modify</button></li>
+                       <li><button  @click="filterDeleteFlag('deleted')">deleted</button></li>
+                       <li><button  @click="filterAcceptFlag('approved')">accepted</button></li>
+                       <li><button  @click="filterRejectedFlag('rejected')">rejected</button></li>
+                       <li><button  @click="allFlagData">all</button></li> -->
                    </ul>
                </div>
            </div>
