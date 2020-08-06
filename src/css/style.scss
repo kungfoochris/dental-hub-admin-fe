@@ -31,8 +31,10 @@ body{
     border-bottom: none;
     .nav-link{
       border: none;
-      color: $title-color !important;
- 
+      color: $text-color !important;
+        &:hover{
+          color: #000 !important;
+        }
       &.active{
         &:after{
           background-color: $active-color;
