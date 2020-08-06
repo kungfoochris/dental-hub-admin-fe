@@ -27,6 +27,28 @@ body{
   font-family: 'Maven Pro', sans-serif;
   color: $text-color;
 
+  .nav-tabs {
+    border-bottom: none;
+    .nav-link{
+      border: none;
+      color: $title-color !important;
+ 
+      &.active{
+        &:after{
+          background-color: $active-color;
+          content: '';
+          display: block;
+          height: 4px;
+          width: 28px;
+          border-radius: 100px;
+      }
+      }
+    }
+  }
+  .text-danger{
+    color: #000 !important;
+  }
+
   a{
     text-decoration: none;
   }
