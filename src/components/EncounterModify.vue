@@ -75,7 +75,7 @@
               {{row.item.reason_for_modification}}
               </div>
               <div v-else>
-                {{row.item.other_reason_for_deletion}}
+                {{row.item.reason_for_deletion}}
               </div>
             </template>
 
