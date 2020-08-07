@@ -26,12 +26,12 @@
                           active-tab-class="font-weight-bold text-success"
                           content-class="mt-3"
                         >
-                          <b-tab title="new" active @click="filterNewFlag('pending')"></b-tab>
+                          <b-tab title="new" @click="filterNewFlag('pending')"></b-tab>
                           <b-tab title="modify" @click="filterModifyFlag('modify')"></b-tab>
                           <b-tab title="deleted" @click="filterDeleteFlag('deleted')"></b-tab>
                           <b-tab title="accepted"  @click="filterNewFlag('approved')"></b-tab>
                           <b-tab title="rejected"  @click="filterNewFlag('rejected')"></b-tab>
-                          <b-tab title="all"  @click="allFlagData"></b-tab>
+                          <b-tab title="all" active @click="allFlagData"></b-tab>
                         </b-tabs>
                       </div>
                        <!-- <li><button  @click="filterNewFlag('pending')">new</button></li>
