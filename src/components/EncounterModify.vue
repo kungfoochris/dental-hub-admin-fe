@@ -162,7 +162,7 @@ export default {
     ...mapMutations(['setFlags']),
 
     editFlag(flag_id){
-      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'modified','delete_status':'pending'} ).then(() => {
+      this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'approved','delete_status':'pending'} ).then(() => {
         if(this.successmessage=='success'){
           alert("Flag Data is Approved successfully for edit");
           location.reload()
