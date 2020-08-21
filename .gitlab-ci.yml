@@ -21,4 +21,4 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -o StrictHostKeyChecking=no ./dist centos@18.136.58.221:/home/ajdental/public_html
+    - scp -o StrictHostKeyChecking=no -r ./dist centos@18.136.58.221:/home/ajdental/public_html
