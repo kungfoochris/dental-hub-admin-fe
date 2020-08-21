@@ -23,8 +23,8 @@ deploy:
   script:
     - scp -o StrictHostKeyChecking=no -r ./dist centos@18.136.58.221:/home/centos/
     - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "ls -al /home/centos/"
+    - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "ls -al /home/centos/dist/"
     - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo rm -R /home/ajdental/public_html" 
     - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo mv /home/centos/dist/ /home/ajdental/public_html"
     - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo chown -R ajdental:ajdental /home/ajdental/public_html"
-    - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo ls -al /home/ajdental/public_html"
-    - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo rm -R /home/centos/dist"
+    - ssh -o StrictHostKeyChecking=no centos@18.136.58.221 "sudo ls -al /home/ajdental/public_html"    
