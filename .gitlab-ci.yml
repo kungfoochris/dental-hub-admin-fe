@@ -11,15 +11,6 @@ build site:
     paths:
       - dist
 
-unit test:
-  image: node:14.7
-  stage: test
-  only:
-    - dev-aswin
-  script:
-    - npm install --progress=false
-    - npm run lint
-
 deploy:
   image: alpine
   stage: deploy
