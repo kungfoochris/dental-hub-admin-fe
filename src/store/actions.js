@@ -4,7 +4,7 @@ export default {
   listReturnDate({commit}){
     axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
     return axios
-    .get('http://18.139.218.40:6071/api/v1/returndate',)
+    .get('https://app.abhiyantrik.com/api/v1/returndate',)
     .then(response => {
       if(response.status==200){
         commit("setReturnDate",response.data);
@@ -14,7 +14,7 @@ export default {
       updateProfile({state,commit}, updateprofile){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .put('http://18.139.218.40:6071/api/v1/profile/update', updateprofile)
+        .put('https://app.abhiyantrik.com/api/v1/profile/update', updateprofile)
         .then(response => {
           commit("setSuccessMessage",'success');
           state.profile.push(response.data)
@@ -29,7 +29,7 @@ export default {
       listUsers({commit}){
         axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
         return axios
-          .get('http://18.139.218.40:6071/api/v1/users', {})
+          .get('https://app.abhiyantrik.com/api/v1/users', {})
           .then(response => {
               commit('setUsers',response.data);
           })
@@ -38,7 +38,7 @@ export default {
       createUser({state,commit}, user_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .post('http://18.139.218.40:6071/api/v1/users', user_obj)
+        .post('https://app.abhiyantrik.com/api/v1/users', user_obj)
         .then(response => {
           if(response.status==200){
             commit("setSuccessMessage",'success')
@@ -56,7 +56,7 @@ export default {
       updateUser({state,commit}, user_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .put('http://18.139.218.40:6071/api/v1/users/'+user_obj.id, user_obj)
+        .put('https://app.abhiyantrik.com/api/v1/users/'+user_obj.id, user_obj)
         .then(response => {
           if(response.status==200){
             commit("setSuccessMessage",'success')
@@ -73,7 +73,7 @@ export default {
       deleteUser({state,commit},user_id){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .delete('http://18.139.218.40:6071/api/v1/users/'+user_id)
+        .delete('https://app.abhiyantrik.com/api/v1/users/'+user_id)
         .then(response => {
           if(response.status==204){
             commit("setSuccessMessage",'success')
@@ -85,7 +85,7 @@ export default {
       updateUserStatus({state,commit}, user_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .post('http://18.139.218.40:6071/api/v1/userstatus/'+user_obj.userid,user_obj)
+        .post('https://app.abhiyantrik.com/api/v1/userstatus/'+user_obj.userid,user_obj)
         .then(response => {
           if(response.status==200){
             var userdetail
@@ -110,7 +110,7 @@ export default {
       listActivitie({commit}){
         axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
         return axios
-          .get('http://18.139.218.40:6071/api/v1/events', {})
+          .get('https://app.abhiyantrik.com/api/v1/events', {})
           .then(response => {
               commit('setActivities',response.data);
           })
@@ -119,7 +119,7 @@ export default {
       listGeography({commit}){
         axios.defaults.headers.common['authorization'] = 'JWT '+ this.state.token
         return axios
-        .get('http://18.139.218.40:6071/api/v1/geography', {})
+        .get('https://app.abhiyantrik.com/api/v1/geography', {})
         .then(response => {
           commit('setGeography',response.data);
         })
@@ -128,7 +128,7 @@ export default {
       createGeography({state,commit}, geography_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .post('http://18.139.218.40:6071/api/v1/geography', geography_obj)
+        .post('https://app.abhiyantrik.com/api/v1/geography', geography_obj)
         .then(response => {
           commit("setSuccessMessage",'success')
           state.geography.push(response.data);
@@ -144,7 +144,7 @@ export default {
       updateGeography({commit}, geography_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .put('http://18.139.218.40:6071/api/v1/geography/'+ geography_obj.id, geography_obj)
+        .put('https://app.abhiyantrik.com/api/v1/geography/'+ geography_obj.id, geography_obj)
         .then(response => {
           if(response.status==200){
             commit("setSuccessMessage",'success')
@@ -162,7 +162,7 @@ export default {
       deleteGeography({state,commit},geography_id){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .delete('http://18.139.218.40:6071/api/v1/geography/'+geography_id)
+        .delete('https://app.abhiyantrik.com/api/v1/geography/'+geography_id)
         .then(response => {
           if(response.status==204){
             commit("setSuccessMessage",'success')
@@ -174,7 +174,7 @@ export default {
       changePassword({commit}, password_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .post('http://18.139.218.40:6071/api/v1/users/changepassword', password_obj)
+        .post('https://app.abhiyantrik.com/api/v1/users/changepassword', password_obj)
         .then(response => {
           if(response.status==200){
           commit("setSuccessMessage",'success');
@@ -191,7 +191,7 @@ export default {
       resetPassword({commit}, resetpassword_obj){
         axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
         return axios
-        .post('http://18.139.218.40:6071/api/v1/adminresetpassword', resetpassword_obj)
+        .post('https://app.abhiyantrik.com/api/v1/adminresetpassword', resetpassword_obj)
         .then(response => {
           if(response.status==200){
             commit("setSuccessMessage",'success');
@@ -207,7 +207,7 @@ export default {
 
     listRole({commit}){
       return axios
-      .get('http://18.139.218.40:6071/api/v1/roles',)
+      .get('https://app.abhiyantrik.com/api/v1/roles',)
       .then(response => {
         if(response.status==200){
           commit("setRole",response.data);
@@ -217,7 +217,7 @@ export default {
 
     listLoginVisualization({commit}){
       return axios
-      .get('http://18.139.218.40:6071/api/v1/loginvisualization',)
+      .get('https://app.abhiyantrik.com/api/v1/loginvisualization',)
       .then(response => {
         if(response.status==200){
           commit("setLoginVisualization",response.data);
@@ -227,7 +227,7 @@ export default {
 
     listLoginVisualization1({commit}){
       return axios
-      .get('http://18.139.218.40:6071/api/v1/loginvisualization1',)
+      .get('https://app.abhiyantrik.com/api/v1/loginvisualization1',)
       .then(response => {
         if(response.status==200){
           commit("setLoginVisualization1",response.data);
@@ -239,7 +239,7 @@ export default {
     listDashboardLineChartGraph({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/dashboardlinechart',)
+      .get('https://app.abhiyantrik.com/api/v1/dashboardlinechart',)
       .then(response => {
         if(response.status==200){
           commit("setDashboardLineChartGraph",response.data);
@@ -252,7 +252,7 @@ export default {
     listOverviewTable({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/overviewvisualization',)
+      .get('https://app.abhiyantrik.com/api/v1/overviewvisualization',)
       .then(response => {
         if(response.status==200){
           commit("setOverviewTable",response.data);
@@ -263,7 +263,7 @@ export default {
     CreateOverViewVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/overviewvisualization', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/overviewvisualization', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setOverviewTable",response.data);
@@ -275,7 +275,7 @@ export default {
     listTreatmentbyActivity({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/treatmentactivities',)
+      .get('https://app.abhiyantrik.com/api/v1/treatmentactivities',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentbyActivity",response.data);
@@ -286,7 +286,7 @@ export default {
     CreateTreatmentbyActivity({commit}, treatmentactivitie_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatmentactivities', treatmentactivitie_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatmentactivities', treatmentactivitie_obj)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentbyActivity",response.data);
@@ -298,7 +298,7 @@ export default {
     listTreatmentbyWard({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/treatmentwards',)
+      .get('https://app.abhiyantrik.com/api/v1/treatmentwards',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentbyWard",response.data);
@@ -309,7 +309,7 @@ export default {
     CreateTreatmentbyWard({commit}, treatmentward_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatmentwards', treatmentward_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatmentwards', treatmentward_obj)
       .then(response => {
         if(response.status==200){
           commit("setErrorMessage", "")
@@ -329,7 +329,7 @@ export default {
     listOverviewBarGraph({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/overviewbargraph',)
+      .get('https://app.abhiyantrik.com/api/v1/overviewbargraph',)
       .then(response => {
         if(response.status==200){
           commit("setOverviewBarGraph",response.data);
@@ -340,7 +340,7 @@ export default {
     CreateTreatmentBarGraph({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/settingsgraphfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/settingsgraphfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setOverviewBarGraphPost",response.data);
@@ -353,7 +353,7 @@ export default {
     listOverviewPieChartGraph ({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/overviewpiechart',)
+      .get('https://app.abhiyantrik.com/api/v1/overviewpiechart',)
       .then(response => {
         if(response.status==200){
           commit("setOverviewPieChartGraph",response.data);
@@ -364,7 +364,7 @@ export default {
     CreateDashboardPieChart({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/piechartfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/piechartfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
             commit("setDashboardPieChartPost",response.data);
@@ -380,7 +380,7 @@ export default {
     listTreatmentTableBasicData({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/treatment',)
+      .get('https://app.abhiyantrik.com/api/v1/treatment',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentTableBasicData",response.data);
@@ -392,7 +392,7 @@ export default {
     listTreatmentStrategicData({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/treatmentstrategicdatas',)
+      .get('https://app.abhiyantrik.com/api/v1/treatmentstrategicdatas',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentStrategicData",response.data);
@@ -405,7 +405,7 @@ export default {
     listWards({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/wards',)
+      .get('https://app.abhiyantrik.com/api/v1/wards',)
       .then(response => {
         if(response.status==200){
           commit("setWards",response.data);
@@ -417,7 +417,7 @@ export default {
     listUserWards({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/userwards',)
+      .get('https://app.abhiyantrik.com/api/v1/userwards',)
       .then(response => {
         if(response.status==200){
           commit("setUserWards",response.data);
@@ -429,7 +429,7 @@ export default {
     updateWard({state,commit}, ward_id_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .put('http://18.139.218.40:6071/api/v1/wards/'+ward_id_obj.id, ward_id_obj)
+      .put('https://app.abhiyantrik.com/api/v1/wards/'+ward_id_obj.id, ward_id_obj)
       .then(response => {
         state.wards_obj.push(response.data)
         commit("setSuccessMessage",'success')
@@ -439,7 +439,7 @@ export default {
     listSectionalTable({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/sectional',)
+      .get('https://app.abhiyantrik.com/api/v1/sectional',)
       .then(response => {
         if(response.status==200){
           commit("setSectionalTable",response.data);
@@ -451,7 +451,7 @@ export default {
     listTreatmentPreventionRatio({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/preventionratio',)
+      .get('https://app.abhiyantrik.com/api/v1/preventionratio',)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentPreventionRatio",response.data);
@@ -462,7 +462,7 @@ export default {
     listEarlyIntervention({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/earlyintervention',)
+      .get('https://app.abhiyantrik.com/api/v1/earlyintervention',)
       .then(response => {
         if(response.status==200){
           commit("setEarlyIntervention",response.data);
@@ -473,7 +473,7 @@ export default {
     listRecallDistribution({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/recalldistribution',)
+      .get('https://app.abhiyantrik.com/api/v1/recalldistribution',)
       .then(response => {
         if(response.status==200){
           commit("setRecallDistribution",response.data);
@@ -485,7 +485,7 @@ export default {
     CreateWardLineVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/wardlineVisualizationfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/wardlineVisualizationfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setWardLineVisualizationChart",response.data);
@@ -498,7 +498,7 @@ export default {
     CreateTreatmentPageBarVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatmentnargraphfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatmentnargraphfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentBarVisualizationChart",response.data);
@@ -511,7 +511,7 @@ export default {
     CreateTreatmentPageGenderVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/visualizationsfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/visualizationsfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setVisualization",response.data);
@@ -524,7 +524,7 @@ export default {
     CreateTreatmentBasicDataTable({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatmentfilter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatmentfilter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setTable3",response.data);
@@ -537,7 +537,7 @@ export default {
     CreateTreatmentPageTreatmentTable({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/table2filter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/table2filter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setTable4",response.data);
@@ -549,7 +549,7 @@ export default {
     CreateTreatmentStrategicData({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/table3filter', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/table3filter', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setTable5",response.data);
@@ -561,7 +561,7 @@ export default {
     CreateTableBasicDataVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatment', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatment', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setTreatmentTableBasicData",response.data);
@@ -573,7 +573,7 @@ export default {
     CreateStrategicDataVisualization({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/treatmentstrategicdatas', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/treatmentstrategicdatas', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setErrorMessage", "")
@@ -594,7 +594,7 @@ export default {
     listLongitudinalMeasures ({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/longitudinal',)
+      .get('https://app.abhiyantrik.com/api/v1/longitudinal',)
       .then(response => {
         if(response.status==200){
           commit("setLongitudinalMeasures",response.data);
@@ -607,7 +607,7 @@ export default {
     CreateSectionalTable({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/sectional', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/sectional', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setErrorMessage", "")
@@ -628,7 +628,7 @@ export default {
     CreateLongitudinal({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/longitudinal', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/longitudinal', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setErrorMessage", "")
@@ -648,7 +648,7 @@ export default {
     CreateLongitudinal1({commit}, overviewvisualization_obj){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .post('http://18.139.218.40:6071/api/v1/longitudinal1', overviewvisualization_obj)
+      .post('https://app.abhiyantrik.com/api/v1/longitudinal1', overviewvisualization_obj)
       .then(response => {
         if(response.status==200){
           commit("setLongitudinalMeasures1",response.data);
@@ -662,7 +662,7 @@ export default {
     listFlags({commit}){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .get('http://18.139.218.40:6071/api/v1/modifydelete',)
+      .get('https://app.abhiyantrik.com/api/v1/modifydelete',)
       .then(response => {
         if(response.status==200){
           commit("setFlags",response.data);
@@ -674,7 +674,7 @@ export default {
     deleteFlag({commit},flag_id){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .put('http://18.139.218.40:6071/api/v1/encounterstatus/'+flag_id.id,flag_id)
+      .put('https://app.abhiyantrik.com/api/v1/encounterstatus/'+flag_id.id,flag_id)
       .then(response => {
         if(response.status==200){
             commit("setSuccessMessage",'success');
@@ -693,7 +693,7 @@ export default {
     editFlag({commit},flag_id){
       axios.defaults.headers.common['authorization']  = 'JWT ' + this.state.token
       return axios
-      .put('http://18.139.218.40:6071/api/v1/encounterstatus/'+flag_id.id,flag_id)
+      .put('https://app.abhiyantrik.com/api/v1/encounterstatus/'+flag_id.id,flag_id)
       .then(response => {
         if(response.status==200){
           commit("setSuccessMessage",'success');

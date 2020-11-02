@@ -523,7 +523,7 @@ export default {
         this.table_location = geography_name
       }
       if(this.checkbox_selected==""){
-        this.errors['checkbox_selected']="Select on of the activities required."
+        this.errors['checkbox_selected']="Select one of the activities required."
         this.$bvToast.show('error-toast');
       }
       else(
