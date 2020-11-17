@@ -15,7 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-4">Filter Data</h3>
+          <h3 class="mb-4">1 Filter Data</h3>
 
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
@@ -73,7 +73,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3 text-center">Overview</h3>
+          <h3 class="mb-3 text-center"> 1.1 Overview</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -163,7 +163,7 @@
     <div class="row mt-4">
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Treatment Distribution by Age/Activity</h3>
+          <h3 class="mb-3"> 1.2 Treatment Distribution </h3>
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
               <h6>Select Start Date:</h6>
@@ -222,7 +222,7 @@
 
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Activity Distribution</h3>
+          <h3 class="mb-3"> 1.3 Activity Distribution </h3>
 
           <div class="row mt-3">
             <div class="col-lg-6 col-sm-12 mb-3">
@@ -285,7 +285,7 @@
     <div class="row mt-4 text-center table-area">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Treatment by Activity</h3>
+          <h3 class="mb-3"> 1.4 Treatment by Activity Table </h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -321,7 +321,7 @@
     <div class="row mt-4 text-center table-area">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Treatment by Ward</h3>
+          <h3 class="mb-3"> 1.5 Treatment by Ward Table </h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -357,7 +357,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line graph on number of contacts by month by Ward</h3>
+          <h3 class="mb-3"> 1.6 Line Graph of Contacts </h3>
           <Visualization :tag="lch6"></Visualization>
         </div>
       </div>
