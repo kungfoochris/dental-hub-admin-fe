@@ -128,16 +128,7 @@
               </p>
               <h5>Children’s Privacy</h5>
               <p>
-                These Services do not address anyone under the age of 13.
-                We do not knowingly collect personally
-                identifiable information from children under 13. In the case
-                we discover that a child under 13 has provided
-                us with personal information,
-                we immediately delete this from our servers. If you
-                are a parent or guardian and you are aware that your child
-                has provided us with personal information, please contact
-                us so that we will be able to do
-                necessary actions.
+                The Dental Hub application and Web Dashboards are not intended for use by children under 13 years old. Therefore we do not knowingly collect personally identifiable information from users under age 13. In the case we discover that a child under 13 has logged in to Dental Hub and provided us with personal user information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information by logging in to the Dental Hub application or Web Dashboard, please contact us so that we will be able to do necessary actions. Please note that while we do not store user data on children under 13, adult users of the app see patients of any age, collect all relevant patient data, and enter it into the Dental Hub where it is stored in our database for health record keeping purposes.
               </p>
               <h5>Changes to This Privacy Policy</h5>
               <p>
