@@ -171,7 +171,7 @@
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
-                <h3 class="mb-3 text-center">Longitudinal Measures for {{ this.sample_frame [0] }}</h3>
+                <h3 class="mb-3 text-center">4.1 Longitudinal Measures for {{ this.sample_frame [0] }}</h3>
                 <b-table-simple hover responsive>
                   <colgroup>
                     <col />

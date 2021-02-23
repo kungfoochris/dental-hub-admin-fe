@@ -14,8 +14,8 @@
         <b-nav-item to="/geography">Area</b-nav-item>
         <b-nav-item-dropdown>
           <template slot="button-content">Reasearch and Strategy</template>
-          <b-dropdown-item to="/cross-sectional">Cross-Sectional Measures</b-dropdown-item>
-          <b-dropdown-item to="/longitudinal">Longitudinal Measures</b-dropdown-item>
+          <b-dropdown-item to="/cross-sectional">Cross-Sectional Web Tool</b-dropdown-item>
+          <b-dropdown-item to="/longitudinal">Longitudinal Web Tool</b-dropdown-item>
         </b-nav-item-dropdown>
         <!-- <b-nav-item to="/activity">Activity</b-nav-item> -->
       </b-navbar-nav>

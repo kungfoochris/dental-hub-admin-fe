@@ -137,7 +137,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3  text-center">Cross-Sectional Measures</h3>
+          <h3 class="mb-3  text-center">3.1 Cross-Sectional Measures</h3>
 
           <b-table-simple hover responsive>
             <colgroup>

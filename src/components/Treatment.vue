@@ -70,7 +70,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Basic Data</h3>
+          <h3 class="mb-3">2.1 Basic Data</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -106,7 +106,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Strategic Data</h3>
+          <h3 class="mb-3">2.2 Strategic Data</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -142,7 +142,7 @@
     <div class="row mt-4">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Preventive Ratio</h3>
+          <h3 class="mb-3">2.3 Preventive Ratio Over Time</h3>
           <div class="row">
             <div class="col-12">
               <Visualization :tag="preventiveRatio" :type="type1" :clean-data="userChart"></Visualization>
@@ -155,7 +155,7 @@
     <div class="row mt-4">
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Early Intervention Ratio</h3>
+          <h3 class="mb-3">2.4 Early Intervention Ratio</h3>
           <div class="row">
             <div class="col-12">
               <Visualization :tag="interventionRatio" :type="type1" :clean-data="userChart"></Visualization>
@@ -166,7 +166,7 @@
 
       <div class="col-lg-6 col-sm-12">
         <div class="card shadow">
-          <h3 class="mb-3">Line Chart of Recall Percentage</h3>
+          <h3 class="mb-3">2.5 Recall Percentage</h3>
           <div class="row">
             <div class="col-12">
               <Visualization :tag="perRecall" :type="type1" :clean-data="userChart"></Visualization>
