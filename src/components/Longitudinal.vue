@@ -91,24 +91,24 @@
                 >
                 </multiselect>
               </div>
-
-               <div class="col-lg-4 col-md-4 col-sm-12">
-              <h6>Select Age Group:</h6>
-              <multiselect
-              :options="clinic"
-              :multiple="true"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :preserve-search="true"
-              placeholder="Indicator Age"
-              label="clinic"
-              track-by="clinic"
-              :preselect-first="true"
-              >
-              </multiselect>
-            </div> 
             </div>
-            <div class="col-md-10 col-sm-12">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <h6>Select Age Group:</h6>
+                <multiselect
+                  :options="clinic"
+                  :multiple="true"
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :preserve-search="true"
+                  placeholder="Indicator Age"
+                  label="clinic"
+                  track-by="clinic"
+                  :preselect-first="true"
+                >
+                </multiselect>
+              </div>
+              <div class="col-md-8 col-md-8 col-sm-12">
                 <h6>Select Activities:</h6>
                 <b-form-group>
                   <b-form-checkbox-group
@@ -120,12 +120,21 @@
                   ></b-form-checkbox-group>
                 </b-form-group>
               </div>
-
-            <div class="row">
-              
-
-              <div class="col-lg-2 col-sm-12">
-                <!-- <h6>Click Here:</h6> -->
+            </div>
+            <div class="row mt-4 justify-content-space-between">
+              <!-- <div class="col-md-6 col-md-8 col-sm-12">
+                <h6>Select Activities:</h6>
+                <b-form-group>
+                  <b-form-checkbox-group
+                    v-model="checkbox_selected"
+                    :options="checkbox_options"
+                    checked="true"
+                    switches
+                    size="lg"
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div> -->
+              <div class="col-lg-5 col-sm-12">
                 <b-button
                   variant="custom"
                   block
