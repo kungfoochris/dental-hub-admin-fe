@@ -15,7 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-4">Filter Table Data</h3>
+          <h3 class="mb-4">2 Filter</h3>
 
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
@@ -70,7 +70,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-3">2.1 Basic Data</h3>
+          <h3 class="mb-3">2.1 Preventative Overview</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
             <div class="col-6">
@@ -338,19 +338,21 @@ export default {
         { key: 'type', label: '', tdClass: 'font-weight-bold'},
         { key: 'male', label: 'Male'},
         { key: 'female', label: 'Female'},
-        { key: 'child', label: 'Child (< 18Y)'},
-        { key: 'adult', label: 'Adult (19Y - 60Y)'},
-        { key: 'senior', label: 'Other Adult (>60Y)'},
+        { key: 'child', label: 'Child ≤ 12 Y'},
+        { key: 'Teen', label: 'Teen 13-18 Y'},
+        { key: 'adult', label: 'Adult 19Y - 60 Y'},
+        { key: 'senior', label: 'Other Adult ≥ 60 Y'},
         { key: 'total', label: 'Total'},
       ],
 
       strategicFields: [
-        { key: 'type', label: '', tdClass: 'font-weight-bold'},
+        { key: 'type', label: '', tdClass: 'font-weight-bold' },
         { key: 'male', label: 'Male'},
         { key: 'female', label: 'Female'},
-        { key: 'child', label: 'Child (< 18Y)'},
-        { key: 'adult', label: 'Adult (19Y - 60Y)'},
-        { key: 'senior', label: 'Other Adult (>60Y)'},
+        { key: 'child', label: 'Child ≤ 12 Y'},
+        { key: 'Teen', label: 'Teen 13-18 Y'},
+        { key: 'adult', label: 'Adult 19Y - 60 Y'},
+        { key: 'senior', label: 'Other Adult ≥ 60 Y'},
         { key: 'total', label: 'Total'},
       ],
     }

@@ -15,7 +15,7 @@
     <div class="row mt-4 text-center">
       <div class="col-12">
         <div class="card shadow">
-          <h3 class="mb-4">1 Filter Data</h3>
+          <h3 class="mb-4">1 Filter </h3>
 
           <div class="row">
             <div class="col-lg-4 col-sm-12 mb-4">
@@ -491,7 +491,7 @@ export default {
         { key: 'art', label: 'ART'},
         { key: 'seal', label: 'SEAL'},
         { key: 'sdf', label: 'SDF'},
-        { key: 'fullmouthsdf', label: 'Full Mouth SDF'},
+        { key: 'fullmouthsdf', label: 'F-SDF'},
         { key: 'fv', label: 'FV (ppl)'},
         { key: 'referhp', label: 'Refer HP'},
         { key: 'referhyg', label: 'Refer Hyg'},
