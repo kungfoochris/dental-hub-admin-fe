@@ -54,7 +54,7 @@
                 </multiselect>
               </div>
 
-              <div class="col-lg-2 col-sm-4 mb-4">
+              <div class="col-lg-4 col-sm-4 mb-4">
                 <h6>Location:</h6>
                 <multiselect
                   v-model="location"
@@ -155,27 +155,17 @@
             <h3 class="mb-3 text-center">3.1 Cross-Sectional Measures</h3>
 
             <b-table-simple hover responsive>
-              <colgroup>
-                <col />
-                <col />
-                <col />
-                <col />
-                <col />
-                <col />
-                <col />
-              </colgroup>
-                <b-thead head-variant="dark">
-                    <b-tr>
-        <b-th colspan="1"></b-th>
-        <b-th colspan="4">WHO indicator age-groups</b-th>
-        <b-th colspan="6">Jevaia's indicator age-groups</b-th>
-      </b-tr>
-                </b-thead>
-                 <!-- <b-thead head-variant="dark">
-                <b-th class="text-center" v-for="fields in headingFields">{{
-                  fields.label
-                }}</b-th>
-              </b-thead> -->
+              <b-thead head-variant="dark">
+                <b-tr>
+                  <b-th colspan="2"></b-th>
+                  <b-th class="text-center" colspan="4"
+                    >WHO indicator age-groups</b-th
+                  >
+                  <b-th class="text-center" colspan="6"
+                    >Jevaia's indicator age-groups</b-th
+                  >
+                </b-tr>
+              </b-thead>
               <b-thead>
                 <b-th class="text-center" v-for="fields in basicFields">{{
                   fields.label
@@ -184,16 +174,28 @@
 
               <b-tbody>
                 <b-tr v-for="items in basic">
+                  <th v-html="items.serial">{{ items.serial }}</th>
                   <th v-html="items.type">{{ items.type }}</th>
                   <td class="text-center">{{ items.sixyo }}</td>
                   <td class="text-center">{{ items.twelveyo }}</td>
                   <td class="text-center">{{ items.fifteenyo }}</td>
+                  <td class="text-center">{{ items.whopvalue }}</td>
                   <td class="text-center">{{ items.child }}</td>
+                  <td class="text-center">{{ items.teen }}</td>
                   <td class="text-center">{{ items.adult }}</td>
-                  <td class="text-center">{{ items.older }}</td>
+                  <td class="text-center">{{ items.olderadult }}</td>
+                  <td class="text-center">{{ items.adolescent }}</td>
+                  <td class="text-center">{{ items.jevaiapvalue }}</td>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
+            <div class="row pr-4">
+              <small class="ml-auto"
+                ><a href=""
+                  ><i class="fas fa-file-download mr-1"></i>Download Reports</a
+                ></small
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -291,18 +293,20 @@ export default {
       checkbox_options: [],
       checkbox_selected: [],
       basicFields: [
+        { key: "serial", label: "S.N", tdClass: "font-weight-bold" },
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "sixyo", label: "6 yo" },
         { key: "twelveyo", label: "12 yo" },
         { key: "fifteenyo", label: "15 yo" },
         { key: "whopvalue", label: "P-value" },
-        { key: 'child', label: 'Child ≤ 12 Y'},
+        { key: "child", label: "Child ≤ 12 Y" },
         { key: "teen", label: "Teen 13-18 Y" },
         { key: "adult", label: "Adult 19-60 Y" },
-        // { key: 'adolescent', label: 'Adolescent'},
-        { key: 'olderadult', label: 'Older Adult ≥ 61 Y'},
+        { key: "olderadult", label: "Older Adult ≥ 61 Y" },
+        { key: "adolescent", label: "Adolescent" },
         { key: "jevaiapvalue", label: "P-value" },
       ],
+
       treatmentFields: [
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "exo", label: "EXO" },
