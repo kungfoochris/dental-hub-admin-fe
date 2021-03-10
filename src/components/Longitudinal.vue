@@ -96,7 +96,7 @@
               <div class="col-lg-4 col-md-4 col-sm-12">
                 <h6>Select Age Group:</h6>
                 <multiselect
-                  :options="clinic"
+                  :options="ageGroup"
                   :multiple="true"
                   :close-on-select="false"
                   :clear-on-select="false"
@@ -121,20 +121,20 @@
                 </b-form-group>
               </div>
             </div>
-            <div class="row mt-4 justify-content-space-between">
-              <!-- <div class="col-md-6 col-md-8 col-sm-12">
-                <h6>Select Activities:</h6>
+            <div class="row mt-5 justify-content-between align-items-center">
+              <div class="col-lg-4 col-md-8 col-sm-12">
+                <h6>Select Follow-up</h6>
                 <b-form-group>
                   <b-form-checkbox-group
                     v-model="checkbox_selected"
-                    :options="checkbox_options"
+                    :options="checkbox_followup_options"
                     checked="true"
                     switches
                     size="lg"
                   ></b-form-checkbox-group>
                 </b-form-group>
-              </div> -->
-              <div class="col-lg-5 col-sm-12">
+              </div>
+              <div class="col-lg-2 col-sm-12">
                 <b-button
                   variant="custom"
                   block
@@ -230,13 +230,20 @@
 
                   <b-tbody>
                     <b-tr v-for="items in longitudinalItems">
+                      <th v-html="items.serialnumber">
+                        {{ items.serialnumber }}
+                      </th>
                       <th v-html="items.type">{{ items.type }}</th>
                       <td class="text-center">{{ items.tw1 }}</td>
                       <td class="text-center">{{ items.tw2 }}</td>
                       <td class="text-center">{{ items.realDifference }}</td>
                       <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
                       <!-- <td class="text-center align-middle" v-else></td> -->
-                      <td class="text-center">{{ items.propDifference }}</td>
+                      <td class="text-center">{{ items.effectsizevalue }}</td>
+                      <td class="text-center">
+                        {{ items.effectsizedescription }}
+                      </td>
+                      <!-- <td class="text-center">{{ items.propDifference }}</td> -->
                       <td class="text-center">{{ items.pValue }}</td>
                     </b-tr>
                   </b-tbody>
@@ -244,7 +251,8 @@
                 <div class="row pr-4">
                   <small class="ml-auto"
                     ><a href=""
-                      ><i class="fas fa-file-export mr-1"></i>Export Now</a
+                      ><!--<i class="fas fa-file-export mr-1"></i>-->Download
+                      Report</a
                     ></small
                   >
                 </div>
@@ -260,7 +268,7 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">
-                  Longitudinal Measures for {{ this.sample_frame[1] }}
+                 4.2 Longitudinal Measures for {{ this.sample_frame[1] }}
                 </h3>
 
                 <b-table-simple hover responsive>
@@ -282,12 +290,19 @@
 
                   <b-tbody>
                     <b-tr v-for="items in longitudinalItems1">
+                      <th v-html="items.serialnumber">
+                        {{ items.serialnumber }}
+                      </th>
                       <th v-html="items.type">{{ items.type }}</th>
                       <td class="text-center">{{ items.tw1 }}</td>
                       <td class="text-center">{{ items.tw2 }}</td>
                       <td class="text-center">{{ items.realDifference }}</td>
                       <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
                       <!-- <td class="text-center align-middle" v-else></td> -->
+                      <td class="text-center">{{ items.effectsizevalue }}</td>
+                      <td class="text-center">
+                        {{ items.effectsizedescription }}
+                      </td>
                       <td class="text-center">{{ items.propDifference }}</td>
                       <td class="text-center">{{ items.pValue }}</td>
                     </b-tr>
@@ -296,7 +311,7 @@
                 <div class="row pr-4">
                   <small class="ml-auto"
                     ><a href=""
-                      ><i class="fas fa-file-export mr-1"></i>Export Now</a
+                      >Download Report</a
                     ></small
                   >
                 </div>
@@ -412,22 +427,26 @@ export default {
         { name: "Other Problem" },
       ],
       seminar_obj: "",
-      clinic: [],
+      ageGroup: [],
       training: [],
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
       checkbox_options: [],
       checkbox_selected: [],
+      checkbox_followup_options: [{ text: "Follow Up" }],
       errors: [],
       location: "",
       options: [{ name: "All Location", language: null }],
 
       longitudinalFields: [
+        { key: "serialnumber", label: "S.N" },
         { key: "type", label: "" },
-        { key: "tw1", label: "Time Window 1" },
-        { key: "tw2", label: "Time Window 2" },
+        { key: "tw1", label: "Time Point 1" },
+        { key: "tw2", label: "Time Point 2" },
         { key: "realDifference", label: "Real Difference" },
-        { key: "propDifference", label: "Proportional Difference" },
-        { key: "pValue", label: "P-value" },
+        { key: "effectsizevalue", label: "Effect size value" },
+        { key: "effectsizedescription", label: "Effect size description" },
+        // { key: "propDifference", label: "Proportional Difference" },
+        { key: "pValue", label: "P-value for related samples" },
       ],
       // longitudinalItems:[
       //   { type: 'Carries Risk'},
