@@ -52,7 +52,7 @@
                 />
               </p>
               <small class="counter-label">
-                People contacted this year
+                Any patient who had an encounter this year
               </small>
             </div>
           </div>
