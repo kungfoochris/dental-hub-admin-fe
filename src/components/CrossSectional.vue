@@ -35,6 +35,7 @@
                   placeholder="Reason For Visit"
                   label="name"
                   track-by="name"
+                  open-direction="top"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -49,6 +50,7 @@
                   placeholder="Referral Type"
                   label="name"
                   track-by="name"
+                  open-direction="top"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -64,7 +66,7 @@
                   placeholder="Select Location"
                   label="name"
                   track-by="name"
-                  open-direction="bottom"
+                  open-direction="top"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -161,7 +163,7 @@
                   <b-th class="text-center" colspan="4"
                     >WHO indicator age-groups</b-th
                   >
-                  <b-th class="text-center" colspan="6"
+                  <b-th class="text-left" colspan="6"
                     >Jevaia's indicator age-groups</b-th
                   >
                 </b-tr>
@@ -184,8 +186,8 @@
                   <td class="text-center">{{ items.teen }}</td>
                   <td class="text-center">{{ items.adult }}</td>
                   <td class="text-center">{{ items.olderadult }}</td>
-                  <td class="text-center">{{ items.adolescent }}</td>
                   <td class="text-center">{{ items.jevaiapvalue }}</td>
+                  <td class="text-center">{{ items.total }}</td>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
@@ -303,8 +305,8 @@ export default {
         { key: "teen", label: "Teen 13-18 Y" },
         { key: "adult", label: "Adult 19-60 Y" },
         { key: "olderadult", label: "Older Adult ≥ 61 Y" },
-        { key: "adolescent", label: "Adolescent" },
         { key: "jevaiapvalue", label: "P-value" },
+        { key: "total", label: "Totals" },
       ],
 
       treatmentFields: [

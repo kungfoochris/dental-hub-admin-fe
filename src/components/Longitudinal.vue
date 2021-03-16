@@ -59,6 +59,7 @@
                   label="name"
                   track-by="name"
                   :preselect-first="true"
+                  open-direction="top"
                 >
                 </multiselect>
               </div>
@@ -73,6 +74,7 @@
                   label="name"
                   track-by="name"
                   :preselect-first="true"
+                  open-direction="top"
                 >
                 </multiselect>
               </div>
@@ -81,12 +83,12 @@
                 <multiselect
                   v-model="location"
                   :options="options"
-                  :multiple="true"
+                  :multiple="false"
                   :preserve-search="true"
                   placeholder="Select Location"
                   label="name"
                   track-by="name"
-                  open-direction="bottom"
+                  open-direction="top"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -96,14 +98,16 @@
               <div class="col-lg-4 col-md-4 col-sm-12">
                 <h6>Select Age Group:</h6>
                 <multiselect
+                  v-model="age"
                   :options="ageGroup"
-                  :multiple="true"
+                  :multiple="false"
                   :close-on-select="false"
                   :clear-on-select="false"
                   :preserve-search="true"
                   placeholder="Indicator Age"
-                  label="clinic"
-                  track-by="clinic"
+                  label="age"
+                  track-by="age"
+                  open-direction="top"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -230,9 +234,9 @@
 
                   <b-tbody>
                     <b-tr v-for="items in longitudinalItems">
-                      <th v-html="items.serialnumber">
+                      <!-- <th v-html="items.serialnumber">
                         {{ items.serialnumber }}
-                      </th>
+                      </th> -->
                       <th v-html="items.type">{{ items.type }}</th>
                       <td class="text-center">{{ items.tw1 }}</td>
                       <td class="text-center">{{ items.tw2 }}</td>
@@ -268,7 +272,7 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">
-                 4.2 Longitudinal Measures for {{ this.sample_frame[1] }}
+                  4.2 Longitudinal Measures for {{ this.sample_frame[1] }}
                 </h3>
 
                 <b-table-simple hover responsive>
@@ -309,11 +313,7 @@
                   </b-tbody>
                 </b-table-simple>
                 <div class="row pr-4">
-                  <small class="ml-auto"
-                    ><a href=""
-                      >Download Report</a
-                    ></small
-                  >
+                  <small class="ml-auto"><a href="">Download Report</a></small>
                 </div>
               </div>
             </div>
@@ -427,7 +427,16 @@ export default {
         { name: "Other Problem" },
       ],
       seminar_obj: "",
-      ageGroup: [],
+      age: "",
+      ageGroup: [
+        { age: "child < 12 Y", language: null },
+        { age: "Teen 13-18 Y", language: null },
+        { age: "Adult 19-60 Y", language: null },
+        { age: "Older Adult ≥ 61 Y", language: null },
+        { age: "6 Y", language: null },
+        { age: "12 Y", language: null },
+        { age: "15 Y", language: null },
+      ],
       training: [],
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
       checkbox_options: [],
@@ -438,7 +447,7 @@ export default {
       options: [{ name: "All Location", language: null }],
 
       longitudinalFields: [
-        { key: "serialnumber", label: "S.N" },
+        // { key: "serialnumber", label: "S.N" },
         { key: "type", label: "" },
         { key: "tw1", label: "Time Point 1" },
         { key: "tw2", label: "Time Point 2" },
