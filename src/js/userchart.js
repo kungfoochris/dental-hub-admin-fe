@@ -2,7 +2,7 @@ export const userChart = {
   data: {
     datasets: [{
       label: 'No. of users',
-      data: [10, 20, 30, 40, 50, 60],
+      data: [9, 20, 30, 40, 50, 60],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',

@@ -383,7 +383,7 @@
       <div class="row mt-4 text-center table-area">
         <div class="col-12">
           <div class="card shadow">
-            <h3 class="mb-3">1.5 Treatment by Ward Table</h3>
+            <h3 class="mb-3">1.5 Treatment by Ward</h3>
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
@@ -437,7 +437,7 @@
       <div class="row mt-4">
         <div class="col-12">
           <div class="card shadow">
-            <h3 class="mb-3">1.6 Line Graph of Contacts</h3>
+            <h3 class="mb-3">1.6 Contacts Over Time</h3>
             <Visualization :tag="lch6"></Visualization>
           </div>
         </div>
@@ -592,6 +592,7 @@ export default {
       options1: [{ name: "Age Group" }, { name: "Activity" }],
       options2: [
         { name: "All Treatment Type", value: "alltreatment" },
+        { name: "check", value: "check" },
         { name: "EXO", value: "exo" },
         { name: "ART", value: "art" },
         { name: "SEAL", value: "seal" },
