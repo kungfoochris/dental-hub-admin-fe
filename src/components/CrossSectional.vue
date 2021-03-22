@@ -35,7 +35,7 @@
                   placeholder="Reason For Visit"
                   label="name"
                   track-by="name"
-                  open-direction="top"
+                  open-direction="bottom"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -50,8 +50,9 @@
                   placeholder="Referral Type"
                   label="name"
                   track-by="name"
-                  open-direction="top"
+                  open-direction="bottom"
                   :preselect-first="true"
+                  z-index="4"
                 >
                 </multiselect>
               </div>
@@ -66,7 +67,7 @@
                   placeholder="Select Location"
                   label="name"
                   track-by="name"
-                  open-direction="top"
+                  open-direction="bottom"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -295,7 +296,7 @@ export default {
       checkbox_options: [],
       checkbox_selected: [],
       basicFields: [
-        { key: "serial", label: "S.N", tdClass: "font-weight-bold" },
+        // { key: "serial", label: "S.N", tdClass: "font-weight-bold" },
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "sixyo", label: "6 yo" },
         { key: "twelveyo", label: "12 yo" },
@@ -371,15 +372,14 @@ export default {
   methods: {
     ...mapActions(["listReturnDate", "listSectionalTable", "listActivitie"]),
 
-    // checkbox_optionsupdate(){
-    //   var activities_data=[]
-    //   if (this.activities_obj.length>0){
-    //     this.activities_obj.forEach(function(activity){
-    //         activities_data.push({'text':activity.name,'value':activity.id})
-    //     })
-    //     this.checkbox_options = activities_data
+    // checkbox_optionsupdate() {
+    //   var activities_data = [];
+    //   if (this.activities_obj.length > 0) {
+    //     this.activities_obj.forEach(function (activity) {
+    //       activities_data.push({ text: activity.name, value: activity.id });
+    //     });
+    //     this.checkbox_options = activities_data;
     //   }
-    //
     // },
 
     checkbox_optionsupdate() {

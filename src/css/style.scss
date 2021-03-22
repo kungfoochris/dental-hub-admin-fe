@@ -84,6 +84,10 @@ body{
     }
   }
 
+  .multiselect__content-wrapper{
+   z-index: 9999;
+  }
+
   input, select, .multiselect__tags{
     padding-bottom: 8px;
     border:solid 1px #ccc;

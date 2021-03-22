@@ -59,7 +59,7 @@
                   label="name"
                   track-by="name"
                   :preselect-first="true"
-                  open-direction="top"
+                  open-direction="bottom"
                 >
                 </multiselect>
               </div>
@@ -107,7 +107,7 @@
                   placeholder="Indicator Age"
                   label="age"
                   track-by="age"
-                  open-direction="top"
+                  open-direction="bottom"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -294,9 +294,9 @@
 
                   <b-tbody>
                     <b-tr v-for="items in longitudinalItems1">
-                      <th v-html="items.serialnumber">
+                      <!-- <th v-html="items.serialnumber">
                         {{ items.serialnumber }}
-                      </th>
+                      </th> -->
                       <th v-html="items.type">{{ items.type }}</th>
                       <td class="text-center">{{ items.tw1 }}</td>
                       <td class="text-center">{{ items.tw2 }}</td>
@@ -429,7 +429,7 @@ export default {
       seminar_obj: "",
       age: "",
       ageGroup: [
-        { age: "child < 12 Y", language: null },
+        { age: "Child ≤ 12 Y", language: null },
         { age: "Teen 13-18 Y", language: null },
         { age: "Adult 19-60 Y", language: null },
         { age: "Older Adult ≥ 61 Y", language: null },
@@ -453,7 +453,7 @@ export default {
         { key: "tw2", label: "Time Point 2" },
         { key: "realDifference", label: "Real Difference" },
         { key: "effectsizevalue", label: "Effect size value" },
-        { key: "effectsizedescription", label: "Effect size description" },
+        { key: "effectsizedescription", label: "Effect size descriptor" },
         // { key: "propDifference", label: "Proportional Difference" },
         { key: "pValue", label: "P-value for related samples" },
       ],
