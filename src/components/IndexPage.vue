@@ -592,7 +592,7 @@ export default {
       options1: [{ name: "Age Group" }, { name: "Activity" }],
       options2: [
         { name: "All Treatment Type", value: "alltreatment" },
-        { name: "check", value: "check" },
+        { name: "CONTACTS", value: "contacts" },
         { name: "EXO", value: "exo" },
         { name: "ART", value: "art" },
         { name: "SEAL", value: "seal" },
