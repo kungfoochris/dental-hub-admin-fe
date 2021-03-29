@@ -14,7 +14,7 @@
         "@fortawesome/vue-fontawesome": "^0.1.6",
         "@tinymce/tinymce-vue": "^2.0.0",
         "aos": "^3.0.0-beta.6",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "bootstrap-vue": "^2.1.0",
         "chart.js": "^2.9.2",
         "countup.js": "^2.0.4",
