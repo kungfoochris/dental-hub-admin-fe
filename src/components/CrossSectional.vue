@@ -161,7 +161,7 @@
               <b-thead head-variant="dark">
                 <b-tr>
                   <b-th colspan="2"></b-th>
-                  <b-th class="text-center" colspan="4"
+                  <b-th class="text-left" colspan="4"
                     >WHO indicator age-groups</b-th
                   >
                   <b-th class="text-left" colspan="6"
@@ -177,7 +177,7 @@
 
               <b-tbody>
                 <b-tr v-for="items in basic">
-                  <th v-html="items.serial">{{ items.serial }}</th>
+                  <!-- <th v-html="items.serial">{{ items.serial }}</th> -->
                   <th v-html="items.type">{{ items.type }}</th>
                   <td class="text-center">{{ items.sixyo }}</td>
                   <td class="text-center">{{ items.twelveyo }}</td>

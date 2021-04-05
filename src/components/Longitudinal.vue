@@ -74,7 +74,7 @@
                   label="name"
                   track-by="name"
                   :preselect-first="true"
-                  open-direction="top"
+                  open-direction="bottom"
                 >
                 </multiselect>
               </div>
@@ -88,7 +88,7 @@
                   placeholder="Select Location"
                   label="name"
                   track-by="name"
-                  open-direction="top"
+                  open-direction="bottom"
                   :preselect-first="true"
                 >
                 </multiselect>
@@ -213,7 +213,8 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">
-                  4.1 Longitudinal Measures for {{ this.sample_frame[0] }}
+                  4.1 Longitudinal Measures - Comparison of two different
+                  cross-sections at two different points of time
                 </h3>
                 <b-table-simple hover responsive>
                   <colgroup>
@@ -272,7 +273,7 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">
-                  4.2 Longitudinal Measures for {{ this.sample_frame[1] }}
+                  4.2 Longitudinal Measures - Comparison of same individuals at different points of time
                 </h3>
 
                 <b-table-simple hover responsive>
