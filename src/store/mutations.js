@@ -33,9 +33,11 @@ export default{
 	setRole(state, role_obj){
 		state.role_obj = role_obj;
 	},
+
 	setLoginVisualization(state, loginvisualization){
 		state.loginvisualization = loginvisualization;
 	},
+	
 	setLoginVisualization1(state, loginvisualization1){
 		state.loginvisualization1 = loginvisualization1;
 	},

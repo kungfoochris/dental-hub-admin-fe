@@ -11,7 +11,7 @@
 import { mapState,mapActions } from 'vuex';
 export default {
   name: "LoginVisualization",
-  props:["cleanData","tag", "type"],
+  props:["tag"],
   components:{
   },
   // mounted: function(){
