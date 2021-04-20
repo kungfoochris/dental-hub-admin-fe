@@ -719,6 +719,25 @@ export default {
       });
   },
 
+  restoreFlag({ commit }, flag_id) {
+    axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
+    return axios
+      .put(
+        "https://app.abhiyantrik.com/api/v1/encounterrestore/" + flag_id.id, {}
+      )
+      .then((response) => {
+        if (response.status == 200) {
+          commit("setSuccessMessage", "success");
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          commit("setErrorMessage", "errormessage");
+          commit("setMessage", error.response.data.message);
+        }
+      });
+  },
+
   editFlag({ commit }, flag_id) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios

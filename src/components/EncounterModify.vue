@@ -26,11 +26,11 @@
                           active-tab-class="font-weight-bold text-success"
                           content-class="mt-3"
                         >
-                          <b-tab title="new" @click="filterNewFlag('pending')"></b-tab>
+                          <b-tab title="new" @click="filterNewFlag(['pending'])"></b-tab>
                           <b-tab title="modify" @click="filterModifyFlag('modify')"></b-tab>
                           <b-tab title="deleted" @click="filterDeleteFlag('deleted')"></b-tab>
-                          <b-tab title="accepted"  @click="filterNewFlag('approved')"></b-tab>
-                          <b-tab title="rejected"  @click="filterNewFlag('rejected')"></b-tab>
+                          <b-tab title="accepted"  @click="filterNewFlag(['approved', 'deleted'])"></b-tab>
+                          <b-tab title="rejected"  @click="filterNewFlag(['rejected'])"></b-tab>
                           <b-tab title="all" active @click="allFlagData"></b-tab>
                         </b-tabs>
                       </div>
@@ -87,11 +87,13 @@
                 {{row.item.delete_status}}
               </div>
             </template>
-            <template v-slot:cell(actions)="row">
+            <template v-slot:cell(actions)="row"> 
                 <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="editFlag(row.item.id)" :disabled="row.item.modify_status != 'pending'">Modify</b-button>
                 <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="rejectModifyFlag(row.item.id)" :disabled="row.item.modify_status != 'pending'">Reject</b-button>
                 <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="deleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Delete</b-button>
                 <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="rejectDeleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Reject</b-button>
+                <!-- <b-button variant="outline-info" v-if="checkDates(row.item.restore_expiry_date)" @click="restoreDeleteFlag(row.item.encounter.id)" :disabled="row.item.delete_status == 'delete'">Restore {{ row.item.restore_expiry_date }}</b-button>
+                <b-button variant="outline-info" @click="checkDates(row)">Check Date</b-button> -->
             </template>
           </b-table>
         </div>
@@ -99,6 +101,7 @@
     </div>
 
   </div>
+
 </div>
 </template>
 
@@ -131,13 +134,16 @@ export default {
     this.listFlags();
   },
 
+  mounted(){
+      //
+  },
+  
   data() {
     return {
       filter: null,
       currentPage: 1,
       errors:[],
       data_obj:[],
-
       fields: [
         'S.N.',
         { key: 'author.username', label: 'Username',sortable: true},
@@ -160,6 +166,13 @@ export default {
     },
     ...mapActions(['listFlags']),
     ...mapMutations(['setFlags']),
+
+    dtFormatter(d) {
+      const yr = d.getFullYear()
+      const mnt = d.getMonth() + 1 < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1
+      const day = d.getDate() < 9 ? "0" + d.getDate() : d.getDate()
+      return yr + "-" + mnt + "-" + day
+    },
 
     editFlag(flag_id){
       this.$store.dispatch("deleteFlag",{'id':flag_id,'modify_status':'approved','delete_status':'pending'} ).then(() => {
@@ -217,6 +230,24 @@ export default {
         }
       })
     },
+    
+    restoreDeleteFlag(encounterId){
+      this.$store.dispatch("restoreFlag",{'id':encounterId} ).then(() => {
+        if(this.successmessage=='success'){
+          alert("Flag Data is Restore Succesfully");
+          location.reload()
+        }else if(this.errormessage=='errormessage'){
+          alert(this.message);
+          location.reload();
+        }
+      })
+    },
+    
+    checkDates(date){
+      let currentDate = this.dtFormatter(new Date())
+      let restoreDate = date.substr(0, 10)
+      return currentDate < restoreDate ? true : false
+    },
 
 
     filterModifyFlag(modify_status){
@@ -246,7 +277,7 @@ export default {
     filterNewFlag(modify_status){
       var formattedRecord1 = []
       this.$store.state.flag_obj.forEach(function(rec){
-        if(rec.modify_status == modify_status){
+        if(modify_status.includes(rec.modify_status) || modify_status.includes(rec.delete_status)){
           formattedRecord1.push({
            id: rec.id,encounter:{id:rec.encounter.id,encounter_type:rec.encounter.encounter_type,
               patient: {id: rec.encounter.patient.id,full_name: rec.encounter.patient.full_name}},
