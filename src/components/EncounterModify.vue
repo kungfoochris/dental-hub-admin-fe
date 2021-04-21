@@ -84,7 +84,12 @@
               {{row.item.modify_status}}
               </div>
               <div v-else>
-                {{row.item.delete_status}}
+                <span v-if="row.item.flag == '' && row.item.delete_status == ''">
+                  Restore
+                </span>
+                <span v-else>
+                  {{row.item.delete_status}}
+                </span>
               </div>
             </template>
             <template v-slot:cell(actions)="row"> 
@@ -92,8 +97,7 @@
                 <b-button variant="outline-info" v-if="row.item.flag == 'modify'" @click="rejectModifyFlag(row.item.id)" :disabled="row.item.modify_status != 'pending'">Reject</b-button>
                 <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="deleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Delete</b-button>
                 <b-button variant="outline-info" v-if="row.item.flag == 'delete'" @click="rejectDeleteFlag(row.item.id)" :disabled="row.item.delete_status != 'pending'">Reject</b-button>
-                <!-- <b-button variant="outline-info" v-if="checkDates(row.item.restore_expiry_date)" @click="restoreDeleteFlag(row.item.encounter.id)" :disabled="row.item.delete_status == 'delete'">Restore {{ row.item.restore_expiry_date }}</b-button>
-                <b-button variant="outline-info" @click="checkDates(row)">Check Date</b-button> -->
+                <b-button variant="outline-info" v-if="checkDates(row.item.restore_expiry_date) && row.item.delete_status != ''" @click="restoreDeleteFlag(row.item.encounter.id)" :disabled="row.item.delete_status == 'delete'">Restore</b-button>
             </template>
           </b-table>
         </div>
@@ -244,9 +248,13 @@ export default {
     },
     
     checkDates(date){
-      let currentDate = this.dtFormatter(new Date())
-      let restoreDate = date.substr(0, 10)
-      return currentDate < restoreDate ? true : false
+      if(date == null || !date){
+        return false
+      }else{
+        let currentDate = this.dtFormatter(new Date())
+        let restoreDate = date.substr(0, 10)
+        return currentDate < restoreDate ? true : false
+      }
     },
 
 
