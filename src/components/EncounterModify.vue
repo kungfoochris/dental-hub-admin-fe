@@ -88,7 +88,7 @@
                   Delete
                 </span>
                 <span v-else>
-                  {{capitalize(row.item.delete_status)}}
+                  {{capitalize(row.item.flag)}}
                 </span>
               </div>
             </template>
