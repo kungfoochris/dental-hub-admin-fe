@@ -99,7 +99,7 @@
               </div>
               <div v-else>
                 <span v-if="row.item.flag == '' && row.item.delete_status == ''">
-                  Restore
+                  Restored
                 </span>
                 <span v-else>
                   {{capitalize(row.item.delete_status)}}
