@@ -72,23 +72,37 @@
 
             <template v-slot:cell(reason_for_modification)="row">
               <div v-if="row.item.flag == 'modify'">
-              {{row.item.reason_for_modification}}
+              {{capitalize(row.item.reason_for_modification)}}
               </div>
               <div v-else>
-                {{row.item.reason_for_deletion}}
+                {{capitalize(row.item.reason_for_deletion)}}
+              </div>
+            </template>
+
+            <template v-slot:cell(flag)="row">
+              <div v-if="row.item.flag == 'modify'">
+                {{capitalize(row.item.flag)}}
+              </div>
+              <div v-else>
+                <span v-if="row.item.flag == '' && row.item.delete_status == ''">
+                  Delete
+                </span>
+                <span v-else>
+                  {{capitalize(row.item.delete_status)}}
+                </span>
               </div>
             </template>
 
             <template v-slot:cell(modify_status)="row">
               <div v-if="row.item.flag == 'modify'">
-              {{row.item.modify_status}}
+              {{capitalize(row.item.modify_status)}}
               </div>
               <div v-else>
                 <span v-if="row.item.flag == '' && row.item.delete_status == ''">
                   Restore
                 </span>
                 <span v-else>
-                  {{row.item.delete_status}}
+                  {{capitalize(row.item.delete_status)}}
                 </span>
               </div>
             </template>
@@ -114,7 +128,6 @@
 
 import { mapState, mapActions, mapMutations} from 'vuex';
 import AppHeader from './Header.vue'
-
 // const axios = require('axios');
 export default {
   name: "encountermodify",
@@ -373,16 +386,12 @@ export default {
       })
       this.data_obj = formattedRecord1;
     },
-
-
     allFlagData(){
       this.data_obj = this.flag_obj;
-    }
-
-
-
-
-
+    },
+    capitalize(s){
+      return s.charAt(0).toUpperCase() + s.slice(1)
+    },
   }
 };
 </script>
