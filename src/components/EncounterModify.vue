@@ -71,7 +71,7 @@
             </template>
 
             <template v-slot:cell(reason_for_modification)="row">
-              <div v-if="row.item.flag == 'modify'">
+              <div v-if="row.item.flag == 'modify' || row.item.modify_status == 'modified'">
               {{capitalize(row.item.reason_for_modification)}}
               </div>
               <div v-else>
@@ -80,8 +80,13 @@
             </template>
 
             <template v-slot:cell(flag)="row">
-              <div v-if="row.item.flag == 'modify'">
-                {{capitalize(row.item.flag)}}
+              <div v-if="row.item.flag == 'modify' || row.item.modify_status == 'modified'">
+                <span v-if="row.item.flag !== ''">
+                  {{capitalize(row.item.flag)}}
+                </span>
+                <span v-else>
+                  Modify
+                </span>
               </div>
               <div v-else>
                 <span v-if="row.item.flag == '' && row.item.delete_status == ''">
@@ -94,8 +99,8 @@
             </template>
 
             <template v-slot:cell(modify_status)="row">
-              <div v-if="row.item.flag == 'modify'">
-              {{capitalize(row.item.modify_status)}}
+              <div v-if="row.item.flag == 'modify' || row.item.modify_status == 'modified'">
+                {{capitalize(row.item.modify_status)}}
               </div>
               <div v-else>
                 <span v-if="row.item.flag == '' && row.item.delete_status == ''">
