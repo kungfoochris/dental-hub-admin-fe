@@ -266,10 +266,11 @@ export default {
         var formattedRecord3 = []
         this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec){
           formattedRecord3.push({
-           type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
+           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: 0, adult: rec[4], senior: rec[5], total: rec[6], 
          })
         })
         this.isBusy = false;
+
         return formattedRecord3;
 
       }
@@ -282,7 +283,7 @@ export default {
         var formattedRecord5 = []
         this.$store.state.treatmentstrategicdata_obj.forEach(function(rec){
           formattedRecord5.push({
-           type: rec[0], male: rec[1], female: rec[2], child: rec[3], adult: rec[4], senior: rec[5], total: rec[6]
+           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: 0, adult: rec[4], senior: rec[5], total: rec[6]
          })
         })
         this.isBusy = false;
@@ -339,7 +340,7 @@ export default {
         { key: 'male', label: 'Male'},
         { key: 'female', label: 'Female'},
         { key: 'child', label: 'Child ≤ 12 Y'},
-        { key: 'Teen', label: 'Teen 13-18 Y'},
+        { key: 'teen', label: 'Teen 13-18 Y'},
         { key: 'adult', label: 'Adult 19Y - 60 Y'},
         { key: 'senior', label: 'Other Adult ≥ 60 Y'},
         { key: 'total', label: 'Total'},
@@ -350,7 +351,7 @@ export default {
         { key: 'male', label: 'Male'},
         { key: 'female', label: 'Female'},
         { key: 'child', label: 'Child ≤ 12 Y'},
-        { key: 'Teen', label: 'Teen 13-18 Y'},
+        { key: 'teen', label: 'Teen 13-18 Y'},
         { key: 'adult', label: 'Adult 19Y - 60 Y'},
         { key: 'senior', label: 'Other Adult ≥ 60 Y'},
         { key: 'total', label: 'Total'},
