@@ -240,10 +240,13 @@ export default {
             sixyo: rec[1],
             twelveyo: rec[2],
             fifteenyo: rec[3],
-            child: rec[4],
-            adult: rec[5],
-            older: rec[6],
-            _rowVariant: rec[7],
+            whopvalue: rec[4],
+            child: rec[5],
+            teen: rec[6],
+            adult: rec[7],
+            olderadult: rec[8],
+            jevaiapvalue: rec[9],
+            total: rec[10],
           });
         });
         return formattedRecord;

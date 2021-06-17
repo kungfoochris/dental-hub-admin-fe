@@ -266,7 +266,7 @@ export default {
         var formattedRecord3 = []
         this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec){
           formattedRecord3.push({
-           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: 0, adult: rec[4], senior: rec[5], total: rec[6], 
+           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: rec[4], adult: rec[5], senior: rec[6], total: rec[7], 
          })
         })
         this.isBusy = false;
@@ -283,7 +283,7 @@ export default {
         var formattedRecord5 = []
         this.$store.state.treatmentstrategicdata_obj.forEach(function(rec){
           formattedRecord5.push({
-           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: 0, adult: rec[4], senior: rec[5], total: rec[6]
+           type: rec[0], male: rec[1], female: rec[2], child: rec[3], teen: rec[4], adult: rec[5], senior: rec[6], total: rec[7]
          })
         })
         this.isBusy = false;
