@@ -495,8 +495,7 @@ export default {
             referhyg: rec[9],
             referdent: rec[10],
             referdr: rec[11],
-            referother: rec[12],
-            _rowVariant: rec[13],
+            referother: rec[12]
           });
         });
         this.isBusy = false;
