@@ -11,6 +11,10 @@ export default{
 	setSuccessMessage(state,successmessage){
 		state.successmessage = successmessage;
 	},
+	
+	setBasicVisulizationSuccess(state,visulaizationsuccessmessage){
+		state.visulaizationsuccessmessage = visulaizationsuccessmessage;
+	},
 
 	setErrorMessage(state,errormessage){
 		state.errormessage = errormessage;

@@ -108,7 +108,7 @@
               :fields="basicFields"
               responsive
               hover
-              :busy="isBusy"
+              :busy="busy11"
               class="text-center"
             >
               <template v-slot:cell(type)="row">
@@ -466,6 +466,7 @@ export default {
     ...mapState([
       "errormessage",
       "successmessage",
+      "visulaizationsuccessmessage",
       "message",
       "overviewbargraphpost_obj",
       "dashboard_piechartpost",
@@ -601,6 +602,7 @@ export default {
       years_array: years(100).reverse(),
       selected_year: "",
       isBusy: false,
+      busy11: false,
       tablefilterdata: false,
       ward_selected: [
         "Test ward",
@@ -650,7 +652,7 @@ export default {
       ],
     };
   },
-
+ 
   methods: {
     ...mapActions([
       "listReturnDate",
@@ -668,12 +670,22 @@ export default {
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
-        this.location.forEach(function (location_id) {
-          if (location_id.language != null) {
-            geography_id.push(location_id.language);
-            geography_name.push(location_id.name);
-          }
-        });
+        if(this.location[0].language == null){
+              this.options.forEach(function (location_id) {
+                if (location_id.language != null) {
+                  geography_id.push(location_id.language);
+                  geography_name.push(location_id.name);
+                }
+              });
+        }else{
+          this.location.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        }
+
         this.user_location = geography_id;
         this.table_location = geography_name;
       }
@@ -682,6 +694,7 @@ export default {
           "Select one of the activities required.";
         this.$bvToast.show("error-toast");
       } else
+        this.busy11 = true
         this.checkbox_selected.forEach(function (activities_id) {
           table_activities1.push(
             activities_details.find((evt) => evt.id == activities_id).name
@@ -696,7 +709,12 @@ export default {
             end_date: this.returndate_obj.today_date,
             location: this.user_location,
             activities: this.checkbox_selected,
-          }),
+          }).then(() => {
+            if(this.visulaizationsuccessmessage == "success"){
+              this.busy11 = false
+            }
+          });
+
           this.$store.dispatch("CreateTreatmentbyActivity", {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
@@ -715,6 +733,10 @@ export default {
                 this.$bvToast.show("error-toast");
               } else if (this.successmessage == "success") {
                 (this.message = ""), this.$bvToast.show("success-toast");
+              } 
+              
+              if(this.visulaizationsuccessmessage == "success"){
+                this.busy11 = false
               }
             });
     },

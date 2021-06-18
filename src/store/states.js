@@ -4,6 +4,7 @@ export default{
     'token': window.localStorage.getItem("token"),
     'users': [],
     'successmessage':'',
+    'visulaizationsuccessmessage':'',
     'errormessage':'',
     'message':'',
     'geography': [],
