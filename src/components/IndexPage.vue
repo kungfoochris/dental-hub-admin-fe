@@ -601,8 +601,7 @@ export default {
       pie_location: [],
       bar_location: [],
       options: [{ name: "All Location", language: null }],
-      //options1: [{ name: "Age Group" }, { name: "Activity" }],
-      options1: [{ name: "Child ≤12 Y" },{ name: "Teen 13-18 Y" },{ name: "Adult 19-60 Y" },{ name: "Older Adult ≥61 Y" }],
+      options1: [{ name: "Age Group" },{ name: "Activity" }],
       options2: [
         { name: "All Treatment Type", value: "alltreatment" },
         { name: "CONTACTS", value: "contacts" },
