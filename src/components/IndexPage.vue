@@ -225,7 +225,19 @@
 
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Age Group/Activity:</h6>
-                <multiselect
+                <b-form-select
+                  v-model="age_group"
+                  :options="options1"
+                  value-field="name"
+                  text-field="name"
+                >
+                  <template v-slot:first>
+                    <b-form-select-option :value="null" disabled
+                      >Select Age Group</b-form-select-option
+                    >
+                  </template>
+                </b-form-select>
+                <!-- <multiselect
                   v-model="age_group"
                   :options="options1"
                   :preserve-search="true"
@@ -234,7 +246,7 @@
                   track-by="name"
                   :preselect-first="true"
                 >
-                </multiselect>
+                </multiselect> -->
               </div>
             </div>
 
@@ -573,7 +585,7 @@ export default {
   data() {
     return {
       Start_Date: "",
-      age_group: "",
+      age_group: null,
       age_group1: "",
       End_Date: "",
       userChart: userChart,
@@ -589,7 +601,8 @@ export default {
       pie_location: [],
       bar_location: [],
       options: [{ name: "All Location", language: null }],
-      options1: [{ name: "Age Group" }, { name: "Activity" }],
+      //options1: [{ name: "Age Group" }, { name: "Activity" }],
+      options1: [{ name: "Child ≤12 Y" },{ name: "Teen 13-18 Y" },{ name: "Adult 19-60 Y" },{ name: "Older Adult ≥61 Y" }],
       options2: [
         { name: "All Treatment Type", value: "alltreatment" },
         { name: "CONTACTS", value: "contacts" },
@@ -743,14 +756,24 @@ export default {
 
     Bargraphtreatment() {
       this.errors = [];
-      if (this.bar_location.length > 0) {
-        var geography_id = [];
-        this.bar_location.forEach(function (location_id) {
-          if (location_id.language != null) {
-            geography_id.push(location_id.language);
-          }
-        });
+      var geography_id = []
+      
+      if(this.bar_location && this.bar_location.length ){
+        if(this.bar_location[0].language == null){
+          this.options.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+            }
+          });
+        }else{
+          this.bar_location.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+            }
+          });
+        }
       }
+
       if (this.age_group == null) {
         this.errors["age_group"] = "Age Group required.";
         this.$bvToast.show("error-toast");
@@ -762,7 +785,7 @@ export default {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
             location: geography_id,
-            age_group: this.age_group["name"],
+            age_group: this.age_group,
           });
     },
 
