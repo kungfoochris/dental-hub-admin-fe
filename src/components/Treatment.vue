@@ -73,12 +73,12 @@
           <h3 class="mb-3">2.1 Preventative Overview</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
-            <div class="col-6">
+            <div class="col-4">
               <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
               <p><strong>End Date: </strong>{{this.table_end_date}}</p>
             </div>
 
-            <div class="col-6">
+            <div class="col-8">
               <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
               <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
             </div>
@@ -109,12 +109,12 @@
           <h3 class="mb-3">2.2 Strategic Data</h3>
 
           <div class="row mb-3 text-center" v-show="tablefilterdata">
-            <div class="col-6">
+            <div class="col-4">
               <p><strong>Start Date: </strong>{{this.table_start_date}}</p>
               <p><strong>End Date: </strong>{{this.table_end_date}}</p>
             </div>
 
-            <div class="col-6">
+            <div class="col-8">
               <p><strong>Location(s): </strong><span v-for ="location in table_location">{{location}},</span></p>
               <p><strong>Activities: </strong><span v-for = "activity in table_activities">{{activity}},</span></p>
             </div>
@@ -277,7 +277,7 @@ export default {
 
     },
 
-    strategic: function(){
+    strategic: function() {
       this.isBusy = true;
       if(this.$store.state.treatmentstrategicdata_obj.length > 0){
         var formattedRecord5 = []
@@ -377,16 +377,33 @@ export default {
       if (this.location.length>0){
         var geography_id =[]
         var geography_name = []
-        this.location.forEach(function(location_id){
-          if (location_id.language!=null){
-            geography_id.push(location_id.language)
-            geography_name.push(location_id.name)
-          }
-
-          })
+        // this.location.forEach(function(location_id){
+        //   if (location_id.language!=null){
+        //     geography_id.push(location_id.language)
+        //     geography_name.push(location_id.name)
+        //   }
+        //   })
+        if(this.location[0].language == null){
+              this.options.forEach(function (location_id) {
+                if (location_id.language != null) {
+                  geography_id.push(location_id.language);
+                  geography_name.push(location_id.name);
+                }
+              });
+        }else{
+          this.location.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        }
         this.user_location = geography_id
         this.table_location = geography_name
       }
+
+      console.log("user_location", JSON.stringify(l))
+
       if(this.checkbox_selected==""){
         this.errors['checkbox_selected']="Select on of the activities required."
         this.$bvToast.show('error-toast');
