@@ -52,7 +52,6 @@
                   track-by="name"
                   open-direction="bottom"
                   :preselect-first="true"
-                  z-index="4"
                 >
                 </multiselect>
               </div>
@@ -83,6 +82,7 @@
                     :options="checkbox_options"
                     switches
                     size="lg"
+                    style="z-index:0"
                   ></b-form-checkbox-group>
                 </b-form-group>
               </div>
@@ -442,4 +442,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../css/index.scss";
+// .custom-control{
+//   z-index: 0 !important;
+// }
 </style>
