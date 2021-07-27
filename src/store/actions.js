@@ -456,7 +456,8 @@ export default {
   listSectionalTable({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
-      .get("https://app.abhiyantrik.com/api/v1/sectional")
+      // .get("https://app.abhiyantrik.com/api/v1/sectional")
+      .get("https://app.abhiyantrik.com/api/v1/testcrosssectional")
       .then((response) => {
         if (response.status == 200) {
           commit("setSectionalTable", response.data);

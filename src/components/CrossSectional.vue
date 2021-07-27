@@ -82,7 +82,7 @@
                     :options="checkbox_options"
                     switches
                     size="lg"
-                    style="z-index:0"
+                    style="z-index: 0"
                   ></b-form-checkbox-group>
                 </b-form-group>
               </div>
@@ -130,6 +130,10 @@
             <p>{{ errors.checkbox_selected }}</p>
           </div>
 
+          <div v-if="errors.location">
+            <p>{{ errors.location }}</p>
+          </div>
+
           <div v-if="message.length > 0">
             <p>{{ this.message }}</p>
           </div>
@@ -156,6 +160,28 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3 text-center">3.1 Cross-Sectional Measures</h3>
+
+            <div class="row mb-3 text-center" v-show="tablefilterdata">
+              <div class="col-4">
+                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
+                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
+              </div>
+
+              <div class="col-8">
+                <p>
+                  <strong>Location(s): </strong
+                  ><span v-for="location in table_location"
+                    >{{ location }},</span
+                  >
+                </p>
+                <p>
+                  <strong>Activities: </strong
+                  ><span v-for="activity in table_activities"
+                    >{{ activity }},</span
+                  >
+                </p>
+              </div>
+            </div>
 
             <b-table-simple hover responsive>
               <b-thead head-variant="dark">
@@ -229,29 +255,29 @@ export default {
       "returndate_obj",
       "sectionaltable_obj",
       "activities_obj",
+      "geography",
     ]),
 
     basic: function () {
-      if (this.$store.state.sectionaltable_obj.length > 0) {
-        var formattedRecord = [];
-        this.$store.state.sectionaltable_obj.forEach(function (rec) {
-          formattedRecord.push({
-            type: rec[0],
-            sixyo: rec[1],
-            twelveyo: rec[2],
-            fifteenyo: rec[3],
-            whopvalue: rec[4],
-            child: rec[5],
-            teen: rec[6],
-            adult: rec[7],
-            olderadult: rec[8],
-            jevaiapvalue: rec[9],
-            total: rec[10],
-          });
-        });
-        return formattedRecord;
-      } else {
-        return [];
+      var formattedRecord = this.$store.state.sectionaltable_obj;
+      let rows = formattedRecord.length;
+      for (let i = 0; i < rows; i++) {
+        let items = formattedRecord[1].length;
+        // console.log(items)
+        for (let n = 0; n < items; n++) {
+          let list = formattedRecord[i][n];
+          let output = list;
+          // output.push({
+          //   type: list[0],
+          //   sixyo: list[1],
+          //   sixyo: list[1],
+          //   sixyo: list[1],
+          //   sixyo: list[1],
+          //   sixyo: list[1],
+          //   sixyo: list[1],
+          // });
+          console.log(output);
+        }
       }
     },
   },
@@ -261,6 +287,9 @@ export default {
     this.listSectionalTable();
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();
+    });
+    this.listGeography().then(() => {
+      this.updateOptions();
     });
   },
 
@@ -279,6 +308,13 @@ export default {
       clinic: [],
       location: [],
       options: [{ name: "All Location", language: null }],
+      user_location: [],
+      table_location: [],
+      tablefilterdata: false,
+      table_start_date: "",
+      table_end_date: "",
+      table_activities: [],
+      table_location: [],
 
       outreach: [
         { name: "Refer Hp", value: true },
@@ -373,7 +409,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(["listReturnDate", "listSectionalTable", "listActivitie"]),
+    ...mapActions([
+      "listReturnDate",
+      "listSectionalTable",
+      "listActivitie",
+      "listGeography",
+    ]),
 
     // checkbox_optionsupdate() {
     //   var activities_data = [];
@@ -384,6 +425,19 @@ export default {
     //     this.checkbox_options = activities_data;
     //   }
     // },
+
+    updateOptions() {
+      var geography_data = [{ name: "All Location", language: null }];
+      if (this.geography.length > 0) {
+        this.geography.forEach(function (geography_obj) {
+          geography_data.push({
+            name: geography_obj.name,
+            language: geography_obj.id,
+          });
+        });
+        this.options = geography_data;
+      }
+    },
 
     checkbox_optionsupdate() {
       var activities_data = [];
@@ -399,13 +453,38 @@ export default {
     },
 
     CrossSectionalForm() {
+      var activities_details = this.activities_obj;
+      var table_activities = [];
       var l = [0, 0, 0, 0];
       var a = 0;
+      var p = [];
       this.checkbox_selected.forEach(function (e) {
         l[a] = e;
+        p.push(e);
         a++;
       });
       this.errors = [];
+      if (this.location.length > 0) {
+        var geography_id = [];
+        var geography_name = [];
+        if (this.location[0].language == null) {
+          this.options.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        } else {
+          this.location.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        }
+        this.user_location = geography_id;
+        this.table_location = geography_name;
+      }
       if (this.seminar_obj == null) {
         this.errors["seminar_obj"] = "Reason For Visit required.";
         this.$bvToast.show("error-toast");
@@ -416,25 +495,38 @@ export default {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
+      } else if (this.location == "") {
+        this.errors["location"] = "Selection of the location is required.";
+        this.$bvToast.show("error-toast");
       } else
-        this.$store
-          .dispatch("CreateSectionalTable", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
-            reason_for_visit: this.seminar_obj["name"],
-            referral_type: this.outreach_obj["name"],
-            health_post: l[0],
-            seminar: l[1],
-            outreach: l[2],
-            training: l[3],
-          })
-          .then(() => {
-            if (this.errormessage.length > 0) {
-              this.$bvToast.show("error-toast");
-            } else if (this.successmessage == "success") {
-              (this.message = ""), this.$bvToast.show("success-toast");
-            }
-          });
+        p.forEach(function (activities_id) {
+          table_activities.push(
+            activities_details.find((evt) => evt.id == activities_id).name
+          );
+        }),
+          (this.table_start_date = this.returndate_obj.last_30_days),
+          (this.table_end_date = this.returndate_obj.today_date),
+          (this.table_activities = table_activities),
+          (this.tablefilterdata = true),
+          this.$store
+            .dispatch("CreateSectionalTable", {
+              start_date: this.returndate_obj.last_30_days,
+              end_date: this.returndate_obj.today_date,
+              reason_for_visit: this.seminar_obj["name"],
+              referral_type: this.outreach_obj["name"],
+              location: this.user_location,
+              health_post: l[0],
+              seminar: l[1],
+              outreach: l[2],
+              training: l[3],
+            })
+            .then(() => {
+              if (this.errormessage.length > 0) {
+                this.$bvToast.show("error-toast");
+              } else if (this.successmessage == "success") {
+                (this.message = ""), this.$bvToast.show("success-toast");
+              }
+            });
     },
   },
 };
