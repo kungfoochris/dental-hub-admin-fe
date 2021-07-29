@@ -636,7 +636,7 @@ export default {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
       .post(
-        "https://app.abhiyantrik.com/api/v1/sectional",
+        "https://app.abhiyantrik.com/api/v1/testcrosssectional",
         overviewvisualization_obj
       )
       .then((response) => {

@@ -83,7 +83,7 @@
                 <multiselect
                   v-model="location"
                   :options="options"
-                  :multiple="false"
+                  :multiple="true"
                   :preserve-search="true"
                   placeholder="Select Location"
                   label="name"
@@ -273,7 +273,8 @@
             <div class="col-12">
               <div class="card shadow">
                 <h3 class="mb-3 text-center">
-                  4.2 Longitudinal Measures - Comparison of same individuals at different points of time
+                  4.2 Longitudinal Measures - Comparison of same individuals at
+                  different points of time
                 </h3>
 
                 <b-table-simple hover responsive>
@@ -350,6 +351,7 @@ export default {
       "activities_obj",
       "errormessage",
       "message",
+      "geography",
     ]),
 
     longitudinalItems: function () {
@@ -399,6 +401,9 @@ export default {
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();
     });
+    this.listGeography().then(() => {
+      this.updateOptions();
+    });
   },
 
   data() {
@@ -442,10 +447,13 @@ export default {
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
       checkbox_options: [],
       checkbox_selected: [],
-      checkbox_followup_options: [{ text: "Follow Up" }],
+      checkbox_followup_options: [],
       errors: [],
-      location: "",
+      location: [],
       options: [{ name: "All Location", language: null }],
+      user_location: [],
+      table_location: [],
+      table_activities: [],
 
       longitudinalFields: [
         // { key: "serialnumber", label: "S.N" },
@@ -483,7 +491,21 @@ export default {
       "listSectionalTable",
       "listLongitudinalMeasures",
       "listActivitie",
+      "listGeography",
     ]),
+
+    updateOptions() {
+      var geography_data = [{ name: "All Location", language: null }];
+      if (this.geography.length > 0) {
+        this.geography.forEach(function (geography_obj) {
+          geography_data.push({
+            name: geography_obj.name,
+            language: geography_obj.id,
+          });
+        });
+        this.options = geography_data;
+      }
+    },
 
     checkbox_optionsupdate() {
       var activities_data = [];
@@ -499,7 +521,7 @@ export default {
     },
 
     LongitudinalForm() {
-      var l = [0, 0, 0, 0];
+      var l = [0, 0, 0, 0, 0];
       var a = 0;
       this.checkbox_selected.forEach(function (e) {
         l[a] = e;
@@ -541,6 +563,7 @@ export default {
             seminar: l[1],
             outreach: l[2],
             training: l[3],
+            select_followup: l[4],
           })
           .then(() => {
             if (this.errormessage == "errormessage") {
@@ -560,6 +583,8 @@ export default {
             seminar: l[1],
             outreach: l[2],
             training: l[3],
+            select_followup: l[4],
+
           });
     },
   },

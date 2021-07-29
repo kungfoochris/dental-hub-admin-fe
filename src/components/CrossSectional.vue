@@ -259,27 +259,66 @@ export default {
     ]),
 
     basic: function () {
-      var formattedRecord = this.$store.state.sectionaltable_obj;
-      let rows = formattedRecord.length;
-      for (let i = 0; i < rows; i++) {
-        let items = formattedRecord[1].length;
-        // console.log(items)
-        for (let n = 0; n < items; n++) {
-          let list = formattedRecord[i][n];
-          let output = list;
-          // output.push({
-          //   type: list[0],
-          //   sixyo: list[1],
-          //   sixyo: list[1],
-          //   sixyo: list[1],
-          //   sixyo: list[1],
-          //   sixyo: list[1],
-          //   sixyo: list[1],
-          // });
-          console.log(output);
+      let rows = this.$store.state.sectionaltable_obj;
+      let formattedRecord = [];
+      if (rows.length > 0) {
+        for (let i = 0; i < rows.length; i++) {
+          rows.forEach(function (j) {
+            formattedRecord.push({
+              type: j[0],
+              sixyo: j[1],
+              twelveyo: j[2],
+              fifteenyo: j[3],
+              whopvalue: j[4],
+              child: j[5],
+              teen: j[6],
+              adult: j[7],
+              olderadult: j[8],
+              jevaiapvalue: j[9],
+              total: j[10],
+            });
+          });
         }
+        return formattedRecord;
+      } else {
+        return [];
       }
     },
+
+    // basic: function () {
+    //   // if (this.$store.state.sectionaltable_obj.length > 0) {
+    //   let incoming = this.$store.state.sectionaltable_obj;
+    //   let rows = incoming;
+    //   // console.log(rows)
+    //   for (let i = 0; i < rows.length; i++) {
+    //     let items = rows[i].length;
+    //     // console.log(items)
+    //     // for (let n = 0; n < items; n++) {
+    //     //   // console.log(rows[i][n])
+    //     //   let item = rows[i][n].length;
+    //     //   for (let j = 0; j < item; j++) {
+    //     //     // console.log(i, rows[n][j])
+    //     //      let formattedRecord = [
+    //     //         type = j[0],
+    //     //         sixyo= j[1],
+    //     //         twelveyo= j[2],
+    //     //         fifteenyo= j[3],
+    //     //         whopvalue= j[4],
+    //     //         child =  j[5],
+    //     //         teen = j[6],
+    //     //         adult = j[7],
+    //     //         olderadult = j[8],
+    //     //         jevaiapvalue=  j[9],
+    //     //         total= j[10],
+    //     //      ];
+    //     //     return formattedRecord;
+    //     //   }
+    //     // }
+    //   }
+    //   // } else {
+    //   // return [];
+    //   // }
+    // },
   },
 
   created() {
@@ -335,7 +374,6 @@ export default {
       checkbox_options: [],
       checkbox_selected: [],
       basicFields: [
-        // { key: "serial", label: "S.N", tdClass: "font-weight-bold" },
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "sixyo", label: "6 yo" },
         { key: "twelveyo", label: "12 yo" },
@@ -415,16 +453,6 @@ export default {
       "listActivitie",
       "listGeography",
     ]),
-
-    // checkbox_optionsupdate() {
-    //   var activities_data = [];
-    //   if (this.activities_obj.length > 0) {
-    //     this.activities_obj.forEach(function (activity) {
-    //       activities_data.push({ text: activity.name, value: activity.id });
-    //     });
-    //     this.checkbox_options = activities_data;
-    //   }
-    // },
 
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
