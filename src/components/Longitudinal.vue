@@ -20,12 +20,15 @@
                 <div class="row">
                   <div class="col-6">
                     <h6>Select Start Date:</h6>
-                    <b-input v-model="frame1_start_date" type="date" />
+                    <b-input
+                      v-model="returndate_obj.last_30_days"
+                      type="date"
+                    />
                   </div>
 
                   <div class="col-6">
                     <h6>Select End Date:</h6>
-                    <b-input v-model="frame1_end_date" type="date" />
+                    <b-input v-model="returndate_obj.today_date" type="date" />
                   </div>
                 </div>
               </div>
@@ -36,12 +39,15 @@
                 <div class="row">
                   <div class="col-6">
                     <h6>Select Start Date:</h6>
-                    <b-input v-model="frame2_start_date" type="date" />
+                    <b-input
+                      v-model="returndate_obj.last_30_days"
+                      type="date"
+                    />
                   </div>
 
                   <div class="col-6">
                     <h6>Select End Date:</h6>
-                    <b-input v-model="frame2_end_date" type="date" />
+                    <b-input v-model="returndate_obj.today_date" type="date" />
                   </div>
                 </div>
               </div>
@@ -130,7 +136,7 @@
                 <h6>Select Follow-up</h6>
                 <b-form-group>
                   <b-form-checkbox-group
-                    v-model="checkbox_selected"
+                    v-model="checkbox_selected_follow_up"
                     :options="checkbox_followup_options"
                     checked="true"
                     switches
@@ -345,6 +351,7 @@ export default {
   computed: {
     ...mapState([
       "successmessage",
+      "returndate_obj",
       "sectionaltable_obj",
       "longitudinalmeasures_obj",
       "longitudinalmeasures_obj1",
@@ -396,7 +403,7 @@ export default {
   },
 
   created() {
-    this.listSectionalTable();
+    this.listReturnDate();
     this.listLongitudinalMeasures();
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();
@@ -447,13 +454,18 @@ export default {
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
       checkbox_options: [],
       checkbox_selected: [],
-      checkbox_followup_options: [],
+      checkbox_selected_follow_up: false,
+      checkbox_followup_options: [{ text: "Follow up", value: 1 }],
       errors: [],
       location: [],
       options: [{ name: "All Location", language: null }],
       user_location: [],
       table_location: [],
+      tablefilterdata: false,
+      table_start_date: "",
+      table_end_date: "",
       table_activities: [],
+      table_location: [],
 
       longitudinalFields: [
         // { key: "serialnumber", label: "S.N" },
@@ -488,7 +500,7 @@ export default {
 
   methods: {
     ...mapActions([
-      "listSectionalTable",
+      "listReturnDate",
       "listLongitudinalMeasures",
       "listActivitie",
       "listGeography",
@@ -521,26 +533,39 @@ export default {
     },
 
     LongitudinalForm() {
-      var l = [0, 0, 0, 0, 0];
+      var activities_details = this.activities_obj;
+      var table_activities = [];
+      var l = [0, 0, 0, 0];
       var a = 0;
+      var p = [];
       this.checkbox_selected.forEach(function (e) {
         l[a] = e;
+        p.push(e);
         a++;
       });
       this.errors = [];
-      if (this.frame1_start_date == "") {
-        this.errors["frame1_start_date"] = "Frame1 Start date required.";
-        this.$bvToast.show("error-toast");
-      } else if (this.frame1_end_date == "") {
-        this.errors["frame1_end_date"] = "Frame1 End date required.";
-        this.$bvToast.show("error-toast");
-      } else if (this.frame2_start_date == "") {
-        this.errors["frame2_start_date"] = "Frame2 Start date required.";
-        this.$bvToast.show("error-toast");
-      } else if (this.frame2_end_date == "") {
-        this.errors["frame2_end_date"] = "Frame2 End date required.";
-        this.$bvToast.show("error-toast");
-      } else if (this.seminar_obj == null) {
+      if (this.location.length > 0) {
+        var geography_id = [];
+        var geography_name = [];
+        if (this.location[0].language == null) {
+          this.options.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        } else {
+          this.location.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        }
+        this.user_location = geography_id;
+        this.table_location = geography_name;
+      }
+      if (this.seminar_obj == null) {
         this.errors["seminar_obj"] = "Reason For Visit required.";
         this.$bvToast.show("error-toast");
       } else if (this.outreach_obj == null) {
@@ -551,27 +576,36 @@ export default {
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
       } else
-        this.$store
-          .dispatch("CreateLongitudinal", {
-            frame1_start_date: this.frame1_start_date,
-            frame1_end_date: this.frame1_end_date,
-            frame2_start_date: this.frame2_start_date,
-            frame2_end_date: this.frame2_end_date,
-            reason_for_visit: this.seminar_obj["name"],
-            referral_type: this.outreach_obj["name"],
-            health_post: l[0],
-            seminar: l[1],
-            outreach: l[2],
-            training: l[3],
-            select_followup: l[4],
-          })
-          .then(() => {
-            if (this.errormessage == "errormessage") {
-              this.$bvToast.show("error-toast");
-            } else if (this.successmessage == "success") {
-              this.$bvToast.show("success-toast");
-            }
-          }),
+        p.forEach(function (activities_id) {
+          table_activities.push(
+            activities_details.find((evt) => evt.id == activities_id).name
+          );
+        }),
+          (this.table_start_date = this.returndate_obj.last_30_days),
+          (this.table_end_date = this.returndate_obj.today_date),
+          (this.table_activities = table_activities),
+          (this.tablefilterdata = true),
+          this.$store
+            .dispatch("CreateLongitudinal", {
+              frame1_start_date: this.returndate_obj.last_30_days,
+              frame1_end_date: this.returndate_obj.today_date,
+              frame2_start_date: this.returndate_obj.last_30_days,
+              frame2_end_date: this.returndate_obj.today_date,
+              reason_for_visit: this.seminar_obj["name"],
+              referral_type: this.outreach_obj["name"],
+              location: this.user_location,
+              health_post: l[0],
+              seminar: l[1],
+              outreach: l[2],
+              training: l[3],
+            })
+            .then(() => {
+              if (this.errormessage == "errormessage") {
+                this.$bvToast.show("error-toast");
+              } else if (this.successmessage == "success") {
+                this.$bvToast.show("success-toast");
+              }
+            }),
           this.$store.dispatch("CreateLongitudinal1", {
             frame1_start_date: this.frame1_start_date,
             frame1_end_date: this.frame1_end_date,
@@ -584,7 +618,6 @@ export default {
             outreach: l[2],
             training: l[3],
             select_followup: l[4],
-
           });
     },
   },

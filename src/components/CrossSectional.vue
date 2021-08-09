@@ -258,32 +258,30 @@ export default {
       "geography",
     ]),
 
-    basic: function () {
-      let rows = this.$store.state.sectionaltable_obj;
-      let formattedRecord = [];
-      if (rows.length > 0) {
-        for (let i = 0; i < rows.length; i++) {
-          rows.forEach(function (j) {
-            formattedRecord.push({
-              type: j[0],
-              sixyo: j[1],
-              twelveyo: j[2],
-              fifteenyo: j[3],
-              whopvalue: j[4],
-              child: j[5],
-              teen: j[6],
-              adult: j[7],
-              olderadult: j[8],
-              jevaiapvalue: j[9],
-              total: j[10],
-            });
-          });
-        }
-        return formattedRecord;
-      } else {
-        return [];
-      }
-    },
+    // basic: function () {
+    //   let rows = this.$store.state.sectionaltable_obj;
+    //   let formattedRecord = [];
+    //   for (let i = 0; i < rows.length; i++) {
+    //     for (let n = 0; n < i; n++) {
+    //       rows.forEach(function () {
+    //         formattedRecord.push({
+    //           type: n[0],
+    //           sixyo: n[1],
+    //           twelveyo: n[2],
+    //           fifteenyo: n[3],
+    //           whopvalue: n[4],
+    //           child: n[5],
+    //           teen: n[6],
+    //           adult: n[7],
+    //           olderadult: n[8],
+    //           jevaiapvalue: n[9],
+    //           total: n[10],
+    //         });
+    //       });
+    //     }
+    //   }
+    //   return formattedRecord;
+    // },
 
     // basic: function () {
     //   // if (this.$store.state.sectionaltable_obj.length > 0) {
@@ -386,7 +384,6 @@ export default {
         { key: "jevaiapvalue", label: "P-value" },
         { key: "total", label: "Totals" },
       ],
-
       treatmentFields: [
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "exo", label: "EXO" },
