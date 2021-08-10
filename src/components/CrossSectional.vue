@@ -258,29 +258,45 @@ export default {
       "geography",
     ]),
 
+      basic: function () {
+      if (this.$store.state.sectionaltable_obj.length > 0) {
+        var formattedRecord1 = [];
+        this.$store.state.sectionaltable_obj.forEach(function (rec, items, arrays) {
+          formattedRecord1.push({
+            type: rec[0] + '',
+            sixyo: rec[1] + '',
+            twelveyo: rec[2] + '',
+            twelveyo: rec[3] + '',
+            whopvalue : rec[4] + '',
+            child: rec[5] + '',
+            teen: rec[6] + '',
+            adult: rec[7] + '',
+            olderadult: rec[8] + '',
+            jevaiapvalue: rec[9] + '',
+            total: rec[10] + '',
+          });
+        });
+        return formattedRecord1;
+      } else {
+        return [];
+      }
+    },
+
     // basic: function () {
-    //   let rows = this.$store.state.sectionaltable_obj;
-    //   let formattedRecord = [];
-    //   for (let i = 0; i < rows.length; i++) {
-    //     for (let n = 0; n < i; n++) {
-    //       rows.forEach(function () {
-    //         formattedRecord.push({
-    //           type: n[0],
-    //           sixyo: n[1],
-    //           twelveyo: n[2],
-    //           fifteenyo: n[3],
-    //           whopvalue: n[4],
-    //           child: n[5],
-    //           teen: n[6],
-    //           adult: n[7],
-    //           olderadult: n[8],
-    //           jevaiapvalue: n[9],
-    //           total: n[10],
-    //         });
-    //       });
+    //   let input = this.$store.state.sectionaltable_obj;
+    //   let rows = input.length;
+    //   let formatted = [];
+    //   // console.log(input);
+    //   for (let i = 0; i < rows; i++) {
+    //     let formattedRecord = input[i].length;
+    //     // console.log(i, formattedRecord);
+    //     for (let n = 0; n < formattedRecord; n++) {
+    //       //  console.log( input[i][n]);
+
     //     }
+    //    return formattedRecord;
+    //     // console.log(formattedRecord);
     //   }
-    //   return formattedRecord;
     // },
 
     // basic: function () {
