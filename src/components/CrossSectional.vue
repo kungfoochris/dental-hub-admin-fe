@@ -165,6 +165,14 @@
               <div class="col-4">
                 <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
                 <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
+                <p>
+                  <strong>Select the Reason for Visit:</strong
+                  >{{ this.seminar_obj.name }}
+                </p>
+                <p>
+                  <strong>Select Referral Type:</strong
+                  >{{ this.outreach_obj.name }}
+                </p>
               </div>
 
               <div class="col-8">
@@ -258,24 +266,30 @@ export default {
       "geography",
     ]),
 
-      basic: function () {
+    basic: function () {
       if (this.$store.state.sectionaltable_obj.length > 0) {
-        var formattedRecord1 = [];
-        this.$store.state.sectionaltable_obj.forEach(function (rec, items, arrays) {
+        let formattedRecord1 = [];
+        this.$store.state.sectionaltable_obj.forEach(function (rec) {
+          const six = rec[1].StringTokenizer(",");
+          // var maxLength = 0;
           formattedRecord1.push({
-            type: rec[0] + '',
-            sixyo: rec[1] + '',
-            twelveyo: rec[2] + '',
-            twelveyo: rec[3] + '',
-            whopvalue : rec[4] + '',
-            child: rec[5] + '',
-            teen: rec[6] + '',
-            adult: rec[7] + '',
-            olderadult: rec[8] + '',
-            jevaiapvalue: rec[9] + '',
-            total: rec[10] + '',
+            type: rec[0],
+            sixyo: six[1],
+            twelveyo: rec[2],
+            fifteenyo: rec[3],
+            whopvalue: rec[4],
+            child: rec[5],
+            teen: rec[6],
+            adult: rec[7],
+            olderadult: rec[8],
+            jevaiapvalue: rec[9],
+            total: rec[10],
           });
+                        // maxLength = six[0].length;
+
         });
+        // return maxLength;
+        // console.log(formattedRecord1)
         return formattedRecord1;
       } else {
         return [];
@@ -353,16 +367,11 @@ export default {
       End_Date: "",
       userChart: userChart,
       locationChart: locationChart,
-      uch: "uch",
-      lch: "lch",
-      type1: "bar",
-      type2: "pie",
       isActive: true,
       clinic: [],
       location: [],
       options: [{ name: "All Location", language: null }],
       user_location: [],
-      table_location: [],
       tablefilterdata: false,
       table_start_date: "",
       table_end_date: "",
@@ -467,47 +476,23 @@ export default {
       "listGeography",
     ]),
 
-    updateOptions() {
-      var geography_data = [{ name: "All Location", language: null }];
-      if (this.geography.length > 0) {
-        this.geography.forEach(function (geography_obj) {
-          geography_data.push({
-            name: geography_obj.name,
-            language: geography_obj.id,
-          });
-        });
-        this.options = geography_data;
-      }
-    },
-
-    checkbox_optionsupdate() {
-      var activities_data = [];
-      var activities_data1 = [];
-      if (this.activities_obj.length > 0) {
-        this.activities_obj.forEach(function (activity) {
-          activities_data.push({ text: activity.name, value: activity.id });
-          activities_data1.push(activity.id);
-        });
-        this.checkbox_options = activities_data;
-        this.checkbox_selected = activities_data1;
-      }
-    },
-
     CrossSectionalForm() {
-      var activities_details = this.activities_obj;
-      var table_activities = [];
       var l = [0, 0, 0, 0];
       var a = 0;
-      var p = [];
       this.checkbox_selected.forEach(function (e) {
         l[a] = e;
-        p.push(e);
         a++;
       });
       this.errors = [];
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
+        // this.location.forEach(function(location_id){
+        //   if (location_id.language!=null){
+        //     geography_id.push(location_id.language)
+        //     geography_name.push(location_id.name)
+        //   }
+        //   })
         if (this.location[0].language == null) {
           this.options.forEach(function (location_id) {
             if (location_id.language != null) {
@@ -536,38 +521,50 @@ export default {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
-      } else if (this.location == "") {
-        this.errors["location"] = "Selection of the location is required.";
-        this.$bvToast.show("error-toast");
       } else
-        p.forEach(function (activities_id) {
-          table_activities.push(
-            activities_details.find((evt) => evt.id == activities_id).name
-          );
-        }),
-          (this.table_start_date = this.returndate_obj.last_30_days),
-          (this.table_end_date = this.returndate_obj.today_date),
-          (this.table_activities = table_activities),
-          (this.tablefilterdata = true),
-          this.$store
-            .dispatch("CreateSectionalTable", {
-              start_date: this.returndate_obj.last_30_days,
-              end_date: this.returndate_obj.today_date,
-              reason_for_visit: this.seminar_obj["name"],
-              referral_type: this.outreach_obj["name"],
-              location: this.user_location,
-              health_post: l[0],
-              seminar: l[1],
-              outreach: l[2],
-              training: l[3],
-            })
-            .then(() => {
-              if (this.errormessage.length > 0) {
-                this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
-                (this.message = ""), this.$bvToast.show("success-toast");
-              }
-            });
+        this.$store
+          .dispatch("CreateSectionalTable", {
+            start_date: this.returndate_obj.last_30_days,
+            end_date: this.returndate_obj.today_date,
+            reason_for_visit: this.seminar_obj["name"],
+            referral_type: this.outreach_obj["name"],
+            location: this.user_location,
+            health_post: l[0],
+            seminar: l[1],
+            outreach: l[2],
+            training: l[3],
+          })
+          .then(() => {
+            if (this.errormessage.length > 0) {
+              this.$bvToast.show("error-toast");
+            } else if (this.successmessage == "success") {
+              (this.message = ""), this.$bvToast.show("success-toast");
+            }
+          });
+    },
+    updateOptions() {
+      var geography_data = [{ name: "All Location", language: null }];
+      if (this.geography.length > 0) {
+        this.geography.forEach(function (geography_obj) {
+          geography_data.push({
+            name: geography_obj.name,
+            language: geography_obj.id,
+          });
+        });
+        this.options = geography_data;
+      }
+    },
+    checkbox_optionsupdate() {
+      var activities_data = [];
+      var activities_data1 = [];
+      if (this.activities_obj.length > 0) {
+        this.activities_obj.forEach(function (activity) {
+          activities_data.push({ text: activity.name, value: activity.id });
+          activities_data1.push(activity.id);
+        });
+        this.checkbox_options = activities_data;
+        this.checkbox_selected = activities_data1;
+      }
     },
   },
 };
