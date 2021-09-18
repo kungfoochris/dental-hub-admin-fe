@@ -270,11 +270,10 @@ export default {
       if (this.$store.state.sectionaltable_obj.length > 0) {
         let formattedRecord1 = [];
         this.$store.state.sectionaltable_obj.forEach(function (rec) {
-          const six = rec[1].StringTokenizer(",");
-          // var maxLength = 0;
+          // const six = rec[1].Split(",");
           formattedRecord1.push({
             type: rec[0],
-            sixyo: six[1],
+            sixyo: rec[1],
             twelveyo: rec[2],
             fifteenyo: rec[3],
             whopvalue: rec[4],
@@ -285,11 +284,7 @@ export default {
             jevaiapvalue: rec[9],
             total: rec[10],
           });
-                        // maxLength = six[0].length;
-
         });
-        // return maxLength;
-        // console.log(formattedRecord1)
         return formattedRecord1;
       } else {
         return [];
@@ -352,9 +347,9 @@ export default {
   created() {
     this.listReturnDate();
     this.listSectionalTable();
-    this.listActivitie().then(() => {
-      this.checkbox_optionsupdate();
-    });
+    // this.listActivitie().then(() => {
+    //   this.checkbox_optionsupdate();
+    // });
     this.listGeography().then(() => {
       this.updateOptions();
     });
@@ -394,8 +389,14 @@ export default {
       ],
       seminar_obj: "",
       training: [],
-      checkbox_options: [],
-      checkbox_selected: [],
+      // checkbox_options: [],
+      checkbox_options: [
+        { text: "Community Outreach",value: 1, },
+        { text: "Health Post",value: 2, },
+        { text: "Training",value: 4, },
+        { text: "School Seminar",value: 3, },
+      ],
+      checkbox_selected:[1,2,3,4],
       basicFields: [
         { key: "type", label: "", tdClass: "font-weight-bold" },
         { key: "sixyo", label: "6 yo" },
@@ -472,17 +473,31 @@ export default {
     ...mapActions([
       "listReturnDate",
       "listSectionalTable",
-      "listActivitie",
+      // "listActivitie",
       "listGeography",
     ]),
-
+    //  dispatchAction(actionName) {
+    //   switch (actionName.key) {
+    //     case "all":
+    //       //window.alert('You just dispatched "all" action!')
+    //       break;
+    //   }
+    // },
+    
     CrossSectionalForm() {
-      var l = [0, 0, 0, 0];
-      var a = 0;
-      this.checkbox_selected.forEach(function (e) {
-        l[a] = e;
-        a++;
-      });
+      // var l = [0, 0, 0, 0];
+      // var a = 0;
+      // this.checkbox_selected.forEach(function (e) {
+      //   l[a] = e;
+      //   a++;
+      // });
+
+      // var activity_id = [];
+      // this.checkbox_selected.forEach(function (checkbox_id) {
+      //   activity_id.push(checkbox_id.key);
+      // });
+       this.checkbox_selected = [1,2,3,4];
+
       this.errors = [];
       if (this.location.length > 0) {
         var geography_id = [];
@@ -528,11 +543,8 @@ export default {
             end_date: this.returndate_obj.today_date,
             reason_for_visit: this.seminar_obj["name"],
             referral_type: this.outreach_obj["name"],
+            activity:this.checkbox_selected,
             location: this.user_location,
-            health_post: l[0],
-            seminar: l[1],
-            outreach: l[2],
-            training: l[3],
           })
           .then(() => {
             if (this.errormessage.length > 0) {
@@ -554,18 +566,18 @@ export default {
         this.options = geography_data;
       }
     },
-    checkbox_optionsupdate() {
-      var activities_data = [];
-      var activities_data1 = [];
-      if (this.activities_obj.length > 0) {
-        this.activities_obj.forEach(function (activity) {
-          activities_data.push({ text: activity.name, value: activity.id });
-          activities_data1.push(activity.id);
-        });
-        this.checkbox_options = activities_data;
-        this.checkbox_selected = activities_data1;
-      }
-    },
+    // checkbox_optionsupdate() {
+    //   var activities_data = [];
+    //   var activities_data1 = [];
+    //   if (this.activities_obj.length > 0) {
+    //     this.activities_obj.forEach(function (activity) {
+    //       activities_data.push({ text: activity.name, value: activity.id });
+    //       activities_data1.push(activity.id);
+    //     });
+    //     this.checkbox_options = activities_data;
+    //     this.checkbox_selected = activities_data1;
+    //   }
+    // },
   },
 };
 </script>

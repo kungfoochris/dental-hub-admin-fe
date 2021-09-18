@@ -44,7 +44,6 @@ export default {
       }
     },
   },
-
   created(){
     this.spinner = true;
     this.listOverviewBarGraph().then(() => {
@@ -155,7 +154,6 @@ export default {
       });
     },
   },
-
   data(){
     return{
       spinner: false
