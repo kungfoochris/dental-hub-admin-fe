@@ -41,8 +41,8 @@ export default{
 
     'loginvisualization1':"",
     'activities_obj':[],
-    'longitudinalmeasures_obj':[],
-    'longitudinalmeasures_obj1':[],
+    'longitudinalmeasures_obj_one':[],
+    'longitudinalmeasures_obj_two':[],
 
     'dashboard_piechartpost':[],
     'returndate_obj':[],

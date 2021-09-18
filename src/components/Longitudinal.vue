@@ -104,17 +104,14 @@
               <div class="col-lg-4 col-md-4 col-sm-12">
                 <h6>Select Age Group:</h6>
                 <multiselect
-                  v-model="age"
-                  :options="ageGroup"
-                  :multiple="false"
-                  :close-on-select="false"
-                  :clear-on-select="false"
+                  v-model="age_group"
+                  :options="agegroup_options"
                   :preserve-search="true"
-                  placeholder="Indicator Age"
-                  label="age"
-                  track-by="age"
-                  open-direction="bottom"
+                  placeholder="Referral Type"
+                  label="name"
+                  track-by="name"
                   :preselect-first="true"
+                  open-direction="bottom"
                 >
                 </multiselect>
               </div>
@@ -353,8 +350,8 @@ export default {
       "successmessage",
       "returndate_obj",
       "sectionaltable_obj",
-      "longitudinalmeasures_obj",
-      "longitudinalmeasures_obj1",
+      "longitudinalmeasures_obj_one",
+      "longitudinalmeasures_obj_two",
       "activities_obj",
       "errormessage",
       "message",
@@ -362,9 +359,9 @@ export default {
     ]),
 
     longitudinalItems: function () {
-      if (this.$store.state.longitudinalmeasures_obj.length > 0) {
+      if (this.$store.state.longitudinalmeasures_obj_one.length > 0) {
         var formattedRecord1 = [];
-        this.$store.state.longitudinalmeasures_obj.forEach(function (rec) {
+        this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
           formattedRecord1.push({
             type: rec[0],
             tw1: rec[1],
@@ -382,9 +379,9 @@ export default {
     },
 
     longitudinalItems1: function () {
-      if (this.$store.state.longitudinalmeasures_obj1.length > 0) {
+      if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
-        this.$store.state.longitudinalmeasures_obj1.forEach(function (rec) {
+        this.$store.state.longitudinalmeasures_obj_two.forEach(function (rec) {
           formattedRecord2.push({
             type: rec[0],
             tw1: rec[1],
@@ -404,10 +401,11 @@ export default {
 
   created() {
     this.listReturnDate();
-    this.listLongitudinalMeasures();
-    this.listActivitie().then(() => {
-      this.checkbox_optionsupdate();
-    });
+    this.listLongitudinalMeasuresOne();
+    this.listLongitudinalMeasuresTwo();
+    // this.listActivitie().then(() => {
+    //   this.checkbox_optionsupdate();
+    // });
     this.listGeography().then(() => {
       this.updateOptions();
     });
@@ -440,32 +438,38 @@ export default {
         { name: "Other Problem" },
       ],
       seminar_obj: "",
-      age: "",
-      ageGroup: [
-        { age: "Child ≤ 12 Y", language: null },
-        { age: "Teen 13-18 Y", language: null },
-        { age: "Adult 19-60 Y", language: null },
-        { age: "Older Adult ≥ 61 Y", language: null },
-        { age: "6 Y", language: null },
-        { age: "12 Y", language: null },
-        { age: "15 Y", language: null },
+      age_group: "",
+      agegroup_options: [
+        { name: "Child ≤ 12 Y", value: 1 },
+        { name: "Teen 13-18 Y", value: 2 },
+        { name: "Adult 19-60 Y", value: 3 },
+        { name: "Older Adult ≥ 61 Y", value: 4 },
+        { name: "6 Y", value: 5 },
+        { name: "12 Y", value: 6 },
+        { name: "15 Y", value: 7 },
       ],
       training: [],
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
-      checkbox_options: [],
-      checkbox_selected: [],
-      checkbox_selected_follow_up: false,
+      // checkbox_options: [],
+      checkbox_selected: [1, 2, 3, 4],
+      checkbox_options: [
+        { text: "Community Outreach", value: 1 },
+        { text: "Health Post", value: 2 },
+        { text: "Training", value: 4 },
+        { text: "School Seminar", value: 3 },
+      ],
+      checkbox_selected_follow_up: [1],
       checkbox_followup_options: [{ text: "Follow up", value: 1 }],
       errors: [],
       location: [],
       options: [{ name: "All Location", language: null }],
       user_location: [],
-      table_location: [],
-      tablefilterdata: false,
-      table_start_date: "",
-      table_end_date: "",
-      table_activities: [],
-      table_location: [],
+      // table_location: [],
+      // tablefilterdata: false,
+      // table_start_date: "",
+      // table_end_date: "",
+      // table_activities: [],
+      // table_location: [],
 
       longitudinalFields: [
         // { key: "serialnumber", label: "S.N" },
@@ -501,7 +505,8 @@ export default {
   methods: {
     ...mapActions([
       "listReturnDate",
-      "listLongitudinalMeasures",
+      "listLongitudinalMeasuresOne",
+      "listLongitudinalMeasuresTwo",
       "listActivitie",
       "listGeography",
     ]),
@@ -519,30 +524,30 @@ export default {
       }
     },
 
-    checkbox_optionsupdate() {
-      var activities_data = [];
-      var activities_data1 = [];
-      if (this.activities_obj.length > 0) {
-        this.activities_obj.forEach(function (activity) {
-          activities_data.push({ text: activity.name, value: activity.id });
-          activities_data1.push(activity.id);
-        });
-        this.checkbox_options = activities_data;
-        this.checkbox_selected = activities_data1;
-      }
-    },
+    // checkbox_optionsupdate() {
+    //   var activities_data = [];
+    //   var activities_data1 = [];
+    //   if (this.activities_obj.length > 0) {
+    //     this.activities_obj.forEach(function (activity) {
+    //       activities_data.push({ text: activity.name, value: activity.id });
+    //       activities_data1.push(activity.id);
+    //     });
+    //     this.checkbox_options = activities_data;
+    //     this.checkbox_selected = activities_data1;
+    //   }
+    // },
 
     LongitudinalForm() {
-      var activities_details = this.activities_obj;
-      var table_activities = [];
-      var l = [0, 0, 0, 0];
-      var a = 0;
-      var p = [];
-      this.checkbox_selected.forEach(function (e) {
-        l[a] = e;
-        p.push(e);
-        a++;
-      });
+      // var activities_details = this.activities_obj;
+      // var table_activities = [];
+      // var l = [0, 0, 0, 0];
+      // var a = 0;
+      // var p = [];
+      // this.checkbox_selected.forEach(function (e) {
+      //   l[a] = e;
+      //   p.push(e);
+      //   a++;
+      // });
       this.errors = [];
       if (this.location.length > 0) {
         var geography_id = [];
@@ -563,7 +568,7 @@ export default {
           });
         }
         this.user_location = geography_id;
-        this.table_location = geography_name;
+        // this.table_location = geography_name;
       }
       if (this.seminar_obj == null) {
         this.errors["seminar_obj"] = "Reason For Visit required.";
@@ -576,48 +581,35 @@ export default {
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
       } else
-        p.forEach(function (activities_id) {
-          table_activities.push(
-            activities_details.find((evt) => evt.id == activities_id).name
-          );
-        }),
-          (this.table_start_date = this.returndate_obj.last_30_days),
-          (this.table_end_date = this.returndate_obj.today_date),
-          (this.table_activities = table_activities),
-          (this.tablefilterdata = true),
-          this.$store
-            .dispatch("CreateLongitudinal", {
-              frame1_start_date: this.returndate_obj.last_30_days,
-              frame1_end_date: this.returndate_obj.today_date,
-              frame2_start_date: this.returndate_obj.last_30_days,
-              frame2_end_date: this.returndate_obj.today_date,
-              reason_for_visit: this.seminar_obj["name"],
-              referral_type: this.outreach_obj["name"],
-              location: this.user_location,
-              health_post: l[0],
-              seminar: l[1],
-              outreach: l[2],
-              training: l[3],
-            })
-            .then(() => {
-              if (this.errormessage == "errormessage") {
-                this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
-                this.$bvToast.show("success-toast");
-              }
-            }),
-          this.$store.dispatch("CreateLongitudinal1", {
+        // this.$store
+        //   .dispatch("CreateLongitudinalOne", {
+        //     frame1_start_date: this.returndate_obj.last_30_days,
+        //     frame1_end_date: this.returndate_obj.today_date,
+        //     frame2_start_date: this.returndate_obj.last_30_days,
+        //     frame2_end_date: this.returndate_obj.today_date,
+        //     reason_for_visit: this.seminar_obj["name"],
+        //     referral_type: this.outreach_obj["name"],
+        //     age_group: this.age_group["name"],
+        //     location: this.user_location,
+        //     activity: this.checkbox_selected,
+        //   })
+        //   .then(() => {
+        //     if (this.errormessage == "errormessage") {
+        //       this.$bvToast.show("error-toast");
+        //     } else if (this.successmessage == "success") {
+        //       this.$bvToast.show("success-toast");
+        //     }
+        //   }),
+          this.$store.dispatch("CreateLongitudinalTwo", {
             frame1_start_date: this.frame1_start_date,
             frame1_end_date: this.frame1_end_date,
             frame2_start_date: this.frame2_start_date,
             frame2_end_date: this.frame2_end_date,
             reason_for_visit: this.seminar_obj["name"],
             referral_type: this.outreach_obj["name"],
-            health_post: l[0],
-            seminar: l[1],
-            outreach: l[2],
-            training: l[3],
-            select_followup: l[4],
+            Age_group: this.age_group["name"],
+            location: this.user_location,
+            activity: this.checkbox_selected,
           });
     },
   },

@@ -115,13 +115,13 @@ export default{
 		state.treatmentvisualizationbarchart = treatmentvisualizationbarchart;
 	},
 
-	setLongitudinalMeasures(state, longitudinalmeasures_obj){
-		state.longitudinalmeasures_obj = longitudinalmeasures_obj;
+	setLongitudinalMeasuresOne(state, longitudinalmeasures_obj_one){
+		state.longitudinalmeasures_obj_one = longitudinalmeasures_obj_one;
 	},
 
 
-	setLongitudinalMeasures1(state, longitudinalmeasures_obj1){
-		state.longitudinalmeasures_obj1 = longitudinalmeasures_obj1;
+	setLongitudinalMeasuresTwo(state, longitudinalmeasures_obj_two){
+		state.longitudinalmeasures_obj_two = longitudinalmeasures_obj_two;
 	},
 
 

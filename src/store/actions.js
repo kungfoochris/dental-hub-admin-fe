@@ -621,13 +621,24 @@ export default {
       });
   },
 
-  listLongitudinalMeasures({ commit }) {
+  listLongitudinalMeasuresOne({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
-      .get("https://app.abhiyantrik.com/api/v1/longitudinal")
+      .get("https://app.abhiyantrik.com/api/v1/longitudinaltwo")
       .then((response) => {
         if (response.status == 200) {
-          commit("setLongitudinalMeasures", response.data);
+          commit("setLongitudinalMeasuresOne", response.data);
+        }
+      });
+  },
+
+  listLongitudinalMeasuresTwo({ commit }) {
+    axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
+    return axios
+      .get("https://app.abhiyantrik.com/api/v1/longitudinaltwo")
+      .then((response) => {
+        if (response.status == 200) {
+          commit("setLongitudinalMeasuresTwo", response.data);
         }
       });
   },
@@ -654,38 +665,38 @@ export default {
       });
   },
 
-  CreateLongitudinal({ commit }, overviewvisualization_obj) {
-    axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
-    return axios
-      .post(
-        "https://app.abhiyantrik.com/api/v1/longitudinal",
-        overviewvisualization_obj
-      )
-      .then((response) => {
-        if (response.status == 200) {
-          commit("setErrorMessage", "");
-          commit("setSuccessMessage", "success");
-          commit("setLongitudinalMeasures", response.data);
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          commit("setErrorMessage", "errormessage");
-          commit("setMessage", error.response.data.message);
-        }
-      });
-  },
+  // CreateLongitudinalOne({ commit }, overviewvisualization_obj) {
+  //   axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
+  //   return axios
+  //     .post(
+  //       "https://app.abhiyantrik.com/api/v1/longitudinaltwo",
+  //       overviewvisualization_obj
+  //     )
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //         commit("setErrorMessage", "");
+  //         commit("setSuccessMessage", "success");
+  //         commit("setLongitudinalMeasuresOne", response.data);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error) {
+  //         commit("setErrorMessage", "errormessage");
+  //         commit("setMessage", error.response.data.message);
+  //       }
+  //     });
+  // },
 
-  CreateLongitudinal1({ commit }, overviewvisualization_obj) {
+  CreateLongitudinalTwo({ commit }, overviewvisualization_obj) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
       .post(
-        "https://app.abhiyantrik.com/api/v1/longitudinal1",
+        "https://app.abhiyantrik.com/api/v1/longitudinaltwo",
         overviewvisualization_obj
       )
       .then((response) => {
         if (response.status == 200) {
-          commit("setLongitudinalMeasures1", response.data);
+          commit("setLongitudinalMeasuresTwo", response.data);
         }
       });
   },
