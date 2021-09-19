@@ -231,27 +231,25 @@
                   <b-thead head-variant="dark">
                     <b-th
                       class="text-center"
-                      v-for="fields in longitudinalFields"
+                      v-for="(fields, index) in longitudinalFields"
+                      :key="index"
                       >{{ fields.label }}</b-th
                     >
                   </b-thead>
 
                   <b-tbody>
-                    <b-tr v-for="items in longitudinalItems">
-                      <!-- <th v-html="items.serialnumber">
-                        {{ items.serialnumber }}
-                      </th> -->
+                    <b-tr
+                      v-for="(items, index) in longitudinalItems"
+                      :key="index"
+                    >
                       <th v-html="items.type">{{ items.type }}</th>
-                      <td class="text-center">{{ items.tw1 }}</td>
-                      <td class="text-center">{{ items.tw2 }}</td>
+                      <td class="text-center">{{ items.tp1 }}</td>
+                      <td class="text-center">{{ items.tp2 }}</td>
                       <td class="text-center">{{ items.realDifference }}</td>
-                      <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
-                      <!-- <td class="text-center align-middle" v-else></td> -->
-                      <td class="text-center">{{ items.effectsizevalue }}</td>
-                      <td class="text-center">
-                        {{ items.effectsizedescription }}
+                      <td v-html="items.esv">{{ items.esv }}</td>
+                      <td v-html="items.esd">
+                        {{ items.esd }}
                       </td>
-                      <!-- <td class="text-center">{{ items.propDifference }}</td> -->
                       <td class="text-center">{{ items.pValue }}</td>
                     </b-tr>
                   </b-tbody>
@@ -267,11 +265,9 @@
               </div>
             </div>
           </div>
-          <!-- </b-card-text> -->
         </b-tab>
 
         <b-tab :title="sample_frame[1]">
-          <!-- <b-card-text> -->
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
@@ -292,27 +288,25 @@
                   <b-thead head-variant="dark">
                     <b-th
                       class="text-center"
-                      v-for="fields in longitudinalFields"
+                      v-for="(fields, index) in longitudinalFields"
+                      :key="index"
                       >{{ fields.label }}</b-th
                     >
                   </b-thead>
 
                   <b-tbody>
-                    <b-tr v-for="items in longitudinalItems1">
-                      <!-- <th v-html="items.serialnumber">
-                        {{ items.serialnumber }}
-                      </th> -->
+                    <b-tr
+                      v-for="(items, index) in longitudinalItems1"
+                      :key="index"
+                    >
                       <th v-html="items.type">{{ items.type }}</th>
-                      <td class="text-center">{{ items.tw1 }}</td>
-                      <td class="text-center">{{ items.tw2 }}</td>
+                      <td class="text-center">{{ items.tp1 }}</td>
+                      <td class="text-center">{{ items.tp2 }}</td>
                       <td class="text-center">{{ items.realDifference }}</td>
-                      <!-- <td class="text-center align-middle" rowspan="4" v-if="items.realDifference"> {{ items.realDifference }} </td> -->
-                      <!-- <td class="text-center align-middle" v-else></td> -->
-                      <td class="text-center">{{ items.effectsizevalue }}</td>
-                      <td class="text-center">
-                        {{ items.effectsizedescription }}
+                      <td class="text-center">{{ items.esv }}</td>
+                      <td class="text-center" v-html="items.esd">
+                        {{ items.esd }}
                       </td>
-                      <td class="text-center">{{ items.propDifference }}</td>
                       <td class="text-center">{{ items.pValue }}</td>
                     </b-tr>
                   </b-tbody>
@@ -323,7 +317,6 @@
               </div>
             </div>
           </div>
-          <!-- </b-card-text> -->
         </b-tab>
       </b-tabs>
     </div>
@@ -333,17 +326,12 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import AppHeader from "./Header.vue";
-// import Visualization from './Visualization';
-import userChart from "../js/userchart.js";
 import locationChart from "../js/locationchart.js";
 
-// const axios = require('axios');
 export default {
   name: "Longitudinal",
   components: {
-    // "AuthenticationForm": AuthenticationForm
     "app-header": AppHeader,
-    // 'Visualization': Visualization
   },
   computed: {
     ...mapState([
@@ -352,24 +340,30 @@ export default {
       "sectionaltable_obj",
       "longitudinalmeasures_obj_one",
       "longitudinalmeasures_obj_two",
-      "activities_obj",
       "errormessage",
       "message",
       "geography",
     ]),
 
     longitudinalItems: function () {
-      if (this.$store.state.longitudinalmeasures_obj_one.length > 0) {
+      let incoming = this.$store.state.longitudinalmeasures_obj_one;
+      if (incoming.length > 0 && typeof incoming != "undefined") {
         var formattedRecord1 = [];
+        this.formattedRecord1 = JSON.stringify(incoming);
+        // let myArray = JSON.parse(this.$store.state.longitudinalmeasures_obj_one)
         this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
+          var type1 = rec[0].toString().split(",");
+          // var tp1 = rec[1].toString().split(",");
+          // let realDifferences = JSON.stringify(rec[3]).toString().split(",");
+          // var esd1 = rec[5].toNumber().split(",");
           formattedRecord1.push({
-            type: rec[0],
-            tw1: rec[1],
-            tw2: rec[2],
+            type: type1[0],
+            tp1: rec[1], 
+            tp2: rec[2],
             realDifference: rec[3],
-            propDifference: rec[4],
-            pValue: rec[5],
-            older: rec[6],
+            esv: rec[4],
+            esd: rec[5],
+            pValue: rec[6],
           });
         });
         return formattedRecord1;
@@ -382,14 +376,15 @@ export default {
       if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
         this.$store.state.longitudinalmeasures_obj_two.forEach(function (rec) {
+          let type1 = rec[0].toString().split(",");
           formattedRecord2.push({
-            type: rec[0],
-            tw1: rec[1],
-            tw2: rec[2],
+            type: type1[0],
+            tp1: rec[1],
+            tp2: rec[2],
             realDifference: rec[3],
-            propDifference: rec[4],
-            pValue: rec[5],
-            older: rec[6],
+            esv: rec[4],
+            esd: rec[5],
+            pValue: rec[6],
           });
         });
         return formattedRecord2;
@@ -403,9 +398,6 @@ export default {
     this.listReturnDate();
     this.listLongitudinalMeasuresOne();
     this.listLongitudinalMeasuresTwo();
-    // this.listActivitie().then(() => {
-    //   this.checkbox_optionsupdate();
-    // });
     this.listGeography().then(() => {
       this.updateOptions();
     });
@@ -450,7 +442,6 @@ export default {
       ],
       training: [],
       sample_frame: ["Sample Frame #1", "Sample Frame #2"],
-      // checkbox_options: [],
       checkbox_selected: [1, 2, 3, 4],
       checkbox_options: [
         { text: "Community Outreach", value: 1 },
@@ -464,41 +455,15 @@ export default {
       location: [],
       options: [{ name: "All Location", language: null }],
       user_location: [],
-      // table_location: [],
-      // tablefilterdata: false,
-      // table_start_date: "",
-      // table_end_date: "",
-      // table_activities: [],
-      // table_location: [],
-
       longitudinalFields: [
-        // { key: "serialnumber", label: "S.N" },
         { key: "type", label: "" },
-        { key: "tw1", label: "Time Point 1" },
-        { key: "tw2", label: "Time Point 2" },
+        { key: "tp1", label: "Time Point 1" },
+        { key: "tp2", label: "Time Point 2" },
         { key: "realDifference", label: "Real Difference" },
-        { key: "effectsizevalue", label: "Effect size value" },
-        { key: "effectsizedescription", label: "Effect size descriptor" },
-        // { key: "propDifference", label: "Proportional Difference" },
+        { key: "esv", label: "Effect size value" },
+        { key: "esd", label: "Effect size descriptor" },
         { key: "pValue", label: "P-value for related samples" },
       ],
-      // longitudinalItems:[
-      //   { type: 'Carries Risk'},
-      //   { type: '<span class="ml-4">Low</span>', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-      //   { type: '<span class="ml-4">Medium</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-      //   { type: '<span class="ml-4">High</span>', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-      //   { type: 'Any untreated caries present', tw1: '50', tw2: '20', propDifference: '15', pValue: '70' },
-      //   { type: 'Number of decayed primary teeth', tw1: '10', tw2: '30', realDifference: '10', propDifference: '15', pValue: '40' },
-      //   { type: 'Number of decayed permanent teeth', tw1: '10', tw2: '30', propDifference: '15', pValue: '40' },
-      //   { type: 'Cavity permanent molar or premolar', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //   { type: 'Cavity permanent anterior', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //   { type: 'Active infection', tw1: '80', tw2: '110', realDifference: '60', propDifference: '60', pValue: '190' },
-      //   { type: 'Mouth pain due to reversible pulpitis', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //   { type: 'Need ART filling', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //   { type: 'Need SDF', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //   { type: 'Need Extraction', tw1: '80', tw2: '110', propDifference: '60', pValue: '190' },
-      //
-      // ],
     };
   },
 
@@ -507,7 +472,6 @@ export default {
       "listReturnDate",
       "listLongitudinalMeasuresOne",
       "listLongitudinalMeasuresTwo",
-      "listActivitie",
       "listGeography",
     ]),
 
@@ -523,31 +487,7 @@ export default {
         this.options = geography_data;
       }
     },
-
-    // checkbox_optionsupdate() {
-    //   var activities_data = [];
-    //   var activities_data1 = [];
-    //   if (this.activities_obj.length > 0) {
-    //     this.activities_obj.forEach(function (activity) {
-    //       activities_data.push({ text: activity.name, value: activity.id });
-    //       activities_data1.push(activity.id);
-    //     });
-    //     this.checkbox_options = activities_data;
-    //     this.checkbox_selected = activities_data1;
-    //   }
-    // },
-
     LongitudinalForm() {
-      // var activities_details = this.activities_obj;
-      // var table_activities = [];
-      // var l = [0, 0, 0, 0];
-      // var a = 0;
-      // var p = [];
-      // this.checkbox_selected.forEach(function (e) {
-      //   l[a] = e;
-      //   p.push(e);
-      //   a++;
-      // });
       this.errors = [];
       if (this.location.length > 0) {
         var geography_id = [];
@@ -568,7 +508,6 @@ export default {
           });
         }
         this.user_location = geography_id;
-        // this.table_location = geography_name;
       }
       if (this.seminar_obj == null) {
         this.errors["seminar_obj"] = "Reason For Visit required.";
@@ -580,37 +519,38 @@ export default {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
-      } else
-        // this.$store
-        //   .dispatch("CreateLongitudinalOne", {
-        //     frame1_start_date: this.returndate_obj.last_30_days,
-        //     frame1_end_date: this.returndate_obj.today_date,
-        //     frame2_start_date: this.returndate_obj.last_30_days,
-        //     frame2_end_date: this.returndate_obj.today_date,
-        //     reason_for_visit: this.seminar_obj["name"],
-        //     referral_type: this.outreach_obj["name"],
-        //     age_group: this.age_group["name"],
-        //     location: this.user_location,
-        //     activity: this.checkbox_selected,
-        //   })
-        //   .then(() => {
-        //     if (this.errormessage == "errormessage") {
-        //       this.$bvToast.show("error-toast");
-        //     } else if (this.successmessage == "success") {
-        //       this.$bvToast.show("success-toast");
-        //     }
-        //   }),
-          this.$store.dispatch("CreateLongitudinalTwo", {
-            frame1_start_date: this.frame1_start_date,
-            frame1_end_date: this.frame1_end_date,
-            frame2_start_date: this.frame2_start_date,
-            frame2_end_date: this.frame2_end_date,
-            reason_for_visit: this.seminar_obj["name"],
-            referral_type: this.outreach_obj["name"],
-            Age_group: this.age_group["name"],
-            location: this.user_location,
-            activity: this.checkbox_selected,
-          });
+      }
+      // this.$store
+      //   .dispatch("CreateLongitudinalOne", {
+      //     frame1_start_date: this.returndate_obj.last_30_days,
+      //     frame1_end_date: this.returndate_obj.today_date,
+      //     frame2_start_date: this.returndate_obj.last_30_days,
+      //     frame2_end_date: this.returndate_obj.today_date,
+      //     reason_for_visit: this.seminar_obj["name"],
+      //     referral_type: this.outreach_obj["name"],
+      //     age_group: this.age_group["name"],
+      //     location: this.user_location,
+      //     activity: this.checkbox_selected,
+      //   })
+      //   .then(() => {
+      //     if (this.errormessage == "errormessage") {
+      //       this.$bvToast.show("error-toast");
+      //     } else if (this.successmessage == "success") {
+      //       this.$bvToast.show("success-toast");
+      //     }
+      //   }),
+      else
+        this.$store.dispatch("CreateLongitudinalTwo", {
+          frame1_start_date: this.frame1_start_date,
+          frame1_end_date: this.frame1_end_date,
+          frame2_start_date: this.frame2_start_date,
+          frame2_end_date: this.frame2_end_date,
+          reason_for_visit: this.seminar_obj["name"],
+          referral_type: this.outreach_obj["name"],
+          Age_group: this.age_group["name"],
+          location: this.user_location,
+          activity: this.checkbox_selected,
+        });
     },
   },
 };

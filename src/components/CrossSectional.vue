@@ -160,37 +160,6 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3 text-center">3.1 Cross-Sectional Measures</h3>
-
-            <div class="row mb-3 text-center" v-show="tablefilterdata">
-              <div class="col-4">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
-                <p>
-                  <strong>Select the Reason for Visit:</strong
-                  >{{ this.seminar_obj.name }}
-                </p>
-                <p>
-                  <strong>Select Referral Type:</strong
-                  >{{ this.outreach_obj.name }}
-                </p>
-              </div>
-
-              <div class="col-8">
-                <p>
-                  <strong>Location(s): </strong
-                  ><span v-for="location in table_location"
-                    >{{ location }},</span
-                  >
-                </p>
-                <p>
-                  <strong>Activities: </strong
-                  ><span v-for="activity in table_activities"
-                    >{{ activity }},</span
-                  >
-                </p>
-              </div>
-            </div>
-
             <b-table-simple hover responsive>
               <b-thead head-variant="dark">
                 <b-tr>
@@ -204,16 +173,15 @@
                 </b-tr>
               </b-thead>
               <b-thead>
-                <b-th class="text-center" v-for="fields in basicFields">{{
+                <b-th class="text-center" v-for="fields in basicFields" :key="fields">{{
                   fields.label
                 }}</b-th>
               </b-thead>
 
               <b-tbody>
-                <b-tr v-for="items in basic">
-                  <!-- <th v-html="items.serial">{{ items.serial }}</th> -->
+                <b-tr v-for="items in basic" :key="items">
                   <th v-html="items.type">{{ items.type }}</th>
-                  <td class="text-center">{{ items.sixyo }}</td>
+                  <td class="text-center">{{ items.sixyo}}</td>
                   <td class="text-center">{{ items.twelveyo }}</td>
                   <td class="text-center">{{ items.fifteenyo }}</td>
                   <td class="text-center">{{ items.whopvalue }}</td>
@@ -247,7 +215,6 @@ import Visualization from "./Visualization";
 import userChart from "../js/userchart.js";
 import locationChart from "../js/locationchart.js";
 
-// const axios = require('axios');
 export default {
   name: "CrossSectional",
   components: {
@@ -270,9 +237,10 @@ export default {
       if (this.$store.state.sectionaltable_obj.length > 0) {
         let formattedRecord1 = [];
         this.$store.state.sectionaltable_obj.forEach(function (rec) {
-          // const six = rec[1].Split(",");
+          let type1 = rec[0].toString().split(",");
+          // let sixyo1 = rec[1].toString().split(",");
           formattedRecord1.push({
-            type: rec[0],
+            type: type1[0],
             sixyo: rec[1],
             twelveyo: rec[2],
             fifteenyo: rec[3],
@@ -290,58 +258,6 @@ export default {
         return [];
       }
     },
-
-    // basic: function () {
-    //   let input = this.$store.state.sectionaltable_obj;
-    //   let rows = input.length;
-    //   let formatted = [];
-    //   // console.log(input);
-    //   for (let i = 0; i < rows; i++) {
-    //     let formattedRecord = input[i].length;
-    //     // console.log(i, formattedRecord);
-    //     for (let n = 0; n < formattedRecord; n++) {
-    //       //  console.log( input[i][n]);
-
-    //     }
-    //    return formattedRecord;
-    //     // console.log(formattedRecord);
-    //   }
-    // },
-
-    // basic: function () {
-    //   // if (this.$store.state.sectionaltable_obj.length > 0) {
-    //   let incoming = this.$store.state.sectionaltable_obj;
-    //   let rows = incoming;
-    //   // console.log(rows)
-    //   for (let i = 0; i < rows.length; i++) {
-    //     let items = rows[i].length;
-    //     // console.log(items)
-    //     // for (let n = 0; n < items; n++) {
-    //     //   // console.log(rows[i][n])
-    //     //   let item = rows[i][n].length;
-    //     //   for (let j = 0; j < item; j++) {
-    //     //     // console.log(i, rows[n][j])
-    //     //      let formattedRecord = [
-    //     //         type = j[0],
-    //     //         sixyo= j[1],
-    //     //         twelveyo= j[2],
-    //     //         fifteenyo= j[3],
-    //     //         whopvalue= j[4],
-    //     //         child =  j[5],
-    //     //         teen = j[6],
-    //     //         adult = j[7],
-    //     //         olderadult = j[8],
-    //     //         jevaiapvalue=  j[9],
-    //     //         total= j[10],
-    //     //      ];
-    //     //     return formattedRecord;
-    //     //   }
-    //     // }
-    //   }
-    //   // } else {
-    //   // return [];
-    //   // }
-    // },
   },
 
   created() {
@@ -389,16 +305,15 @@ export default {
       ],
       seminar_obj: "",
       training: [],
-      // checkbox_options: [],
       checkbox_options: [
-        { text: "Community Outreach",value: 1, },
-        { text: "Health Post",value: 2, },
-        { text: "Training",value: 4, },
-        { text: "School Seminar",value: 3, },
+        { text: "Community Outreach", value: 1 },
+        { text: "Health Post", value: 2 },
+        { text: "Training", value: 4 },
+        { text: "School Seminar", value: 3 },
       ],
-      checkbox_selected:[1,2,3,4],
+      checkbox_selected: [1, 2, 3, 4],
       basicFields: [
-        { key: "type", label: "", tdClass: "font-weight-bold" },
+        { key: "type", label: "Types", tdClass: "font-weight-bold" },
         { key: "sixyo", label: "6 yo" },
         { key: "twelveyo", label: "12 yo" },
         { key: "fifteenyo", label: "15 yo" },
@@ -470,44 +385,14 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      "listReturnDate",
-      "listSectionalTable",
-      // "listActivitie",
-      "listGeography",
-    ]),
-    //  dispatchAction(actionName) {
-    //   switch (actionName.key) {
-    //     case "all":
-    //       //window.alert('You just dispatched "all" action!')
-    //       break;
-    //   }
-    // },
-    
+    ...mapActions(["listReturnDate", "listSectionalTable", "listGeography"]),
+
     CrossSectionalForm() {
-      // var l = [0, 0, 0, 0];
-      // var a = 0;
-      // this.checkbox_selected.forEach(function (e) {
-      //   l[a] = e;
-      //   a++;
-      // });
-
-      // var activity_id = [];
-      // this.checkbox_selected.forEach(function (checkbox_id) {
-      //   activity_id.push(checkbox_id.key);
-      // });
-       this.checkbox_selected = [1,2,3,4];
-
+      // this.checkbox_selected = [1, 2, 3, 4];
       this.errors = [];
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
-        // this.location.forEach(function(location_id){
-        //   if (location_id.language!=null){
-        //     geography_id.push(location_id.language)
-        //     geography_name.push(location_id.name)
-        //   }
-        //   })
         if (this.location[0].language == null) {
           this.options.forEach(function (location_id) {
             if (location_id.language != null) {
@@ -543,7 +428,7 @@ export default {
             end_date: this.returndate_obj.today_date,
             reason_for_visit: this.seminar_obj["name"],
             referral_type: this.outreach_obj["name"],
-            activity:this.checkbox_selected,
+            activity: this.checkbox_selected,
             location: this.user_location,
           })
           .then(() => {
@@ -566,18 +451,6 @@ export default {
         this.options = geography_data;
       }
     },
-    // checkbox_optionsupdate() {
-    //   var activities_data = [];
-    //   var activities_data1 = [];
-    //   if (this.activities_obj.length > 0) {
-    //     this.activities_obj.forEach(function (activity) {
-    //       activities_data.push({ text: activity.name, value: activity.id });
-    //       activities_data1.push(activity.id);
-    //     });
-    //     this.checkbox_options = activities_data;
-    //     this.checkbox_selected = activities_data1;
-    //   }
-    // },
   },
 };
 </script>
