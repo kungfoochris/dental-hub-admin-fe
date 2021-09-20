@@ -345,46 +345,60 @@ export default {
       "geography",
     ]),
 
-    longitudinalItems: function () {
-      let incoming = this.$store.state.longitudinalmeasures_obj_one;
-      if (incoming.length > 0 && typeof incoming != "undefined") {
-        var formattedRecord1 = [];
-        this.formattedRecord1 = JSON.stringify(incoming);
-        // let myArray = JSON.parse(this.$store.state.longitudinalmeasures_obj_one)
-        this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
-          var type1 = rec[0].toString().split(",");
-          // var tp1 = rec[1].toString().split(",");
-          // let realDifferences = JSON.stringify(rec[3]).toString().split(",");
-          // var esd1 = rec[5].toNumber().split(",");
-          formattedRecord1.push({
-            type: type1[0],
-            tp1: rec[1], 
-            tp2: rec[2],
-            realDifference: rec[3],
-            esv: rec[4],
-            esd: rec[5],
-            pValue: rec[6],
-          });
-        });
-        return formattedRecord1;
-      } else {
-        return [];
-      }
-    },
-
+    // longitudinalItems: function () {
+    //   let incoming = this.$store.state.longitudinalmeasures_obj_one;
+    //   if (incoming.length > 0 && typeof incoming != "undefined") {
+    //     var formattedRecord1 = [];
+    //     this.formattedRecord1 = JSON.stringify(incoming);
+    //     // let myArray = JSON.parse(this.$store.state.longitudinalmeasures_obj_one)
+    //     this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
+    //       var type1 = rec[0].toString().split(",");
+    //       // var tp1 = rec[1].toString().split(",");
+    //       // let realDifferences = JSON.stringify(rec[3]).toString().split(",");
+    //       // var esd1 = rec[5].toNumber().split(",");
+    //       formattedRecord1.push({
+    //         type: type1[0],
+    //         tp1: rec[1] ,
+    //         tp2: rec[2],
+    //         realDifference: rec[3],
+    //         esv: rec[4],
+    //         esd: rec[5],
+    //         pValue: rec[6],
+    //       });
+    //     });
+    //     return formattedRecord1;
+    //   } else {
+    //     return [];
+    //   }
+    // },
+    // toObject:function(arr){
+    //   var rv = {};
+    //   for (var i = 0; i < arr.length; ++i){
+    //     rv[i] = arr[i]
+    //     return rv
+    //   }
+    // },
     longitudinalItems1: function () {
       if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
         this.$store.state.longitudinalmeasures_obj_two.forEach(function (rec) {
           let type1 = rec[0].toString().split(",");
+          let esdOne = (rec[5] + "").split(",");
+          let rd = (rec[3] + "").split(",");
+          let esv = (rec[4] + "").split(",");
+          let pv = (rec[6] + "").split(",");
+          // let tpone = (rec[1] + "").split(",");
+          // let tpone = (rec[1] + "").split(",");
+          // var incoming = [];
+          // this.incoming = rec.toString().split(",");
           formattedRecord2.push({
             type: type1[0],
-            tp1: rec[1],
-            tp2: rec[2],
-            realDifference: rec[3],
-            esv: rec[4],
-            esd: rec[5],
-            pValue: rec[6],
+            tp1: rec[1] + "",
+            tp2: rec[2] + "",
+            realDifference: rd[0],
+            esv: esv[0],
+            esd: esdOne[0],
+            pValue: pv[0],
           });
         });
         return formattedRecord2;

@@ -160,40 +160,53 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3 text-center">3.1 Cross-Sectional Measures</h3>
-            <b-table-simple hover responsive>
-              <b-thead head-variant="dark">
-                <b-tr>
-                  <b-th colspan="2"></b-th>
-                  <b-th class="text-left" colspan="4"
-                    >WHO indicator age-groups</b-th
+            <div class="text-center text-primary my-2" v-if="loading">
+              <b-spinner
+                class="align-middle"
+                type="grow"
+                style="width: 5rem; height: 5rem"
+              ></b-spinner>
+            </div>
+              <b-table-simple hover responsive v-else>
+                <b-thead head-variant="dark">
+                  <b-tr>
+                    <b-th colspan="2"></b-th>
+                    <b-th class="text-left" colspan="4"
+                      >WHO indicator age-groups</b-th
+                    >
+                    <b-th class="text-left" colspan="6"
+                      >Jevaia's indicator age-groups</b-th
+                    >
+                  </b-tr>
+                </b-thead>
+                <b-thead>
+                  <b-th
+                    class="text-center"
+                    v-for="fields in basicFields"
+                    :key="fields"
+                    >{{ fields.label }}</b-th
                   >
-                  <b-th class="text-left" colspan="6"
-                    >Jevaia's indicator age-groups</b-th
-                  >
-                </b-tr>
-              </b-thead>
-              <b-thead>
-                <b-th class="text-center" v-for="fields in basicFields" :key="fields">{{
-                  fields.label
-                }}</b-th>
-              </b-thead>
+                </b-thead>
 
-              <b-tbody>
-                <b-tr v-for="items in basic" :key="items">
-                  <th v-html="items.type">{{ items.type }}</th>
-                  <td class="text-center">{{ items.sixyo}}</td>
-                  <td class="text-center">{{ items.twelveyo }}</td>
-                  <td class="text-center">{{ items.fifteenyo }}</td>
-                  <td class="text-center">{{ items.whopvalue }}</td>
-                  <td class="text-center">{{ items.child }}</td>
-                  <td class="text-center">{{ items.teen }}</td>
-                  <td class="text-center">{{ items.adult }}</td>
-                  <td class="text-center">{{ items.olderadult }}</td>
-                  <td class="text-center">{{ items.jevaiapvalue }}</td>
-                  <td class="text-center">{{ items.total }}</td>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
+                <b-tbody>
+                  <b-tr v-for="items in basic" :key="items">
+                    <th v-html="items.type">{{ items.type }}</th>
+                    <td class="text-center">{{ items.sixyo }}</td>
+                    <td class="text-center">{{ items.twelveyo }}</td>
+                    <td class="text-center">{{ items.fifteenyo }}</td>
+                    <td class="text-center">{{ items.whopvalue }}</td>
+                    <td class="text-center">{{ items.child }}</td>
+                    <td class="text-center">{{ items.teen }}</td>
+                    <td class="text-center">{{ items.adult }}</td>
+                    <td class="text-center">{{ items.olderadult }}</td>
+                    <td class="text-center">{{ items.jevaiapvalue }}</td>
+                    <td class="text-center">{{ items.total }}</td>
+                  </b-tr>
+                </b-tbody>
+              </b-table-simple>
+            <!-- <div else>
+          <b-spinner label="loading"></b-spinner>
+          </div> -->
             <div class="row pr-4">
               <small class="ml-auto"
                 ><a href=""
@@ -238,19 +251,23 @@ export default {
         let formattedRecord1 = [];
         this.$store.state.sectionaltable_obj.forEach(function (rec) {
           let type1 = rec[0].toString().split(",");
-          // let sixyo1 = rec[1].toString().split(",");
+          let pv = ("" + rec[4]).toString().split(",");
+          let jp = ("" + rec[9]).toString().split(",");
+          let tl = ("" + rec[10]).toString().split(",");
+          // let type1 = rec[0].toString().split(",");
+          // let sixyo1 = rec.split(",");
           formattedRecord1.push({
             type: type1[0],
-            sixyo: rec[1],
-            twelveyo: rec[2],
-            fifteenyo: rec[3],
-            whopvalue: rec[4],
-            child: rec[5],
-            teen: rec[6],
-            adult: rec[7],
-            olderadult: rec[8],
-            jevaiapvalue: rec[9],
-            total: rec[10],
+            sixyo: rec[1] + "",
+            twelveyo: rec[2] + "",
+            fifteenyo: rec[3] + "",
+            whopvalue: pv[0],
+            child: rec[5] + "",
+            teen: rec[6] + "",
+            adult: rec[7] + "",
+            olderadult: rec[8] + "",
+            jevaiapvalue: jp[0],
+            total: tl[0],
           });
         });
         return formattedRecord1;
@@ -273,6 +290,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       errors: [],
       Start_Date: "",
       End_Date: "",
@@ -390,6 +408,7 @@ export default {
     CrossSectionalForm() {
       // this.checkbox_selected = [1, 2, 3, 4];
       this.errors = [];
+      this.loading = true;
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
@@ -435,7 +454,9 @@ export default {
             if (this.errormessage.length > 0) {
               this.$bvToast.show("error-toast");
             } else if (this.successmessage == "success") {
+              this.loading = false;
               (this.message = ""), this.$bvToast.show("success-toast");
+              // window.location.reload(100);
             }
           });
     },
