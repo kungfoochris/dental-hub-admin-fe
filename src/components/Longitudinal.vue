@@ -130,23 +130,23 @@
             </div>
             <div class="row mt-5 justify-content-between align-items-center">
               <div class="col-lg-4 col-md-8 col-sm-12">
-                <h6>Select Follow-up</h6>
+                <!-- <h6>Select Follow-up</h6>
                 <b-form-group>
                   <b-form-checkbox-group
                     v-model="checkbox_selected_follow_up"
                     :options="checkbox_followup_options"
-                    checked="true"
+                    @change="checked"
                     switches
                     size="lg"
                   ></b-form-checkbox-group>
-                </b-form-group>
+                </b-form-group> -->
               </div>
               <div class="col-lg-2 col-sm-12">
                 <b-button
                   variant="custom"
                   block
                   class="mb-4"
-                  @click="LongitudinalForm"
+                  @click="LongitudinalForm()"
                   >Submit</b-button
                 >
               </div>
@@ -210,8 +210,7 @@
       </b-toast>
 
       <b-tabs class="mt-4" pills>
-        <b-tab :title="sample_frame[0]" active>
-          <!-- <b-card-text> -->
+        <b-tab :title="sample_frame[0]" v-if="checkbox_selected_follow_up == true">
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
@@ -219,38 +218,65 @@
                   4.1 Longitudinal Measures - Comparison of two different
                   cross-sections at two different points of time
                 </h3>
-                <b-table-simple hover responsive>
-                  <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                  </colgroup>
+                <b-table-simple hover bordered responsive>
                   <b-thead head-variant="dark">
-                    <b-th
-                      class="text-center"
-                      v-for="(fields, index) in longitudinalFields"
-                      :key="index"
-                      >{{ fields.label }}</b-th
-                    >
+                    <b-th colspan="1" class="text-center"> Types </b-th>
+                    <b-th colspan="1" class="text-center"> Time Point 1 </b-th>
+                    <b-th colspan="1" class="text-center"> Time Point 2 </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Real Difference
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Effect size value
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Effect size descriptor
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      P-value for related samples
+                    </b-th>
                   </b-thead>
-
                   <b-tbody>
                     <b-tr
                       v-for="(items, index) in longitudinalItems"
                       :key="index"
                     >
-                      <th v-html="items.type">{{ items.type }}</th>
-                      <td class="text-center">{{ items.tp1 }}</td>
-                      <td class="text-center">{{ items.tp2 }}</td>
-                      <td class="text-center">{{ items.realDifference }}</td>
-                      <td v-html="items.esv">{{ items.esv }}</td>
-                      <td v-html="items.esd">
-                        {{ items.esd }}
-                      </td>
-                      <td class="text-center">{{ items.pValue }}</td>
+                      <th v-html="items.type">
+                        {{ items.type }}
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(tP, index) in items.tp1" :key="index">
+                          {{ tP }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(tP2, index) in items.tp2" :key="index">
+                          {{ tP2 }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div
+                          v-for="(tP2, index) in items.realDifference"
+                          :key="index"
+                        >
+                          {{ tP2 }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(eSV, index) in items.esv" :key="index">
+                          {{ eSV }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(eSD, index) in items.esd" :key="index">
+                          {{ eSD }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(pV, index) in items.pValue" :key="index">
+                          {{ pV }}
+                        </div>
+                      </th>
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
@@ -266,8 +292,7 @@
             </div>
           </div>
         </b-tab>
-
-        <b-tab :title="sample_frame[1]">
+        <b-tab :title="sample_frame[1]" else >
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
@@ -275,42 +300,69 @@
                   4.2 Longitudinal Measures - Comparison of same individuals at
                   different points of time
                 </h3>
-
-                <b-table-simple hover responsive>
-                  <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                  </colgroup>
+                <b-table-simple hover bordered responsive>
                   <b-thead head-variant="dark">
-                    <b-th
-                      class="text-center"
-                      v-for="(fields, index) in longitudinalFields"
-                      :key="index"
-                      >{{ fields.label }}</b-th
-                    >
+                    <b-th colspan="1" class="text-center"> Types </b-th>
+                    <b-th colspan="1" class="text-center"> Time Point 1 </b-th>
+                    <b-th colspan="1" class="text-center"> Time Point 2 </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Real Difference
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Effect size value
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      Effect size descriptor
+                    </b-th>
+                    <b-th colspan="1" class="text-center">
+                      P-value for related samples
+                    </b-th>
                   </b-thead>
-
                   <b-tbody>
                     <b-tr
                       v-for="(items, index) in longitudinalItems1"
                       :key="index"
                     >
-                      <th v-html="items.type">{{ items.type }}</th>
-                      <td class="text-center">{{ items.tp1 }}</td>
-                      <td class="text-center">{{ items.tp2 }}</td>
-                      <td class="text-center">{{ items.realDifference }}</td>
-                      <td class="text-center">{{ items.esv }}</td>
-                      <td class="text-center" v-html="items.esd">
-                        {{ items.esd }}
-                      </td>
-                      <td class="text-center">{{ items.pValue }}</td>
+                      <th v-html="items.type">
+                        {{ items.type }}
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(tP, index) in items.tp1" :key="index">
+                          {{ tP }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(tP2, index) in items.tp2" :key="index">
+                          {{ tP2 }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div
+                          v-for="(tP2, index) in items.realDifference"
+                          :key="index"
+                        >
+                          {{ tP2 }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(eSV, index) in items.esv" :key="index">
+                          {{ eSV }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(eSD, index) in items.esd" :key="index">
+                          {{ eSD }}
+                        </div>
+                      </th>
+                      <th class="text-center">
+                        <div v-for="(pV, index) in items.pValue" :key="index">
+                          {{ pV }}
+                        </div>
+                      </th>
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
+
                 <div class="row pr-4">
                   <small class="ml-auto"><a href="">Download Report</a></small>
                 </div>
@@ -345,60 +397,40 @@ export default {
       "geography",
     ]),
 
-    // longitudinalItems: function () {
-    //   let incoming = this.$store.state.longitudinalmeasures_obj_one;
-    //   if (incoming.length > 0 && typeof incoming != "undefined") {
-    //     var formattedRecord1 = [];
-    //     this.formattedRecord1 = JSON.stringify(incoming);
-    //     // let myArray = JSON.parse(this.$store.state.longitudinalmeasures_obj_one)
-    //     this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
-    //       var type1 = rec[0].toString().split(",");
-    //       // var tp1 = rec[1].toString().split(",");
-    //       // let realDifferences = JSON.stringify(rec[3]).toString().split(",");
-    //       // var esd1 = rec[5].toNumber().split(",");
-    //       formattedRecord1.push({
-    //         type: type1[0],
-    //         tp1: rec[1] ,
-    //         tp2: rec[2],
-    //         realDifference: rec[3],
-    //         esv: rec[4],
-    //         esd: rec[5],
-    //         pValue: rec[6],
-    //       });
-    //     });
-    //     return formattedRecord1;
-    //   } else {
-    //     return [];
-    //   }
-    // },
-    // toObject:function(arr){
-    //   var rv = {};
-    //   for (var i = 0; i < arr.length; ++i){
-    //     rv[i] = arr[i]
-    //     return rv
-    //   }
-    // },
+    longitudinalItems: function () {
+      if (this.$store.state.longitudinalmeasures_obj_one.length > 0) {
+        var formattedRecord1 = [];
+        this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
+          var type1 = rec[0].toString().split(",");
+          formattedRecord1.push({
+            type: type1[0],
+            tp1: rec[1],
+            tp2: rec[2],
+            realDifference: rec[3],
+            esv: rec[4],
+            esd: rec[5],
+            pValue: rec[6],
+          });
+        });
+        return formattedRecord1;
+      } else {
+        return [];
+      }
+    },
+    
     longitudinalItems1: function () {
       if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
         this.$store.state.longitudinalmeasures_obj_two.forEach(function (rec) {
           let type1 = rec[0].toString().split(",");
-          let esdOne = (rec[5] + "").split(",");
-          let rd = (rec[3] + "").split(",");
-          let esv = (rec[4] + "").split(",");
-          let pv = (rec[6] + "").split(",");
-          // let tpone = (rec[1] + "").split(",");
-          // let tpone = (rec[1] + "").split(",");
-          // var incoming = [];
-          // this.incoming = rec.toString().split(",");
           formattedRecord2.push({
             type: type1[0],
-            tp1: rec[1] + "",
-            tp2: rec[2] + "",
-            realDifference: rd[0],
-            esv: esv[0],
-            esd: esdOne[0],
-            pValue: pv[0],
+            tp1: rec[1],
+            tp2: rec[2],
+            realDifference: rec[3],
+            esv: rec[3],
+            esd: rec[4],
+            pValue: rec[5],
           });
         });
         return formattedRecord2;
@@ -455,7 +487,7 @@ export default {
         { name: "15 Y", value: 7 },
       ],
       training: [],
-      sample_frame: ["Sample Frame #1", "Sample Frame #2"],
+      sample_frame: ["Select follow up", "Unselect follow up"],
       checkbox_selected: [1, 2, 3, 4],
       checkbox_options: [
         { text: "Community Outreach", value: 1 },
@@ -463,8 +495,8 @@ export default {
         { text: "Training", value: 4 },
         { text: "School Seminar", value: 3 },
       ],
-      checkbox_selected_follow_up: [1],
-      checkbox_followup_options: [{ text: "Follow up", value: 1 }],
+      checkbox_selected_follow_up: true,
+      checkbox_followup_options: [{ text: "Follow up" ,value: 1 }],
       errors: [],
       location: [],
       options: [{ name: "All Location", language: null }],
@@ -488,6 +520,13 @@ export default {
       "listLongitudinalMeasuresTwo",
       "listGeography",
     ]),
+    checked(){
+      if (this.checkbox_selected_follow_up == true){
+        this.checkbox_selected_follow_up = true
+      }else{
+        this.checkbox_selected_follow_up = false
+      }
+    },
 
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
@@ -533,38 +572,37 @@ export default {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
-      }
-      // this.$store
-      //   .dispatch("CreateLongitudinalOne", {
-      //     frame1_start_date: this.returndate_obj.last_30_days,
-      //     frame1_end_date: this.returndate_obj.today_date,
-      //     frame2_start_date: this.returndate_obj.last_30_days,
-      //     frame2_end_date: this.returndate_obj.today_date,
-      //     reason_for_visit: this.seminar_obj["name"],
-      //     referral_type: this.outreach_obj["name"],
-      //     age_group: this.age_group["name"],
-      //     location: this.user_location,
-      //     activity: this.checkbox_selected,
-      //   })
-      //   .then(() => {
-      //     if (this.errormessage == "errormessage") {
-      //       this.$bvToast.show("error-toast");
-      //     } else if (this.successmessage == "success") {
-      //       this.$bvToast.show("success-toast");
-      //     }
-      //   }),
-      else
-        this.$store.dispatch("CreateLongitudinalTwo", {
-          frame1_start_date: this.frame1_start_date,
-          frame1_end_date: this.frame1_end_date,
-          frame2_start_date: this.frame2_start_date,
-          frame2_end_date: this.frame2_end_date,
-          reason_for_visit: this.seminar_obj["name"],
-          referral_type: this.outreach_obj["name"],
-          Age_group: this.age_group["name"],
-          location: this.user_location,
-          activity: this.checkbox_selected,
-        });
+      } else
+        this.$store
+          .dispatch("CreateLongitudinalOne", {
+            frame1_start_date: this.returndate_obj.last_30_days,
+            frame1_end_date: this.returndate_obj.today_date,
+            frame2_start_date: this.returndate_obj.last_30_days,
+            frame2_end_date: this.returndate_obj.today_date,
+            reason_for_visit: this.seminar_obj["name"],
+            referral_type: this.outreach_obj["name"],
+            age_group: this.age_group["name"],
+            location: this.user_location,
+            activity: this.checkbox_selected,
+          })
+          .then(() => {
+            if (this.errormessage == "errormessage") {
+              this.$bvToast.show("error-toast");
+            } else if (this.successmessage == "success") {
+              this.$bvToast.show("success-toast");
+            }
+          }),
+          this.$store.dispatch("CreateLongitudinalTwo", {
+            frame1_start_date: this.returndate_obj.last_30_days,
+            frame1_end_date: this.returndate_obj.today_date,
+            frame2_start_date: this.returndate_obj.last_30_days,
+            frame2_end_date: this.returndate_obj.today_date,
+            reason_for_visit: this.seminar_obj["name"],
+            referral_type: this.outreach_obj["name"],
+            Age_group: this.age_group["name"],
+            location: this.user_location,
+            activity: this.checkbox_selected,
+          });
     },
   },
 };

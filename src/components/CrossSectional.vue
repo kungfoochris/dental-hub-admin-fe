@@ -167,46 +167,106 @@
                 style="width: 5rem; height: 5rem"
               ></b-spinner>
             </div>
-              <b-table-simple hover responsive v-else>
-                <b-thead head-variant="dark">
-                  <b-tr>
-                    <b-th colspan="2"></b-th>
-                    <b-th class="text-left" colspan="4"
-                      >WHO indicator age-groups</b-th
-                    >
-                    <b-th class="text-left" colspan="6"
-                      >Jevaia's indicator age-groups</b-th
-                    >
-                  </b-tr>
-                </b-thead>
-                <b-thead>
-                  <b-th
-                    class="text-center"
-                    v-for="fields in basicFields"
-                    :key="fields"
-                    >{{ fields.label }}</b-th
+            <b-table-simple hover bordered responsive v-else>
+              <b-thead head-variant="dark">
+                <b-tr>
+                  <b-th colspan="1"></b-th>
+                  <b-th class="text-center" colspan="4"
+                    >WHO indicator age-groups</b-th
                   >
-                </b-thead>
-
-                <b-tbody>
-                  <b-tr v-for="items in basic" :key="items">
-                    <th v-html="items.type">{{ items.type }}</th>
-                    <td class="text-center">{{ items.sixyo }}</td>
-                    <td class="text-center">{{ items.twelveyo }}</td>
-                    <td class="text-center">{{ items.fifteenyo }}</td>
-                    <td class="text-center">{{ items.whopvalue }}</td>
-                    <td class="text-center">{{ items.child }}</td>
-                    <td class="text-center">{{ items.teen }}</td>
-                    <td class="text-center">{{ items.adult }}</td>
-                    <td class="text-center">{{ items.olderadult }}</td>
-                    <td class="text-center">{{ items.jevaiapvalue }}</td>
-                    <td class="text-center">{{ items.total }}</td>
-                  </b-tr>
-                </b-tbody>
-              </b-table-simple>
-            <!-- <div else>
-          <b-spinner label="loading"></b-spinner>
-          </div> -->
+                  <b-th class="text-center"  colspan="6"
+                    >Jevaia's indicator age-groups</b-th
+                  >
+                </b-tr>
+              </b-thead>
+              <!-- <b-thead>
+                <b-tr>
+                  <b-th colspan="1">Types</b-th>
+                  <b-th class="text-center" colspan="2">6 yo</b-th>
+                  <b-th class="text-center" colspan="2">12 yo</b-th>
+                  <b-th class="text-center" colspan="2">15 yo</b-th>
+                  <b-th class="text-center" colspan="2">P-value</b-th>
+                  <b-th class="text-center" colspan="2">Child ≤ 12 Y</b-th>
+                  <b-th class="text-center" colspan="2">Teen 13-18 Y</b-th>
+                  <b-th class="text-center" colspan="2">Adult 19-60 Y</b-th>
+                  <b-th class="text-center" colspan="2"
+                    >Older Adult ≥ 61 Y</b-th
+                  >
+                  <b-th class="text-center" colspan="2">P-value</b-th>
+                  <b-th class="text-center" colspan="2">Totals</b-th>
+                </b-tr>
+              </b-thead> -->
+              <b-thead>
+                <b-th
+                  class="text-center"
+                  v-for="fields in basicFields"
+                  :key="fields"
+                  >{{ fields.label }}</b-th
+                >
+              </b-thead>
+              <b-tbody>
+                <b-th>Caries Risk</b-th>
+                <b-tr v-for="items in basic" :key="items">
+                  <b-th v-html="items.type">{{ items.type }}</b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.sixyo" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.twelveyo" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.fifteenyo" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.whopvalue" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.child" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.teen" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.adult" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.olderadult" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div
+                      v-for="(item, index) in items.jevaiapvalue"
+                      :key="index"
+                    >
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div
+                      v-for="(item, index) in items.total"
+                      :key="index"
+                    >
+                      {{ item }}
+                    </div>
+                  </b-th>
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
             <div class="row pr-4">
               <small class="ml-auto"
                 ><a href=""
@@ -248,29 +308,30 @@ export default {
 
     basic: function () {
       if (this.$store.state.sectionaltable_obj.length > 0) {
+        // let formattedTypes = [];
         let formattedRecord1 = [];
+
         this.$store.state.sectionaltable_obj.forEach(function (rec) {
+          // let type2= rec[0].splice(1,0,'carries risk')
           let type1 = rec[0].toString().split(",");
-          let pv = ("" + rec[4]).toString().split(",");
-          let jp = ("" + rec[9]).toString().split(",");
-          let tl = ("" + rec[10]).toString().split(",");
-          // let type1 = rec[0].toString().split(",");
-          // let sixyo1 = rec.split(",");
+          // type1 = type1.splice(0,1,'carries risk');
           formattedRecord1.push({
             type: type1[0],
-            sixyo: rec[1] + "",
-            twelveyo: rec[2] + "",
-            fifteenyo: rec[3] + "",
-            whopvalue: pv[0],
-            child: rec[5] + "",
-            teen: rec[6] + "",
-            adult: rec[7] + "",
-            olderadult: rec[8] + "",
-            jevaiapvalue: jp[0],
-            total: tl[0],
+            sixyo: rec[1],
+            twelveyo: rec[2],
+            fifteenyo: rec[3],
+            whopvalue: rec[4],
+            child: rec[5],
+            teen: rec[6],
+            adult: rec[7],
+            olderadult: rec[8],
+            jevaiapvalue: rec[9],
+            total: rec[10],
           });
+
+          // console.log(rec[4]);
         });
-        return formattedRecord1;
+        return formattedRecord1.slice(1);
       } else {
         return [];
       }
