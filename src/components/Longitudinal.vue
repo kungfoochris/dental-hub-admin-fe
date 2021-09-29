@@ -489,7 +489,7 @@ export default {
       seminar_obj: "",
       age_group: "",
       age_group_options: [
-        { name: "Select the Option", value: 0 },
+        // { name: "Select the Option", Disable: true },
         { name: "Child ≤12 Y", value: 1 },
         { name: "Teen 13-18 Y", value: 2 },
         { name: "Adult 19-60 Y", value: 3 },
