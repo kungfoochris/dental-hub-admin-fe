@@ -105,9 +105,9 @@
                 <h6>Select Age Group:</h6>
                 <multiselect
                   v-model="age_group"
-                  :options="agegroup_options"
+                  :options="age_group_options"
                   :preserve-search="true"
-                  placeholder="Referral Type"
+                  placeholder="Age Group"
                   label="name"
                   track-by="name"
                   :preselect-first="true"
@@ -210,7 +210,10 @@
       </b-toast>
 
       <b-tabs class="mt-4" pills>
-        <b-tab :title="sample_frame[0]" v-if="checkbox_selected_follow_up == true">
+        <b-tab
+          :title="sample_frame[0]"
+          v-if="checkbox_selected_follow_up == true"
+        >
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
@@ -218,7 +221,14 @@
                   4.1 Longitudinal Measures - Comparison of two different
                   cross-sections at two different points of time
                 </h3>
-                <b-table-simple hover bordered responsive>
+                <div class="text-center text-primary my-2" v-if="loading">
+                  <b-spinner
+                    class="align-middle"
+                    type="grow"
+                    style="width: 5rem; height: 5rem"
+                  ></b-spinner>
+                </div>
+                <b-table-simple hover bordered responsive v-else>
                   <b-thead head-variant="dark">
                     <b-th colspan="1" class="text-center"> Types </b-th>
                     <b-th colspan="1" class="text-center"> Time Point 1 </b-th>
@@ -292,7 +302,7 @@
             </div>
           </div>
         </b-tab>
-        <b-tab :title="sample_frame[1]" else >
+        <b-tab :title="sample_frame[1]" else>
           <div class="row mt-4">
             <div class="col-12">
               <div class="card shadow">
@@ -417,7 +427,7 @@ export default {
         return [];
       }
     },
-    
+
     longitudinalItems1: function () {
       if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
@@ -451,6 +461,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       frame1_start_date: "",
       frame1_end_date: "",
       frame2_start_date: "",
@@ -477,8 +488,9 @@ export default {
       ],
       seminar_obj: "",
       age_group: "",
-      agegroup_options: [
-        { name: "Child ≤ 12 Y", value: 1 },
+      age_group_options: [
+        { name: "Select the Option", value: 0 },
+        { name: "Child ≤12 Y", value: 1 },
         { name: "Teen 13-18 Y", value: 2 },
         { name: "Adult 19-60 Y", value: 3 },
         { name: "Older Adult ≥ 61 Y", value: 4 },
@@ -487,7 +499,10 @@ export default {
         { name: "15 Y", value: 7 },
       ],
       training: [],
-      sample_frame: ["Select follow up", "Unselect follow up"],
+      sample_frame: [
+        "Sample frame 1 / Unselected follow up List",
+        "Sample frame 2 / Selected follow up List",
+      ],
       checkbox_selected: [1, 2, 3, 4],
       checkbox_options: [
         { text: "Community Outreach", value: 1 },
@@ -496,7 +511,7 @@ export default {
         { text: "School Seminar", value: 3 },
       ],
       checkbox_selected_follow_up: true,
-      checkbox_followup_options: [{ text: "Follow up" ,value: 1 }],
+      checkbox_followup_options: [{ text: "Follow up", value: 1 }],
       errors: [],
       location: [],
       options: [{ name: "All Location", language: null }],
@@ -520,11 +535,11 @@ export default {
       "listLongitudinalMeasuresTwo",
       "listGeography",
     ]),
-    checked(){
-      if (this.checkbox_selected_follow_up == true){
-        this.checkbox_selected_follow_up = true
-      }else{
-        this.checkbox_selected_follow_up = false
+    checked() {
+      if (this.checkbox_selected_follow_up == true) {
+        this.checkbox_selected_follow_up = true;
+      } else {
+        this.checkbox_selected_follow_up = false;
       }
     },
 
@@ -542,6 +557,7 @@ export default {
     },
     LongitudinalForm() {
       this.errors = [];
+      this.loading = true;
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
@@ -589,6 +605,7 @@ export default {
             if (this.errormessage == "errormessage") {
               this.$bvToast.show("error-toast");
             } else if (this.successmessage == "success") {
+              this.loading = false;
               this.$bvToast.show("success-toast");
             }
           }),
@@ -599,7 +616,7 @@ export default {
             frame2_end_date: this.returndate_obj.today_date,
             reason_for_visit: this.seminar_obj["name"],
             referral_type: this.outreach_obj["name"],
-            Age_group: this.age_group["name"],
+            age_group: this.age_group["name"],
             location: this.user_location,
             activity: this.checkbox_selected,
           });
