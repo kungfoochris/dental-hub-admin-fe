@@ -438,9 +438,9 @@ export default {
             tp1: rec[1],
             tp2: rec[2],
             realDifference: rec[3],
-            esv: rec[3],
-            esd: rec[4],
-            pValue: rec[5],
+            esv: rec[4],
+            esd: rec[5],
+            pValue: rec[6],
           });
         });
         return formattedRecord2;
