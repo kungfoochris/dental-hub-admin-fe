@@ -154,6 +154,7 @@
               :fields="strategicFields"
               responsive
               hover
+              striped
               :busy="isBusy"
             >
               <template v-slot:table-busy>
@@ -419,8 +420,8 @@ export default {
         { key: "female", label: "Female" },
         { key: "child", label: "Child ≤ 12 Y" },
         { key: "teen", label: "Teen 13-18 Y" },
-        { key: "adult", label: "Adult 19Y - 60 Y" },
-        { key: "senior", label: "Other Adult ≥ 60 Y" },
+        { key: "adult", label: "Adult 19 - 60 Y" },
+        { key: "senior", label: "Older Adult ≥ 61 Y" },
         { key: "total", label: "Total" },
       ],
 
@@ -430,8 +431,8 @@ export default {
         { key: "female", label: "Female" },
         { key: "child", label: "Child ≤ 12 Y" },
         { key: "teen", label: "Teen 13-18 Y" },
-        { key: "adult", label: "Adult 19Y - 60 Y" },
-        { key: "senior", label: "Other Adult ≥ 60 Y" },
+        { key: "adult", label: "Adult 19 - 60 Y" },
+        { key: "senior", label: "Older Adult ≥ 61 Y" },
         { key: "total", label: "Total" },
       ],
     };
