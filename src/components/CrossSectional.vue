@@ -57,7 +57,7 @@
               </div>
 
               <div class="col-lg-4 col-sm-4 mb-4">
-                <h6>Location:</h6>
+                <h6>Select Location:</h6>
                 <multiselect
                   v-model="location"
                   :options="options"
