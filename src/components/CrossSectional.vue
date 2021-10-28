@@ -167,14 +167,20 @@
                 style="width: 5rem; height: 5rem"
               ></b-spinner>
             </div>
-            <b-table-simple hover bordered responsive v-else>
+            <b-table-simple
+              hover
+              bordered
+              responsive
+              ref="exportable_table"
+              v-else
+            >
               <b-thead head-variant="dark">
                 <b-tr>
                   <b-th colspan="1"></b-th>
                   <b-th class="text-center" colspan="4"
                     >WHO indicator age-groups</b-th
                   >
-                  <b-th class="text-center"  colspan="6"
+                  <b-th class="text-center" colspan="6"
                     >Jevaia's indicator age-groups</b-th
                   >
                 </b-tr>
@@ -257,19 +263,16 @@
                     </div>
                   </b-th>
                   <b-th>
-                    <div
-                      v-for="(item, index) in items.total"
-                      :key="index"
-                    >
+                    <div v-for="(item, index) in items.total" :key="index">
                       {{ item }}
                     </div>
                   </b-th>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
-            <div class="row pr-4">
+            <div class="row pr-4" @click="ExportExcel('xlsx')">
               <small class="ml-auto"
-                ><a href=""
+                ><a href="#"
                   ><i class="fas fa-file-download mr-1"></i>Download Reports</a
                 ></small
               >
@@ -532,6 +535,15 @@ export default {
         });
         this.options = geography_data;
       }
+    },
+
+    ExportExcel(type, fn, dl) {
+      // console.log("hello");
+      var elt = this.$refs.exportable_table;
+      var wb = XLSX.utils.table_to_book(elt, { sheet: "CrossSectional" });
+      return dl
+        ? XLSX.write(wb, { bookType: type, bookSST: true, type: "base64" })
+        : XLSX.writeFile(wb, fn || "CrossSectional." + (type || "xlsx"));
     },
   },
 };

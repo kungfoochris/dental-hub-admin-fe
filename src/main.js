@@ -19,6 +19,9 @@ import Chart from 'chart.js'
 
 import ICountUp from 'vue-countup-v2'
 
+import VueExcelXlsx from "vue-excel-xlsx";
+
+Vue.use(VueExcelXlsx);
 
 Vue.component('ICountUp', ICountUp)
 

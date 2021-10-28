@@ -129,13 +129,13 @@
                 {{ row.item.full_name }}
               </template>
             </b-table>
-            <div class="row pr-4">
+            <!-- <div class="row pr-4">
               <small class="ml-auto"
                 ><a href=""
                   ><i class="fas fa-file-export mr-1"></i>Export Now</a
                 ></small
               >
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -197,12 +197,12 @@
             <div class="row mt-3">
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="returndate_obj.last_30_days" type="date" />
+                <b-input v-model="treatment_distribution_start_date" type="date" />
               </div>
 
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select End Date:</h6>
-                <b-input v-model="returndate_obj.today_date" type="date" />
+                <b-input v-model="treatment_distribution_end_date" type="date" />
               </div>
             </div>
 
@@ -280,12 +280,14 @@
             <div class="row mt-3">
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="returndate_obj.last_30_days" type="date" />
+                <b-input
+                  v-model="activity_distribution_start_date"
+                  type="date"
+                />
               </div>
-
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select End Date:</h6>
-                <b-input v-model="returndate_obj.today_date" type="date" />
+                <b-input v-model="activity_distribution_end_date" type="date" />
               </div>
             </div>
 
@@ -499,7 +501,7 @@ export default {
             type: rec[0],
             check: rec[1],
             fv: rec[2],
-            f_sdf:rec[3],
+            f_sdf: rec[3],
             sdf: rec[4],
             seal: rec[5],
             art: rec[6],
@@ -508,7 +510,7 @@ export default {
             referhyg: rec[9],
             referdent: rec[10],
             referdr: rec[11],
-            referother: rec[12]
+            referother: rec[12],
           });
         });
         this.isBusy = false;
@@ -567,6 +569,15 @@ export default {
         return formattedRecord2;
       }
     },
+
+    activity_distribution_end_date: () => {
+      let start_date = "";
+      start_date = this.activity_distribution_end_date;
+      returndate_obj.forEach(function (i) {
+        start_date.push(i);
+      });
+      return start_date
+    },
   },
 
   created() {
@@ -585,6 +596,8 @@ export default {
   data() {
     return {
       Start_Date: "",
+      activity_distribution_start_date: "",
+      activity_distribution_end_date: "",
       age_group: null,
       age_group1: "",
       End_Date: "",
@@ -601,7 +614,7 @@ export default {
       pie_location: [],
       bar_location: [],
       options: [{ name: "All Location", language: null }],
-      options1: [{ name: "Age Group" },{ name: "Activity" }],
+      options1: [{ name: "Age Group" }, { name: "Activity" }],
       options2: [
         { name: "All Treatment Type", value: "alltreatment" },
         { name: "CONTACTS", value: "contacts" },
@@ -664,7 +677,16 @@ export default {
       ],
     };
   },
- 
+
+  mounted: function() {
+   let currentDate = new Date().toISOString().substring(0,10);
+   this.activity_distribution_end_date = currentDate;
+   this.treatment_distribution_end_date = currentDate;
+   let startDate = new Date(Date.now() - 86400000 * 30).toISOString().substring(0,10);
+   this.activity_distribution_start_date = startDate;
+   this.treatment_distribution_start_date = startDate;
+  },
+
   methods: {
     ...mapActions([
       "listReturnDate",
@@ -682,14 +704,14 @@ export default {
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
-        if(this.location[0].language == null){
-              this.options.forEach(function (location_id) {
-                if (location_id.language != null) {
-                  geography_id.push(location_id.language);
-                  geography_name.push(location_id.name);
-                }
-              });
-        }else{
+        if (this.location[0].language == null) {
+          this.options.forEach(function (location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
+            }
+          });
+        } else {
           this.location.forEach(function (location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
@@ -705,66 +727,67 @@ export default {
         this.errors["checkbox_selected"] =
           "Select one of the activities required.";
         this.$bvToast.show("error-toast");
-      } else
-        this.busy11 = true
-        this.checkbox_selected.forEach(function (activities_id) {
-          table_activities1.push(
-            activities_details.find((evt) => evt.id == activities_id).name
-          );
-        }),
-          (this.table_start_date = this.returndate_obj.last_30_days),
-          (this.table_end_date = this.returndate_obj.today_date),
-          (this.table_activities = table_activities1),
-          (this.tablefilterdata = true),
-          this.$store.dispatch("CreateOverViewVisualization", {
+      } else this.busy11 = true;
+      this.checkbox_selected.forEach(function (activities_id) {
+        table_activities1.push(
+          activities_details.find((evt) => evt.id == activities_id).name
+        );
+      }),
+        (this.table_start_date = this.returndate_obj.last_30_days),
+        (this.table_end_date = this.returndate_obj.today_date),
+        (this.table_activities = table_activities1),
+        (this.tablefilterdata = true),
+        this.$store
+          .dispatch("CreateOverViewVisualization", {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
             location: this.user_location,
             activities: this.checkbox_selected,
-          }).then(() => {
-            if(this.visulaizationsuccessmessage == "success"){
-              this.busy11 = false
+          })
+          .then(() => {
+            if (this.visulaizationsuccessmessage == "success") {
+              this.busy11 = false;
             }
           });
 
-          this.$store.dispatch("CreateTreatmentbyActivity", {
+      this.$store.dispatch("CreateTreatmentbyActivity", {
+        start_date: this.returndate_obj.last_30_days,
+        end_date: this.returndate_obj.today_date,
+        location: this.user_location,
+        activities: this.checkbox_selected,
+      }),
+        this.$store
+          .dispatch("CreateTreatmentbyWard", {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
             location: this.user_location,
             activities: this.checkbox_selected,
-          }),
-          this.$store
-            .dispatch("CreateTreatmentbyWard", {
-              start_date: this.returndate_obj.last_30_days,
-              end_date: this.returndate_obj.today_date,
-              location: this.user_location,
-              activities: this.checkbox_selected,
-            })
-            .then(() => {
-              if (this.errormessage.length > 0) {
-                this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
-                (this.message = ""), this.$bvToast.show("success-toast");
-              } 
-              
-              if(this.visulaizationsuccessmessage == "success"){
-                this.busy11 = false
-              }
-            });
+          })
+          .then(() => {
+            if (this.errormessage.length > 0) {
+              this.$bvToast.show("error-toast");
+            } else if (this.successmessage == "success") {
+              (this.message = ""), this.$bvToast.show("success-toast");
+            }
+
+            if (this.visulaizationsuccessmessage == "success") {
+              this.busy11 = false;
+            }
+          });
     },
 
     Bargraphtreatment() {
       this.errors = [];
-      var geography_id = []
-      
-      if(this.bar_location && this.bar_location.length ){
-        if(this.bar_location[0].language == null){
+      var geography_id = [];
+
+      if (this.bar_location && this.bar_location.length) {
+        if (this.bar_location[0].language == null) {
           this.options.forEach(function (location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
             }
           });
-        }else{
+        } else {
           this.bar_location.forEach(function (location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
@@ -781,8 +804,8 @@ export default {
           (this.showdataget1 = false),
           (this.overviewbargraphpost_obj = []),
           this.$store.dispatch("CreateTreatmentBarGraph", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
+            start_date: this.activity_distribution_start_date,
+            end_date: this.activity_distribution_start_date,
             location: geography_id,
             age_group: this.age_group,
           });
@@ -808,8 +831,8 @@ export default {
           (this.showdataget = false),
           (this.dashboard_piechartpost = []),
           this.$store.dispatch("CreateDashboardPieChart", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
+            start_date: this.treatment_distribution_start_date,
+            end_date: this.treatment_distribution_start_date,
             location: this.user_location,
             age_group: this.age_group1["value"],
           });
