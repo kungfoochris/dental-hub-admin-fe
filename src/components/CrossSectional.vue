@@ -185,23 +185,6 @@
                   >
                 </b-tr>
               </b-thead>
-              <!-- <b-thead>
-                <b-tr>
-                  <b-th colspan="1">Types</b-th>
-                  <b-th class="text-center" colspan="2">6 yo</b-th>
-                  <b-th class="text-center" colspan="2">12 yo</b-th>
-                  <b-th class="text-center" colspan="2">15 yo</b-th>
-                  <b-th class="text-center" colspan="2">P-value</b-th>
-                  <b-th class="text-center" colspan="2">Child ≤ 12 Y</b-th>
-                  <b-th class="text-center" colspan="2">Teen 13-18 Y</b-th>
-                  <b-th class="text-center" colspan="2">Adult 19-60 Y</b-th>
-                  <b-th class="text-center" colspan="2"
-                    >Older Adult ≥ 61 Y</b-th
-                  >
-                  <b-th class="text-center" colspan="2">P-value</b-th>
-                  <b-th class="text-center" colspan="2">Totals</b-th>
-                </b-tr>
-              </b-thead> -->
               <b-thead>
                 <b-th
                   class="text-center"
@@ -344,9 +327,6 @@ export default {
   created() {
     this.listReturnDate();
     this.listSectionalTable();
-    // this.listActivitie().then(() => {
-    //   this.checkbox_optionsupdate();
-    // });
     this.listGeography().then(() => {
       this.updateOptions();
     });

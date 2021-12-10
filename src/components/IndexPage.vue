@@ -17,12 +17,12 @@
             <div class="row">
               <div class="col-lg-4 col-sm-12 mb-4">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="returndate_obj.last_30_days" type="date" />
+                <b-input v-model="overview_start_date" type="date" />
               </div>
 
               <div class="col-lg-4 col-sm-12 mb-4">
                 <h6>Select End Date:</h6>
-                <b-input v-model="returndate_obj.today_date" type="date" />
+                <b-input v-model="overview_end_date" type="date" />
               </div>
 
               <div class="col-lg-4 col-sm-12 mb-4">
@@ -129,13 +129,20 @@
                 {{ row.item.full_name }}
               </template>
             </b-table>
-            <!-- <div class="row pr-4">
-              <small class="ml-auto"
-                ><a href=""
-                  ><i class="fas fa-file-export mr-1"></i>Export Now</a
-                ></small
-              >
-            </div> -->
+
+            <div class="row pr-4">
+              <small class="ml-auto">
+                <vue-excel-xlsx
+                  :data="basic"
+                  :columns="basicFields"
+                  :filename="'Overview'"
+                  :sheetname="'Overview Data'"
+                  class="download-btn"
+                >
+                  <i class="fas fa-file-export mr-1"></i>Export Now
+                </vue-excel-xlsx>
+              </small>
+            </div>
           </div>
         </div>
       </div>
@@ -197,12 +204,18 @@
             <div class="row mt-3">
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="treatment_distribution_start_date" type="date" />
+                <b-input
+                  v-model="treatment_distribution_start_date"
+                  type="date"
+                />
               </div>
 
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Select End Date:</h6>
-                <b-input v-model="treatment_distribution_end_date" type="date" />
+                <b-input
+                  v-model="treatment_distribution_end_date"
+                  type="date"
+                />
               </div>
             </div>
 
@@ -492,11 +505,11 @@ export default {
       "activities_obj",
     ]),
 
-    basic: function () {
+    basic: function() {
       this.isBusy = true;
       if (this.$store.state.overviewtable_obj.length > 0) {
         var formattedRecord = [];
-        this.$store.state.overviewtable_obj.forEach(function (rec) {
+        this.$store.state.overviewtable_obj.forEach(function(rec) {
           formattedRecord.push({
             type: rec[0],
             check: rec[1],
@@ -518,11 +531,11 @@ export default {
       }
     },
 
-    treatmentTableItemsActivity: function () {
+    treatmentTableItemsActivity: function() {
       this.isBusy = true;
       if (this.$store.state.treatment_by_activity_obj.length > 0) {
         var formattedRecord1 = [];
-        this.$store.state.treatment_by_activity_obj.forEach(function (rec) {
+        this.$store.state.treatment_by_activity_obj.forEach(function(rec) {
           formattedRecord1.push({
             type: rec[0],
             check: rec[1],
@@ -544,11 +557,11 @@ export default {
       }
     },
 
-    treatmentTableItemsWard: function () {
+    treatmentTableItemsWard: function() {
       this.isBusy = true;
       if (this.$store.state.treatment_by_ward_obj.length > 0) {
         var formattedRecord2 = [];
-        this.$store.state.treatment_by_ward_obj.forEach(function (rec) {
+        this.$store.state.treatment_by_ward_obj.forEach(function(rec) {
           formattedRecord2.push({
             type: rec[0],
             check: rec[1],
@@ -573,10 +586,10 @@ export default {
     activity_distribution_end_date: () => {
       let start_date = "";
       start_date = this.activity_distribution_end_date;
-      returndate_obj.forEach(function (i) {
+      returndate_obj.forEach(function(i) {
         start_date.push(i);
       });
-      return start_date
+      return start_date;
     },
   },
 
@@ -596,6 +609,8 @@ export default {
   data() {
     return {
       Start_Date: "",
+      overview_start_date: "",
+      overview_end_date: "",
       activity_distribution_start_date: "",
       activity_distribution_end_date: "",
       age_group: null,
@@ -622,6 +637,7 @@ export default {
         { name: "ART", value: "art" },
         { name: "SEAL", value: "seal" },
         { name: "SDF", value: "sdf" },
+        { name: "F-SDF", value: "f_sdf" },
         { name: "FV", value: "fv" },
       ],
       years_array: years(100).reverse(),
@@ -659,32 +675,36 @@ export default {
       table_activities: [],
 
       basicFields: [
-        { key: "type", label: "", tdClass: "font-weight-bold text-left" },
-        { key: "check", label: "Check" },
-        { key: "fv", label: "FV" },
-        { key: "f_sdf", label: "F-SDF" },
-        { key: "sdf", label: "SDF" },
-        { key: "seal", label: "SEAL" },
-        { key: "art", label: "ART" },
-        { key: "exo", label: "EXO" },
+        { field: "type", label: "", tdClass: "font-weight-bold" },
+        { field: "check", label: "Check" },
+        { field: "fv", label: "FV" },
+        { field: "f_sdf", label: "F-SDF" },
+        { field: "sdf", label: "SDF" },
+        { field: "seal", label: "SEAL" },
+        { field: "art", label: "ART" },
+        { field: "exo", label: "EXO" },
         // { key: 'fullmouthsdf', label: 'F-SDF'},
         // { key: 'fv', label: 'FV (ppl)'},
-        { key: "referhp", label: "Refer HP" },
-        { key: "referhyg", label: "Refer Hyg" },
-        { key: "referdent", label: "Refer Dent" },
-        { key: "referdr", label: "Refer Dr" },
-        { key: "referother", label: "Refer Other" },
+        { field: "referhp", label: "Refer HP" },
+        { field: "referhyg", label: "Refer Hyg" },
+        { field: "referdent", label: "Refer Dent" },
+        { field: "referdr", label: "Refer Dr" },
+        { field: "referother", label: "Refer Other" },
       ],
     };
   },
 
   mounted: function() {
-   let currentDate = new Date().toISOString().substring(0,10);
-   this.activity_distribution_end_date = currentDate;
-   this.treatment_distribution_end_date = currentDate;
-   let startDate = new Date(Date.now() - 86400000 * 30).toISOString().substring(0,10);
-   this.activity_distribution_start_date = startDate;
-   this.treatment_distribution_start_date = startDate;
+    let currentDate = new Date().toISOString().substring(0, 10);
+    this.activity_distribution_end_date = currentDate;
+    this.treatment_distribution_end_date = currentDate;
+    this.overview_end_date = currentDate;
+    let startDate = new Date(Date.now() - 86400000 * 30)
+      .toISOString()
+      .substring(0, 10);
+    this.activity_distribution_start_date = startDate;
+    this.treatment_distribution_start_date = startDate;
+    this.overview_start_date = startDate;
   },
 
   methods: {
@@ -705,14 +725,14 @@ export default {
         var geography_id = [];
         var geography_name = [];
         if (this.location[0].language == null) {
-          this.options.forEach(function (location_id) {
+          this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
             }
           });
         } else {
-          this.location.forEach(function (location_id) {
+          this.location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
@@ -728,7 +748,7 @@ export default {
           "Select one of the activities required.";
         this.$bvToast.show("error-toast");
       } else this.busy11 = true;
-      this.checkbox_selected.forEach(function (activities_id) {
+      this.checkbox_selected.forEach(function(activities_id) {
         table_activities1.push(
           activities_details.find((evt) => evt.id == activities_id).name
         );
@@ -782,13 +802,13 @@ export default {
 
       if (this.bar_location && this.bar_location.length) {
         if (this.bar_location[0].language == null) {
-          this.options.forEach(function (location_id) {
+          this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
             }
           });
         } else {
-          this.bar_location.forEach(function (location_id) {
+          this.bar_location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
             }
@@ -815,7 +835,7 @@ export default {
       this.errors = [];
       if (this.pie_location.length > 0) {
         var geography_id = [];
-        this.pie_location.forEach(function (location_id) {
+        this.pie_location.forEach(function(location_id) {
           if (location_id.language != null) {
             geography_id.push(location_id.language);
           }
@@ -852,7 +872,7 @@ export default {
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
       if (this.geography.length > 0) {
-        this.geography.forEach(function (geography_obj) {
+        this.geography.forEach(function(geography_obj) {
           geography_data.push({
             name: geography_obj.name,
             language: geography_obj.id,
@@ -866,7 +886,7 @@ export default {
       var activities_data = [];
       var activities_data1 = [];
       if (this.activities_obj.length > 0) {
-        this.activities_obj.forEach(function (activity) {
+        this.activities_obj.forEach(function(activity) {
           activities_data.push({ text: activity.name, value: activity.id });
           activities_data1.push(activity.id);
         });
@@ -882,5 +902,10 @@ export default {
 @import "../css/index.scss";
 .pk {
   color: red;
+}
+.download-btn {
+  background: none;
+  border: none;
+  color: blue;
 }
 </style>
