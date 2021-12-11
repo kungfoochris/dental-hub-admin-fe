@@ -833,14 +833,21 @@ export default {
 
     PieChartForm() {
       this.errors = [];
-      if (this.pie_location.length > 0) {
         var geography_id = [];
-        this.pie_location.forEach(function(location_id) {
-          if (location_id.language != null) {
-            geography_id.push(location_id.language);
-          }
-        });
-        this.user_location = geography_id;
+     if (this.pie_location && this.pie_location.length) {
+        if (this.pie_location[0].language == null) {
+          this.options.forEach(function(location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+            }
+          });
+        } else {
+          this.pie_location.forEach(function(location_id) {
+            if (location_id.language != null) {
+              geography_id.push(location_id.language);
+            }
+          });
+        }
       }
       if (this.age_group1 == null) {
         this.errors["age_group1"] = "Treatment Type/Age Group required.";
@@ -853,7 +860,7 @@ export default {
           this.$store.dispatch("CreateDashboardPieChart", {
             start_date: this.treatment_distribution_start_date,
             end_date: this.treatment_distribution_start_date,
-            location: this.user_location,
+            location: geography_id,
             age_group: this.age_group1["value"],
           });
     },
