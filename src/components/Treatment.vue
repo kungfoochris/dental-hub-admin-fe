@@ -17,12 +17,12 @@
             <div class="row">
               <div class="col-lg-4 col-sm-12 mb-4">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="returndate_obj.last_30_days" type="date" />
+                <b-input v-model="filter_start_date" type="date" />
               </div>
 
               <div class="col-lg-4 col-sm-12 mb-4">
                 <h6>Select End Date:</h6>
-                <b-input v-model="returndate_obj.today_date" type="date" />
+                <b-input v-model="filter_end_date" type="date" />
               </div>
 
               <div class="col-lg-4 col-sm-12 mb-4">
@@ -112,7 +112,7 @@
               <b-thead>
                 <b-th
                   class="text-center"
-                  v-for="(fields,index) in this.strategicFields"
+                  v-for="(fields, index) in this.strategicFields"
                   :key="index"
                   >{{ fields.label }}</b-th
                 >
@@ -158,26 +158,6 @@
                 </b-tr>
               </b-tbody>
             </b-table-simple>
-            <!-- <b-table
-              id="user-table"
-              show-empty
-              :items="strategic"
-              :fields="strategicFields"
-              responsive
-              hover
-              striped
-              :busy="isBusy"
-            >
-              <template v-slot:table-busy>
-                <div class="text-center text-primary my-2">
-                  <b-spinner
-                    class="align-middle"
-                    type="grow"
-                    style="width: 5rem; height: 5rem"
-                  ></b-spinner>
-                </div>
-              </template>
-            </b-table> -->
           </div>
         </div>
       </div>
@@ -271,7 +251,7 @@
         variant="warning"
         solid
         append-toast
-        toaster="b-toaster-bottom-full"
+        toaster="b-toaster-top-center"
       >
         <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
           <strong class="mr-auto">Overview filter required error</strong>
@@ -300,7 +280,7 @@
         variant="custom-success"
         solid
         append-toast
-        toaster="b-toaster-bottom-full"
+        toaster="b-toaster-top-center"
       >
         <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
           <strong class="mr-auto">Filtered success</strong>
@@ -401,6 +381,8 @@ export default {
       uch: "uch",
       lch: "lch",
       uch1: "uch1",
+      filter_start_date: "",
+      filter_end_date: "",
       preventiveRatio: "preventiveRatio",
       interventionRatio: "interventionRatio",
       perRecall: "perRecall",
@@ -447,7 +429,14 @@ export default {
       ],
     };
   },
-
+  mounted: function() {
+    let currentDate = new Date().toISOString().substring(0, 10);
+    this.filter_end_date = currentDate;
+    let startDate = new Date(Date.now() - 86400000 * 30)
+      .toISOString()
+      .substring(0, 10);
+    this.filter_start_date = startDate;
+  },
   methods: {
     ...mapActions([
       "listReturnDate",
@@ -469,7 +458,7 @@ export default {
         a++;
       });
       this.errors = [];
-       this.loading = true;
+      this.loading = true;
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
@@ -537,7 +526,7 @@ export default {
               if (this.errormessage.length > 0) {
                 this.$bvToast.show("error-toast");
               } else if (this.successmessage == "success") {
-                 this.loading = false;
+                this.loading = false;
                 (this.message = ""), this.$bvToast.show("success-toast");
               }
             });

@@ -490,7 +490,7 @@ export default {
     "app-header": AppHeader,
     Visualization: Visualization,
   },
-  
+
   computed: {
     ...mapState([
       "errormessage",
@@ -761,8 +761,8 @@ export default {
         (this.tablefilterdata = true),
         this.$store
           .dispatch("CreateOverViewVisualization", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
+            start_date: this.overview_start_date,
+            end_date: this.overview_end_date,
             location: this.user_location,
             activities: this.checkbox_selected,
           })
@@ -773,15 +773,15 @@ export default {
           });
 
       this.$store.dispatch("CreateTreatmentbyActivity", {
-        start_date: this.returndate_obj.last_30_days,
-        end_date: this.returndate_obj.today_date,
+        start_date: this.overview_start_date,
+        end_date: this.overview_end_date,
         location: this.user_location,
         activities: this.checkbox_selected,
       }),
         this.$store
           .dispatch("CreateTreatmentbyWard", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
+            start_date: this.overview_start_date,
+            end_date: this.overview_end_date,
             location: this.user_location,
             activities: this.checkbox_selected,
           })
@@ -835,8 +835,8 @@ export default {
 
     PieChartForm() {
       this.errors = [];
-        var geography_id = [];
-     if (this.pie_location && this.pie_location.length) {
+      var geography_id = [];
+      if (this.pie_location && this.pie_location.length) {
         if (this.pie_location[0].language == null) {
           this.options.forEach(function(location_id) {
             if (location_id.language != null) {
