@@ -484,11 +484,13 @@ import years from "../js/year_array.js";
 // const axios = require('axios');
 export default {
   name: "IndexPage",
+
   components: {
     // "AuthenticationForm": AuthenticationForm
     "app-header": AppHeader,
     Visualization: Visualization,
   },
+  
   computed: {
     ...mapState([
       "errormessage",

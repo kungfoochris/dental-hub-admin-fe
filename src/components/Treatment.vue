@@ -74,29 +74,6 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3">2.1 Preventative Overview</h3>
-
-            <div class="row mb-3 text-center" v-show="tablefilterdata">
-              <div class="col-4">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
-              </div>
-
-              <div class="col-8">
-                <p>
-                  <strong>Location(s): </strong
-                  ><span v-for="location in table_location"
-                    >{{ location }},</span
-                  >
-                </p>
-                <p>
-                  <strong>Activities: </strong
-                  ><span v-for="activity in table_activities"
-                    >{{ activity }},</span
-                  >
-                </p>
-              </div>
-            </div>
-
             <b-table
               id="user-table"
               show-empty
@@ -124,30 +101,64 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3">2.2 Strategic Data</h3>
-
-            <div class="row mb-3 text-center" v-show="tablefilterdata">
-              <div class="col-4">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
-              </div>
-
-              <div class="col-8">
-                <p>
-                  <strong>Location(s): </strong
-                  ><span v-for="location in table_location"
-                    >{{ location }},</span
-                  >
-                </p>
-                <p>
-                  <strong>Activities: </strong
-                  ><span v-for="activity in table_activities"
-                    >{{ activity }},</span
-                  >
-                </p>
-              </div>
+            <div class="text-center text-primary my-2" v-if="loading">
+              <b-spinner
+                class="align-middle"
+                type="grow"
+                style="width: 5rem; height: 5rem"
+              ></b-spinner>
             </div>
-
-            <b-table
+            <b-table-simple hover bordered striped responsive v-else>
+              <b-thead>
+                <b-th
+                  class="text-center"
+                  v-for="(fields,index) in this.strategicFields"
+                  :key="index"
+                  >{{ fields.label }}</b-th
+                >
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="items in strategic" :key="items">
+                  <b-th v-if="items.type">{{ items.type }}</b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.male" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.female" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.child" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.teen" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.adult" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.senior" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                  <b-th>
+                    <div v-for="(item, index) in items.total" :key="index">
+                      {{ item }}
+                    </div>
+                  </b-th>
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+            <!-- <b-table
               id="user-table"
               show-empty
               :items="strategic"
@@ -166,7 +177,7 @@
                   ></b-spinner>
                 </div>
               </template>
-            </b-table>
+            </b-table> -->
           </div>
         </div>
       </div>
@@ -328,11 +339,11 @@ export default {
       "activities_obj",
     ]),
 
-    basic: function () {
+    basic: function() {
       this.isBusy = true;
       if (this.$store.state.treatment_tablebasicdata_obj.length > 0) {
         var formattedRecord3 = [];
-        this.$store.state.treatment_tablebasicdata_obj.forEach(function (rec) {
+        this.$store.state.treatment_tablebasicdata_obj.forEach(function(rec) {
           formattedRecord3.push({
             type: rec[0],
             male: rec[1],
@@ -350,11 +361,10 @@ export default {
       }
     },
 
-    strategic: function () {
-      this.isBusy = true;
-      if (this.$store.state.treatmentstrategicdata_obj.length > 0) {
+    strategic() {
+      if (this.treatmentstrategicdata_obj.length > 0) {
         var formattedRecord5 = [];
-        this.$store.state.treatmentstrategicdata_obj.forEach(function (rec) {
+        this.treatmentstrategicdata_obj.forEach(function(rec) {
           formattedRecord5.push({
             type: rec[0],
             male: rec[1],
@@ -366,7 +376,6 @@ export default {
             total: rec[7],
           });
         });
-        this.isBusy = false;
         return formattedRecord5;
       }
     },
@@ -386,6 +395,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       userChart: userChart,
       locationChart: locationChart,
       uch: "uch",
@@ -453,12 +463,13 @@ export default {
       var l = [0, 0, 0, 0];
       var p = [];
       var a = 0;
-      this.checkbox_selected.forEach(function (e) {
+      this.checkbox_selected.forEach(function(e) {
         p.push(e);
         l[a] = e;
         a++;
       });
       this.errors = [];
+       this.loading = true;
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
@@ -469,14 +480,14 @@ export default {
         //   }
         //   })
         if (this.location[0].language == null) {
-          this.options.forEach(function (location_id) {
+          this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
             }
           });
         } else {
-          this.location.forEach(function (location_id) {
+          this.location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
@@ -494,7 +505,7 @@ export default {
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
       } else
-        p.forEach(function (activities_id) {
+        p.forEach(function(activities_id) {
           table_activities.push(
             activities_details.find((evt) => evt.id == activities_id).name
           );
@@ -526,6 +537,7 @@ export default {
               if (this.errormessage.length > 0) {
                 this.$bvToast.show("error-toast");
               } else if (this.successmessage == "success") {
+                 this.loading = false;
                 (this.message = ""), this.$bvToast.show("success-toast");
               }
             });
@@ -534,7 +546,7 @@ export default {
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
       if (this.geography.length > 0) {
-        this.geography.forEach(function (geography_obj) {
+        this.geography.forEach(function(geography_obj) {
           geography_data.push({
             name: geography_obj.name,
             language: geography_obj.id,
@@ -548,7 +560,7 @@ export default {
       var activities_data = [];
       var activities_data1 = [];
       if (this.activities_obj.length > 0) {
-        this.activities_obj.forEach(function (activity) {
+        this.activities_obj.forEach(function(activity) {
           activities_data.push({ text: activity.name, value: activity.id });
           activities_data1.push(activity.id);
         });
