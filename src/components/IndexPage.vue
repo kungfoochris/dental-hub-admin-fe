@@ -514,18 +514,18 @@ export default {
         this.$store.state.overviewtable_obj.forEach(function(rec) {
           formattedRecord.push({
             type: rec[0],
-            check: rec[1],
-            fv: rec[2],
-            f_sdf: rec[3],
-            sdf: rec[4],
-            seal: rec[5],
-            art: rec[6],
-            exo: rec[7],
-            referhp: rec[8],
-            referhyg: rec[9],
-            referdent: rec[10],
-            referdr: rec[11],
-            referother: rec[12],
+            CHECK: rec[1],
+            FV: rec[2],
+            "F-SDF": rec[3],
+            SDF: rec[4],
+            SEAL: rec[5],
+            ART: rec[6],
+            EXO: rec[7],
+            "REFER HP": rec[8],
+            "REFER HYG": rec[9],
+            "REFER DENT": rec[10],
+            "REFER DR": rec[11],
+            "REFER OTHER": rec[12],
           });
         });
         this.isBusy = false;
@@ -677,7 +677,7 @@ export default {
       table_activities: [],
 
       basicFields: [
-        { field: "type", label: "", tdClass: "font-weight-bold" },
+        { field: "Type", label: "Type", tdClass: "font-weight-bold" },
         { field: "check", label: "Check" },
         { field: "fv", label: "FV" },
         { field: "f_sdf", label: "F-SDF" },
