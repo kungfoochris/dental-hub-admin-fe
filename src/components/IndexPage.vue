@@ -356,7 +356,7 @@
       <div class="row mt-4 text-center table-area">
         <div class="col-12">
           <div class="card shadow">
-            <h3 class="mb-3">1.4 Treatment by Activity Table</h3>
+            <h3 class="mb-3">1.4 Treatment By Activity Table</h3>
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
@@ -410,7 +410,7 @@
       <div class="row mt-4 text-center table-area">
         <div class="col-12">
           <div class="card shadow">
-            <h3 class="mb-3">1.5 Treatment by Ward</h3>
+            <h3 class="mb-3">1.5 Treatment By Ward</h3>
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
@@ -540,18 +540,18 @@ export default {
         this.$store.state.treatment_by_activity_obj.forEach(function(rec) {
           formattedRecord1.push({
             type: rec[0],
-            check: rec[1],
-            fv: rec[2],
-            f_sdf: rec[3],
-            sdf: rec[4],
-            seal: rec[5],
-            art: rec[6],
-            exo: rec[7],
-            referhp: rec[8],
-            referhyg: rec[9],
-            referdent: rec[10],
-            referdr: rec[11],
-            referother: rec[12],
+            CHECK: rec[1],
+            FV: rec[2],
+            "F-SDF": rec[3],
+            SDF: rec[4],
+            SEAL: rec[5],
+            ART: rec[6],
+            EXO: rec[7],
+            "REFER HP": rec[8],
+            "REFER HYG": rec[9],
+            "REFER DENT": rec[10],
+            "REFER DR": rec[11],
+            "REFER OTHER": rec[12],
           });
         });
         this.isBusy = false;
@@ -566,18 +566,18 @@ export default {
         this.$store.state.treatment_by_ward_obj.forEach(function(rec) {
           formattedRecord2.push({
             type: rec[0],
-            check: rec[1],
-            fv: rec[2],
-            sdf: rec[3],
-            f_sdf: rec[4],
-            seal: rec[5],
-            art: rec[6],
-            exo: rec[7],
-            referhp: rec[8],
-            referhyg: rec[9],
-            referdent: rec[10],
-            referdr: rec[11],
-            referother: rec[12],
+            CHECK: rec[1],
+            FV: rec[2],
+            "F-SDF": rec[3],
+            SDF: rec[4],
+            SEAL: rec[5],
+            ART: rec[6],
+            EXO: rec[7],
+            "REFER HP": rec[8],
+            "REFER HYG": rec[9],
+            "REFER DENT": rec[10],
+            "REFER DR": rec[11],
+            "REFER OTHER": rec[12],
           });
         });
         this.isBusy = false;
