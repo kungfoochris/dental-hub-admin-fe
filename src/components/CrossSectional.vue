@@ -198,68 +198,58 @@
                 <b-tr v-for="items in basic" :key="items">
                   <b-th v-html="items.type">{{ items.type }}</b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.sixyo" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.sixyo }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.twelveyo" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.twelveyo }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.fifteenyo" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.fifteenyo }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.whopvalue" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.whopvalue }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.child" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.child }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.teen" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.teen }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.adult" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.adult }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.olderadult" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.olderadult }}
                   </b-th>
                   <b-th>
-                    <div
-                      v-for="(item, index) in items.jevaiapvalue"
-                      :key="index"
-                    >
-                      {{ item }}
-                    </div>
+                    {{ items.jevaiapvalue }}
                   </b-th>
                   <b-th>
-                    <div v-for="(item, index) in items.total" :key="index">
-                      {{ item }}
-                    </div>
+                    {{ items.total }}
                   </b-th>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
-            <div class="row pr-4" @click="ExportExcel('xlsx')">
+            <div class="row pr-4">
+              <small class="ml-auto">
+                <vue-excel-xlsx
+                  :data="basic"
+                  :columns="basicFields"
+                  :filename="'Cross-Sectional Measures'"
+                  :sheetname="'Cross-Sectional Measures'"
+                  class="download-btn"
+                >
+                  <i class="fas fa-file-export mr-1"></i>Download Now
+                </vue-excel-xlsx>
+              </small>
+            </div>
+            <!-- <div class="row pr-4">
               <small class="ml-auto"
                 ><a href="#"
                   ><i class="fas fa-file-download mr-1"></i>Download Reports</a
                 ></small
               >
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -292,12 +282,12 @@ export default {
       "geography",
     ]),
 
-    basic: function () {
+    basic: function() {
       if (this.$store.state.sectionaltable_obj.length > 0) {
         // let formattedTypes = [];
         let formattedRecord1 = [];
 
-        this.$store.state.sectionaltable_obj.forEach(function (rec) {
+        this.$store.state.sectionaltable_obj.forEach(function(rec) {
           // let type2= rec[0].splice(1,0,'carries risk')
           let type1 = rec[0].toString().split(",");
           // type1 = type1.splice(0,1,'carries risk');
@@ -350,7 +340,6 @@ export default {
       table_end_date: "",
       table_activities: [],
       table_location: [],
-
       outreach: [
         { name: "Refer Hp", value: true },
         { name: "Refer Hyg", value: true },
@@ -375,26 +364,26 @@ export default {
       ],
       checkbox_selected: [1, 2, 3, 4],
       basicFields: [
-        { key: "type", label: "Types", tdClass: "font-weight-bold" },
-        { key: "sixyo", label: "6 yo" },
-        { key: "twelveyo", label: "12 yo" },
-        { key: "fifteenyo", label: "15 yo" },
-        { key: "whopvalue", label: "P-value" },
-        { key: "child", label: "Child ≤ 12 Y" },
-        { key: "teen", label: "Teen 13-18 Y" },
-        { key: "adult", label: "Adult 19-60 Y" },
-        { key: "olderadult", label: "Older Adult ≥ 61 Y" },
-        { key: "jevaiapvalue", label: "P-value" },
-        { key: "total", label: "Totals" },
+        { field: "type", label: "Types", tdClass: "font-weight-bold" },
+        { field: "sixyo", label: "6 yo" },
+        { field: "twelveyo", label: "12 yo" },
+        { field: "fifteenyo", label: "15 yo" },
+        { field: "whopvalue", label: "P-value" },
+        { field: "child", label: "Child ≤ 12 Y" },
+        { field: "teen", label: "Teen 13-18 Y" },
+        { field: "adult", label: "Adult 19-60 Y" },
+        { field: "olderadult", label: "Older Adult ≥ 61 Y" },
+        { field: "jevaiapvalue", label: "P-value" },
+        { field: "total", label: "Totals" },
       ],
       treatmentFields: [
-        { key: "type", label: "", tdClass: "font-weight-bold" },
-        { key: "exo", label: "EXO" },
-        { key: "art", label: "ART" },
-        { key: "seal", label: "SEAL" },
-        { key: "sdf", label: "SDF" },
-        { key: "fv", label: "FV" },
-        { key: "contact", label: "Contacts" },
+        { field: "type", label: "", tdClass: "font-weight-bold" },
+        { field: "exo", label: "EXO" },
+        { field: "art", label: "ART" },
+        { field: "seal", label: "SEAL" },
+        { field: "sdf", label: "SDF" },
+        { field: "fv", label: "FV" },
+        { field: "contact", label: "Contacts" },
       ],
       treatment: [
         {
@@ -457,14 +446,14 @@ export default {
         var geography_id = [];
         var geography_name = [];
         if (this.location[0].language == null) {
-          this.options.forEach(function (location_id) {
+          this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
             }
           });
         } else {
-          this.location.forEach(function (location_id) {
+          this.location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
@@ -507,7 +496,7 @@ export default {
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
       if (this.geography.length > 0) {
-        this.geography.forEach(function (geography_obj) {
+        this.geography.forEach(function(geography_obj) {
           geography_data.push({
             name: geography_obj.name,
             language: geography_obj.id,
@@ -534,4 +523,9 @@ export default {
 // .custom-control{
 //   z-index: 0 !important;
 // }
+.download-btn {
+  background: none;
+  border: none;
+  color: blue;
+}
 </style>

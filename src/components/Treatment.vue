@@ -108,7 +108,26 @@
                 style="width: 5rem; height: 5rem"
               ></b-spinner>
             </div>
-            <b-table-simple hover bordered striped responsive v-else>
+            <b-table
+              id="user-table"
+              show-empty
+              :items="strategic"
+              :fields="strategicFields"
+              responsive
+              hover
+              :busy="isBusy"
+            >
+              <template v-slot:table-busy>
+                <div class="text-center text-primary my-2">
+                  <b-spinner
+                    class="align-middle"
+                    type="grow"
+                    style="width: 5rem; height: 5rem"
+                  ></b-spinner>
+                </div>
+              </template>
+            </b-table>
+            <!-- <b-table-simple hover bordered striped responsive v-else>
               <b-thead>
                 <b-th
                   class="text-center"
@@ -157,7 +176,7 @@
                   </b-th>
                 </b-tr>
               </b-tbody>
-            </b-table-simple>
+            </b-table-simple> -->
           </div>
         </div>
       </div>

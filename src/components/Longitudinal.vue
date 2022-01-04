@@ -291,13 +291,26 @@
                   </b-tbody>
                 </b-table-simple>
                 <div class="row pr-4">
+                  <small class="ml-auto">
+                    <vue-excel-xlsx
+                      :data="longitudinalItems"
+                      :columns="longitudinalFields"
+                      :filename="'Longitudinal-Sectional Measures/Unselected follow up list'"
+                      :sheetname="'Unselected follow up list'"
+                      class="download-btn"
+                    >
+                      <i class="fas fa-file-export mr-1"></i>Download Now
+                    </vue-excel-xlsx>
+                  </small>
+                </div>
+                <!-- <div class="row pr-4">
                   <small class="ml-auto"
                     ><a href=""
-                      ><!--<i class="fas fa-file-export mr-1"></i>-->Download
+                      ><i class="fas fa-file-export mr-1"></i>Download
                       Report</a
                     ></small
                   >
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -372,10 +385,22 @@
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
-
                 <div class="row pr-4">
-                  <small class="ml-auto"><a href="">Download Report</a></small>
+                  <small class="ml-auto">
+                    <vue-excel-xlsx
+                      :data="longitudinalItems1"
+                      :columns="longitudinalFields"
+                      :filename="'Selected follow up list'"
+                      :sheetname="'Selected follow up list'"
+                      class="download-btn"
+                    >
+                      <i class="fas fa-file-export mr-1"></i>Download Now
+                    </vue-excel-xlsx>
+                  </small>
                 </div>
+                <!-- <div class="row pr-4">
+                  <small class="ml-auto"><a href="">Download Report</a></small>
+                </div> -->
               </div>
             </div>
           </div>
@@ -407,10 +432,10 @@ export default {
       "geography",
     ]),
 
-    longitudinalItems: function () {
+    longitudinalItems: function() {
       if (this.$store.state.longitudinalmeasures_obj_one.length > 0) {
         var formattedRecord1 = [];
-        this.$store.state.longitudinalmeasures_obj_one.forEach(function (rec) {
+        this.$store.state.longitudinalmeasures_obj_one.forEach(function(rec) {
           var type1 = rec[0].toString().split(",");
           formattedRecord1.push({
             type: type1[0],
@@ -428,10 +453,10 @@ export default {
       }
     },
 
-    longitudinalItems1: function () {
+    longitudinalItems1: function() {
       if (this.$store.state.longitudinalmeasures_obj_two.length > 0) {
         var formattedRecord2 = [];
-        this.$store.state.longitudinalmeasures_obj_two.forEach(function (rec) {
+        this.$store.state.longitudinalmeasures_obj_two.forEach(function(rec) {
           let type1 = rec[0].toString().split(",");
           formattedRecord2.push({
             type: type1[0],
@@ -517,13 +542,13 @@ export default {
       options: [{ name: "All Location", language: null }],
       user_location: [],
       longitudinalFields: [
-        { key: "type", label: "" },
-        { key: "tp1", label: "Time Point 1" },
-        { key: "tp2", label: "Time Point 2" },
-        { key: "realDifference", label: "Real Difference" },
-        { key: "esv", label: "Effect size value" },
-        { key: "esd", label: "Effect size descriptor" },
-        { key: "pValue", label: "P-value for related samples" },
+        { field: "type", label: "" },
+        { field: "tp1", label: "Time Point 1" },
+        { field: "tp2", label: "Time Point 2" },
+        { field: "realDifference", label: "Real Difference" },
+        { field: "esv", label: "Effect size value" },
+        { field: "esd", label: "Effect size descriptor" },
+        { field: "pValue", label: "P-value for related samples" },
       ],
     };
   },
@@ -546,7 +571,7 @@ export default {
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
       if (this.geography.length > 0) {
-        this.geography.forEach(function (geography_obj) {
+        this.geography.forEach(function(geography_obj) {
           geography_data.push({
             name: geography_obj.name,
             language: geography_obj.id,
@@ -562,14 +587,14 @@ export default {
         var geography_id = [];
         var geography_name = [];
         if (this.location[0].language == null) {
-          this.options.forEach(function (location_id) {
+          this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
             }
           });
         } else {
-          this.location.forEach(function (location_id) {
+          this.location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
               geography_name.push(location_id.name);
@@ -627,4 +652,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../css/index.scss";
+.download-btn {
+  background: none;
+  border: none;
+  color: blue;
+}
 </style>
