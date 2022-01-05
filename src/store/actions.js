@@ -458,7 +458,7 @@ export default {
     return (
       axios
         // .get("https://app.abhiyantrik.com/api/v1/sectional")
-        .get("https://app.abhiyantrik.com/api/v1/testcrosssectional")
+        .get("https://app.abhiyantrik.com/api/v1/crosssectional")
         .then((response) => {
           if (response.status == 200) {
             commit("setSectionalTable", response.data);
@@ -649,7 +649,7 @@ export default {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
       .post(
-        "https://app.abhiyantrik.com/api/v1/testcrosssectional",
+        "https://app.abhiyantrik.com/api/v1/crosssectional",
         overviewvisualization_obj
       )
       .then((response) => {

@@ -255,36 +255,31 @@
                         {{ items.type }}
                       </th>
                       <th class="text-center">
-                        <div v-for="(tP, index) in items.tp1" :key="index">
-                          {{ tP }}
+                        {{ items.tp1 }}
+                      </th>
+                      <th class="text-center">
+                        <div>
+                          {{ items.tp2 }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(tP2, index) in items.tp2" :key="index">
-                          {{ tP2 }}
+                        <div>
+                          {{ items.realDifference }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div
-                          v-for="(tP2, index) in items.realDifference"
-                          :key="index"
-                        >
-                          {{ tP2 }}
+                        <div>
+                          {{ items.esv }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(eSV, index) in items.esv" :key="index">
-                          {{ eSV }}
+                        <div>
+                          {{ items.esd }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(eSD, index) in items.esd" :key="index">
-                          {{ eSD }}
-                        </div>
-                      </th>
-                      <th class="text-center">
-                        <div v-for="(pV, index) in items.pValue" :key="index">
-                          {{ pV }}
+                        <div>
+                          {{ items.pValue }}
                         </div>
                       </th>
                     </b-tr>
@@ -295,7 +290,9 @@
                     <vue-excel-xlsx
                       :data="longitudinalItems"
                       :columns="longitudinalFields"
-                      :filename="'Longitudinal-Sectional Measures/Unselected follow up list'"
+                      :filename="
+                        'Longitudinal-Sectional Measures/Unselected follow up list'
+                      "
                       :sheetname="'Unselected follow up list'"
                       class="download-btn"
                     >
@@ -303,14 +300,6 @@
                     </vue-excel-xlsx>
                   </small>
                 </div>
-                <!-- <div class="row pr-4">
-                  <small class="ml-auto"
-                    ><a href=""
-                      ><i class="fas fa-file-export mr-1"></i>Download
-                      Report</a
-                    ></small
-                  >
-                </div> -->
               </div>
             </div>
           </div>
@@ -350,36 +339,31 @@
                         {{ items.type }}
                       </th>
                       <th class="text-center">
-                        <div v-for="(tP, index) in items.tp1" :key="index">
-                          {{ tP }}
+                        {{ items.tp1 }}
+                      </th>
+                      <th class="text-center">
+                        <div>
+                          {{ items.tp2 }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(tP2, index) in items.tp2" :key="index">
-                          {{ tP2 }}
+                        <div>
+                          {{ items.realDifference }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div
-                          v-for="(tP2, index) in items.realDifference"
-                          :key="index"
-                        >
-                          {{ tP2 }}
+                        <div>
+                          {{ items.esv }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(eSV, index) in items.esv" :key="index">
-                          {{ eSV }}
+                        <div>
+                          {{ items.esd }}
                         </div>
                       </th>
                       <th class="text-center">
-                        <div v-for="(eSD, index) in items.esd" :key="index">
-                          {{ eSD }}
-                        </div>
-                      </th>
-                      <th class="text-center">
-                        <div v-for="(pV, index) in items.pValue" :key="index">
-                          {{ pV }}
+                        <div>
+                          {{ items.pValue }}
                         </div>
                       </th>
                     </b-tr>
@@ -390,7 +374,7 @@
                     <vue-excel-xlsx
                       :data="longitudinalItems1"
                       :columns="longitudinalFields"
-                      :filename="'Selected follow up list'"
+                      :filename="'Longitudinal Measures'"
                       :sheetname="'Selected follow up list'"
                       class="download-btn"
                     >
