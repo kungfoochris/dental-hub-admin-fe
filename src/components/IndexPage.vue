@@ -827,7 +827,7 @@ export default {
           (this.overviewbargraphpost_obj = []),
           this.$store.dispatch("CreateTreatmentBarGraph", {
             start_date: this.activity_distribution_start_date,
-            end_date: this.activity_distribution_start_date,
+            end_date: this.activity_distribution_end_date,
             location: geography_id,
             age_group: this.age_group,
           });
@@ -861,7 +861,7 @@ export default {
           (this.dashboard_piechartpost = []),
           this.$store.dispatch("CreateDashboardPieChart", {
             start_date: this.treatment_distribution_start_date,
-            end_date: this.treatment_distribution_start_date,
+            end_date: this.treatment_distribution_end_date,
             location: geography_id,
             age_group: this.age_group1["value"],
           });
