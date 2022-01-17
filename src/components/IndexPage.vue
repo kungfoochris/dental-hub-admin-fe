@@ -350,7 +350,14 @@
                 >
               </div>
             </div>
-
+            <div v-if="PieSpinner" class="text-center mt-5">
+              <b-spinner
+                variant="primary"
+                type="grow"
+                label="Loading Visualization"
+                style="width: 5rem; height: 5rem;"
+              ></b-spinner>
+            </div>
             <Visualization :tag="piechart" v-show="showdataget"></Visualization>
             <Visualization
               :tag="piechartpost"
@@ -618,6 +625,7 @@ export default {
   data() {
     return {
       spinner: false,
+      PieSpinner: false,
       Start_Date: "",
       overview_start_date: "",
       overview_end_date: "",
@@ -807,8 +815,8 @@ export default {
     },
 
     Bargraphtreatment() {
-      this.showdatapost1 = false;
-      this.showdataget1 = false;
+      // this.showdatapost1 = false;
+      // this.showdataget1 = false;
       this.errors = [];
       var geography_id = [];
 
@@ -846,7 +854,7 @@ export default {
             .then(() => {
               if (this.errormessage.length > 0) {
                 this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
+              } else {
                 this.spinner = false;
                 (this.message = ""), this.$bvToast.show("success-toast");
               }
@@ -879,12 +887,22 @@ export default {
         (this.showdatapost = true),
           (this.showdataget = false),
           (this.dashboard_piechartpost = []),
-          this.$store.dispatch("CreateDashboardPieChart", {
-            start_date: this.treatment_distribution_start_date,
-            end_date: this.treatment_distribution_end_date,
-            location: geography_id,
-            age_group: this.age_group1["value"],
-          });
+          (this.PieSpinner = true),
+          this.$store
+            .dispatch("CreateDashboardPieChart", {
+              start_date: this.treatment_distribution_start_date,
+              end_date: this.treatment_distribution_end_date,
+              location: geography_id,
+              age_group: this.age_group1["value"],
+            })
+            .then(() => {
+              if (this.errormessage.length > 0) {
+                this.$bvToast.show("error-toast");
+              } else {
+                this.PieSpinner = false;
+                (this.message = ""), this.$bvToast.show("success-toast");
+              }
+            });
     },
 
     WardLineVisualization() {
