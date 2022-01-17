@@ -815,7 +815,7 @@ export default {
     },
 
     Bargraphtreatment() {
-      // this.showdatapost1 = false;
+      this.showdatapost1 = false;
       // this.showdataget1 = false;
       this.errors = [];
       var geography_id = [];
@@ -840,8 +840,7 @@ export default {
         this.errors["age_group"] = "Age Group required.";
         this.$bvToast.show("error-toast");
       } else
-        (this.showdatapost1 = true),
-          (this.showdataget1 = false),
+        (this.showdataget1 = false),
           (this.spinner = true),
           (this.overviewbargraphpost_obj = []),
           this.$store
@@ -856,12 +855,14 @@ export default {
                 this.$bvToast.show("error-toast");
               } else {
                 this.spinner = false;
+                this.showdatapost1 = true;
                 (this.message = ""), this.$bvToast.show("success-toast");
               }
             });
     },
 
     PieChartForm() {
+      this.showdatapost = false;
       this.errors = [];
       var geography_id = [];
       if (this.pie_location && this.pie_location.length) {
@@ -883,9 +884,10 @@ export default {
         this.errors["age_group1"] = "Treatment Type/Age Group required.";
         this.showdataget = true;
         this.$bvToast.show("error-toast");
-      } else
-        (this.showdatapost = true),
-          (this.showdataget = false),
+      }
+      // (this.showdatapost = true),
+      else
+        (this.showdataget = false),
           (this.dashboard_piechartpost = []),
           (this.PieSpinner = true),
           this.$store
@@ -900,6 +902,7 @@ export default {
                 this.$bvToast.show("error-toast");
               } else {
                 this.PieSpinner = false;
+                this.showdatapost = true;
                 (this.message = ""), this.$bvToast.show("success-toast");
               }
             });
