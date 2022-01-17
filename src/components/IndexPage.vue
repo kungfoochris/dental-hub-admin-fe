@@ -274,7 +274,14 @@
                 >
               </div>
             </div>
-
+            <div v-if="spinner" class="text-center mt-5">
+              <b-spinner
+                variant="primary"
+                type="grow"
+                label="Loading Visualization"
+                style="width: 5rem; height: 5rem;"
+              ></b-spinner>
+            </div>
             <Visualization
               :tag="settingsgraph"
               v-show="showdataget1"
@@ -610,6 +617,7 @@ export default {
 
   data() {
     return {
+      spinner: false,
       Start_Date: "",
       overview_start_date: "",
       overview_end_date: "",
@@ -799,6 +807,8 @@ export default {
     },
 
     Bargraphtreatment() {
+      this.showdatapost1 = false;
+      this.showdataget1 = false;
       this.errors = [];
       var geography_id = [];
 
@@ -824,13 +834,23 @@ export default {
       } else
         (this.showdatapost1 = true),
           (this.showdataget1 = false),
+          (this.spinner = true),
           (this.overviewbargraphpost_obj = []),
-          this.$store.dispatch("CreateTreatmentBarGraph", {
-            start_date: this.activity_distribution_start_date,
-            end_date: this.activity_distribution_end_date,
-            location: geography_id,
-            age_group: this.age_group,
-          });
+          this.$store
+            .dispatch("CreateTreatmentBarGraph", {
+              start_date: this.activity_distribution_start_date,
+              end_date: this.activity_distribution_end_date,
+              location: geography_id,
+              age_group: this.age_group,
+            })
+            .then(() => {
+              if (this.errormessage.length > 0) {
+                this.$bvToast.show("error-toast");
+              } else if (this.successmessage == "success") {
+                this.spinner = false;
+                (this.message = ""), this.$bvToast.show("success-toast");
+              }
+            });
     },
 
     PieChartForm() {

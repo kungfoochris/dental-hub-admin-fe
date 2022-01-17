@@ -230,7 +230,7 @@
         </div>
       </div>
 
-      <div class="row mt-4 text-center">
+      <!-- <div class="row mt-4 text-center">
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3">Download Reports</h3>
@@ -263,7 +263,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <b-toast
         id="error-toast"
