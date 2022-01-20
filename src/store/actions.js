@@ -248,7 +248,7 @@ export default {
         }
       });
   },
-
+  // 1.6 Contacts Over Time
   listDashboardLineChartGraph({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -259,7 +259,7 @@ export default {
         }
       });
   },
-
+  // 1.1 Overview
   listOverviewTable({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -285,7 +285,7 @@ export default {
         }
       });
   },
-
+  // 1.4 Treatment By Activity Table
   listTreatmentbyActivity({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -310,7 +310,7 @@ export default {
         }
       });
   },
-
+  // 1.5 Treatment By Ward
   listTreatmentbyWard({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -344,10 +344,11 @@ export default {
       });
   },
 
+  // 1.2 Treatment Distribution
   listOverviewBarGraph({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
-      .get("https://app.abhiyantrik.com/api/v1/overviewbargraph")
+      .get("https://app.abhiyantrik.com/api/v1/treatmentdistribution")
       .then((response) => {
         if (response.status == 200) {
           commit("setOverviewBarGraph", response.data);
@@ -359,7 +360,7 @@ export default {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
       .post(
-        "https://app.abhiyantrik.com/api/v1/settingsgraphfilter",
+        "https://app.abhiyantrik.com/api/v1/treatmentdistribution",
         overviewvisualization_obj
       )
       .then((response) => {
@@ -370,22 +371,22 @@ export default {
       });
   },
 
+  // 1.3 Activity Distribution
   listOverviewPieChartGraph({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
-      .get("https://app.abhiyantrik.com/api/v1/overviewpiechart")
+      .get("https://app.abhiyantrik.com/api/v1/activitydistribution")
       .then((response) => {
         if (response.status == 200) {
           commit("setOverviewPieChartGraph", response.data);
         }
       });
   },
-
   CreateDashboardPieChart({ commit }, overviewvisualization_obj) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
       .post(
-        "https://app.abhiyantrik.com/api/v1/piechartfilter",
+        "https://app.abhiyantrik.com/api/v1/activitydistribution",
         overviewvisualization_obj
       )
       .then((response) => {
@@ -396,6 +397,7 @@ export default {
       });
   },
 
+  // 2.1 Preventative Overview
   listTreatmentTableBasicData({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -407,6 +409,7 @@ export default {
       });
   },
 
+  // 2.2 Strategic Data
   listTreatmentStrategicData({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -453,6 +456,7 @@ export default {
       });
   },
 
+  // 3.1 Cross-Sectional Measures
   listSectionalTable({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return (
@@ -467,6 +471,7 @@ export default {
     );
   },
 
+  //2.3 Preventive Ratio Over Time
   listTreatmentPreventionRatio({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -478,6 +483,7 @@ export default {
       });
   },
 
+  // 2.4 Early Intervention Ratio
   listEarlyIntervention({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios
@@ -489,6 +495,7 @@ export default {
       });
   },
 
+  // 2.5 Recall Percentage
   listRecallDistribution({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
     return axios

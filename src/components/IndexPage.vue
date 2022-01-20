@@ -152,10 +152,10 @@
         variant="warning"
         solid
         append-toast
-        toaster="b-toaster-bottom-full"
+        toaster="b-toaster-top-center"
       >
         <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
-          <strong class="mr-auto">Overview filter required error</strong>
+          <strong class="mr-auto">Filter Required Error !!!</strong>
         </div>
         <div v-if="errors.Start_Date">
           <p>{{ errors.Start_Date }}</p>
@@ -171,8 +171,16 @@
           <p>{{ errors.age_group }}</p>
         </div>
 
-        <div v-if="errors.age_group1">
-          <p>{{ errors.age_group1 }}</p>
+        <div v-if="errors.bar_location">
+          <p>{{ errors.bar_location }}</p>
+        </div>
+
+        <div v-if="errors.pie_location">
+          <p>{{ errors.pie_location }}</p>
+        </div>
+
+        <div v-if="errors.treatment_type">
+          <p>{{ errors.treatment_type }}</p>
         </div>
 
         <div v-if="errors.checkbox_selected">
@@ -238,7 +246,17 @@
 
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Age Group/Activity:</h6>
-                <b-form-select
+                <multiselect
+                  v-model="age_group"
+                  :options="options1"
+                  :preserve-search="true"
+                  placeholder="Select Age Group/Activity"
+                  label="name"
+                  track-by="name"
+                  :preselect-first="true"
+                >
+                </multiselect>
+                <!-- <b-form-select
                   v-model="age_group"
                   :options="options1"
                   value-field="name"
@@ -249,17 +267,7 @@
                       >Select Age Group</b-form-select-option
                     >
                   </template>
-                </b-form-select>
-                <!-- <multiselect
-                  v-model="age_group"
-                  :options="options1"
-                  :preserve-search="true"
-                  placeholder="Select Age Groups"
-                  label="name"
-                  track-by="name"
-                  :preselect-first="true"
-                >
-                </multiselect> -->
+                </b-form-select> -->
               </div>
             </div>
 
@@ -330,7 +338,7 @@
               <div class="col-lg-6 col-sm-12 mb-3">
                 <h6>Treatment Type:</h6>
                 <multiselect
-                  v-model="age_group1"
+                  v-model="treatment_type"
                   :options="options2"
                   :preserve-search="true"
                   placeholder="Select Activity"
@@ -632,7 +640,7 @@ export default {
       activity_distribution_start_date: "",
       activity_distribution_end_date: "",
       age_group: null,
-      age_group1: "",
+      treatment_type: "",
       End_Date: "",
       userChart: userChart,
       locationChart: locationChart,
@@ -655,7 +663,7 @@ export default {
         { name: "ART", value: "art" },
         { name: "SEAL", value: "seal" },
         { name: "SDF", value: "sdf" },
-        { name: "F-SDF", value: "f_sdf" },
+        { name: "F-SDF", value: "f-sdf" },
         { name: "FV", value: "fv" },
       ],
       years_array: years(100).reverse(),
@@ -836,8 +844,11 @@ export default {
         }
       }
 
-      if (this.age_group == null) {
+      if (this.age_group == "" || this.age_group == null) {
         this.errors["age_group"] = "Age Group required.";
+        this.$bvToast.show("error-toast");
+      } else if (this.bar_location == "") {
+        this.errors["bar_location"] = "Location is required.";
         this.$bvToast.show("error-toast");
       } else
         (this.showdataget1 = false),
@@ -848,7 +859,7 @@ export default {
               start_date: this.activity_distribution_start_date,
               end_date: this.activity_distribution_end_date,
               location: geography_id,
-              age_group: this.age_group,
+              age_group_activity: this.age_group,
             })
             .then(() => {
               if (this.errormessage.length > 0) {
@@ -880,8 +891,12 @@ export default {
           });
         }
       }
-      if (this.age_group1 == null) {
-        this.errors["age_group1"] = "Treatment Type/Age Group required.";
+      if (this.treatment_type == "" || this.treatment_type == null) {
+        this.errors["treatment_type"] = "Treatment Type is required.";
+        this.showdataget = true;
+        this.$bvToast.show("error-toast");
+      } else if (this.pie_location == "") {
+        this.errors["pie_location"] = "Location is required.";
         this.showdataget = true;
         this.$bvToast.show("error-toast");
       }
@@ -895,7 +910,7 @@ export default {
               start_date: this.treatment_distribution_start_date,
               end_date: this.treatment_distribution_end_date,
               location: geography_id,
-              age_group: this.age_group1["value"],
+              treatment_type: this.treatment_type["value"],
             })
             .then(() => {
               if (this.errormessage.length > 0) {
