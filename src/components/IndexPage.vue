@@ -147,64 +147,6 @@
         </div>
       </div>
 
-      <b-toast
-        id="error-toast"
-        variant="warning"
-        solid
-        append-toast
-        toaster="b-toaster-top-center"
-      >
-        <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
-          <strong class="mr-auto">Filter Required Error !!!</strong>
-        </div>
-        <div v-if="errors.Start_Date">
-          <p>{{ errors.Start_Date }}</p>
-        </div>
-        <div v-if="errors.End_Date">
-          <p>{{ errors.End_Date }}</p>
-        </div>
-        <div v-if="errors.location">
-          <p>{{ errors.location }}</p>
-        </div>
-
-        <div v-if="errors.age_group">
-          <p>{{ errors.age_group }}</p>
-        </div>
-
-        <div v-if="errors.bar_location">
-          <p>{{ errors.bar_location }}</p>
-        </div>
-
-        <div v-if="errors.pie_location">
-          <p>{{ errors.pie_location }}</p>
-        </div>
-
-        <div v-if="errors.treatment_type">
-          <p>{{ errors.treatment_type }}</p>
-        </div>
-
-        <div v-if="errors.checkbox_selected">
-          <p>{{ errors.checkbox_selected }}</p>
-        </div>
-
-        <div v-if="message.length > 0">
-          <p>{{ this.message }}</p>
-        </div>
-      </b-toast>
-
-      <b-toast
-        id="success-toast"
-        variant="custom-success"
-        solid
-        append-toast
-        toaster="b-toaster-bottom-full"
-      >
-        <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
-          <strong class="mr-auto">Filtered success</strong>
-        </div>
-        Data is Successfully filtered
-      </b-toast>
-
       <div class="row mt-4">
         <div class="col-lg-6 col-sm-12">
           <div class="card shadow">
@@ -492,6 +434,63 @@
         </div>
       </div>
     </div>
+    <b-toast
+      id="error-toast"
+      variant="warning"
+      solid
+      append-toast
+      toaster="b-toaster-top-center"
+    >
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Filter Required Error !!!</strong>
+      </div>
+      <div v-if="errors.Start_Date">
+        <p>{{ errors.Start_Date }}</p>
+      </div>
+      <div v-if="errors.End_Date">
+        <p>{{ errors.End_Date }}</p>
+      </div>
+      <div v-if="errors.location">
+        <p>{{ errors.location }}</p>
+      </div>
+
+      <div v-if="errors.age_group">
+        <p>{{ errors.age_group }}</p>
+      </div>
+
+      <div v-if="errors.bar_location">
+        <p>{{ errors.bar_location }}</p>
+      </div>
+
+      <div v-if="errors.pie_location">
+        <p>{{ errors.pie_location }}</p>
+      </div>
+
+      <div v-if="errors.treatment_type">
+        <p>{{ errors.treatment_type }}</p>
+      </div>
+
+      <div v-if="errors.checkbox_selected">
+        <p>{{ errors.checkbox_selected }}</p>
+      </div>
+
+      <div v-if="message.length > 0">
+        <p>{{ this.message }}</p>
+      </div>
+    </b-toast>
+
+    <b-toast
+      id="success-toast"
+      variant="custom-success"
+      solid
+      append-toast
+      toaster="b-toaster-bottom-full"
+    >
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <strong class="mr-auto">Filtered success</strong>
+      </div>
+      Data is Successfully filtered
+    </b-toast>
   </div>
 </template>
 
@@ -769,57 +768,62 @@ export default {
         this.user_location = geography_id;
         this.table_location = geography_name;
       }
-      if (this.checkbox_selected == "") {
-        this.errors["checkbox_selected"] =
-          "Select one of the activities required.";
+      if (this.location == "") {
+        this.errors["location"] = "Location is required.";
         this.$bvToast.show("error-toast");
-      } else this.busy11 = true;
-      this.checkbox_selected.forEach(function(activities_id) {
-        table_activities1.push(
-          activities_details.find((evt) => evt.id == activities_id).name
-        );
-      }),
-        (this.table_start_date = this.returndate_obj.last_30_days),
-        (this.table_end_date = this.returndate_obj.today_date),
-        (this.table_activities = table_activities1),
-        (this.tablefilterdata = true),
-        this.$store
-          .dispatch("CreateOverViewVisualization", {
-            start_date: this.overview_start_date,
-            end_date: this.overview_end_date,
-            location: this.user_location,
-            activities: this.checkbox_selected,
-          })
-          .then(() => {
-            if (this.visulaizationsuccessmessage == "success") {
-              this.busy11 = false;
-            }
-          });
+      } else if (this.checkbox_selected == "") {
+        this.errors["checkbox_selected"] =
+          "Please Select one of the Activities.";
+        this.$bvToast.show("error-toast");
+      } else {
+        this.busy11 = true;
+        this.checkbox_selected.forEach(function(activities_id) {
+          table_activities1.push(
+            activities_details.find((evt) => evt.id == activities_id).name
+          );
+        }),
+          (this.table_start_date = this.returndate_obj.last_30_days),
+          (this.table_end_date = this.returndate_obj.today_date),
+          (this.table_activities = table_activities1),
+          (this.tablefilterdata = true),
+          this.$store
+            .dispatch("CreateOverViewVisualization", {
+              start_date: this.overview_start_date,
+              end_date: this.overview_end_date,
+              location: this.user_location,
+              activities: this.checkbox_selected,
+            })
+            .then(() => {
+              if (this.visulaizationsuccessmessage == "success") {
+                this.busy11 = false;
+              }
+            });
 
-      this.$store.dispatch("CreateTreatmentbyActivity", {
-        start_date: this.overview_start_date,
-        end_date: this.overview_end_date,
-        location: this.user_location,
-        activities: this.checkbox_selected,
-      }),
-        this.$store
-          .dispatch("CreateTreatmentbyWard", {
-            start_date: this.overview_start_date,
-            end_date: this.overview_end_date,
-            location: this.user_location,
-            activities: this.checkbox_selected,
-          })
-          .then(() => {
-            if (this.errormessage.length > 0) {
-              this.$bvToast.show("error-toast");
-            } else if (this.successmessage == "success") {
-              (this.message = ""), this.$bvToast.show("success-toast");
-            }
+        this.$store.dispatch("CreateTreatmentbyActivity", {
+          start_date: this.overview_start_date,
+          end_date: this.overview_end_date,
+          location: this.user_location,
+          activities: this.checkbox_selected,
+        }),
+          this.$store
+            .dispatch("CreateTreatmentbyWard", {
+              start_date: this.overview_start_date,
+              end_date: this.overview_end_date,
+              location: this.user_location,
+              activities: this.checkbox_selected,
+            })
+            .then(() => {
+              if (this.errormessage.length > 0) {
+                this.$bvToast.show("error-toast");
+              } else if (this.successmessage == "success") {
+                (this.message = ""), this.$bvToast.show("success-toast");
+              }
 
-            if (this.visulaizationsuccessmessage == "success") {
-              this.busy11 = false;
-            }
-          });
+              if (this.visulaizationsuccessmessage == "success") {
+                this.busy11 = false;
+              }
+            });
+      }
     },
 
     Bargraphtreatment() {
