@@ -74,6 +74,31 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3">2.1 Preventative Overview</h3>
+            <div class="row mb-3 text-center" v-show="tablefilterdata">
+              <div class="col-6">
+                <p><strong>Start Date: </strong>{{ this.filter_start_date }}</p>
+                <p><strong>End Date: </strong>{{ this.filter_end_date }}</p>
+              </div>
+
+              <div class="col-6">
+                <p>
+                  <strong>Location(s): </strong
+                  ><span
+                    v-for="(location, index) in this.table_location"
+                    :key="index"
+                    >{{ location }},</span
+                  >
+                </p>
+                <p>
+                  <strong>Activities: </strong
+                  ><span
+                    v-for="(activity, index) in table_activities"
+                    :key="index"
+                    >{{ activity }},</span
+                  >
+                </p>
+              </div>
+            </div>
             <b-table
               id="user-table"
               show-empty
@@ -101,12 +126,30 @@
         <div class="col-12">
           <div class="card shadow">
             <h3 class="mb-3">2.2 Strategic Data</h3>
-            <div class="text-center text-primary my-2" v-if="loading">
-              <b-spinner
-                class="align-middle"
-                type="grow"
-                style="width: 5rem; height: 5rem"
-              ></b-spinner>
+            <div class="row mb-3 text-center" v-show="tablefilterdata">
+              <div class="col-6">
+                <p><strong>Start Date: </strong>{{ this.filter_start_date }}</p>
+                <p><strong>End Date: </strong>{{ this.filter_end_date }}</p>
+              </div>
+
+              <div class="col-6">
+                <p>
+                  <strong>Location(s): </strong
+                  ><span
+                    v-for="(location, index) in this.table_location"
+                    :key="index"
+                    >{{ location }},</span
+                  >
+                </p>
+                <p>
+                  <strong>Activities: </strong
+                  ><span
+                    v-for="(activity, index) in table_activities"
+                    :key="index"
+                    >{{ activity }},</span
+                  >
+                </p>
+              </div>
             </div>
             <b-table
               id="user-table"
@@ -355,7 +398,6 @@ export default {
           });
         });
         this.isBusy = false;
-
         return formattedRecord3;
       }
     },
@@ -506,23 +548,22 @@ export default {
         this.table_location = geography_name;
       }
 
-      console.log("user_location", JSON.stringify(l));
-
       if (this.checkbox_selected == "") {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
-      } else
-        p.forEach(function(activities_id) {
-          table_activities.push(
-            activities_details.find((evt) => evt.id == activities_id).name
-          );
-        }),
-          (this.table_start_date = this.returndate_obj.last_30_days),
-          (this.table_end_date = this.returndate_obj.today_date),
-          (this.table_activities = table_activities),
-          (this.tablefilterdata = true),
-          this.$store.dispatch("CreateTableBasicDataVisualization", {
+      } else this.isBusy = true;
+      p.forEach(function(activities_id) {
+        table_activities.push(
+          activities_details.find((evt) => evt.id == activities_id).name
+        );
+      }),
+        (this.table_start_date = this.returndate_obj.last_30_days),
+        (this.table_end_date = this.returndate_obj.today_date),
+        (this.table_activities = table_activities),
+        (this.tablefilterdata = true),
+        this.$store
+          .dispatch("CreateTableBasicDataVisualization", {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
             location: this.user_location,
@@ -530,25 +571,34 @@ export default {
             seminar: l[1],
             outreach: l[2],
             training: l[3],
-          }),
-          this.$store
-            .dispatch("CreateStrategicDataVisualization", {
-              start_date: this.returndate_obj.last_30_days,
-              end_date: this.returndate_obj.today_date,
-              location: this.user_location,
-              health_post: l[0],
-              seminar: l[1],
-              outreach: l[2],
-              training: l[3],
-            })
-            .then(() => {
-              if (this.errormessage.length > 0) {
-                this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
-                this.loading = false;
-                (this.message = ""), this.$bvToast.show("success-toast");
-              }
-            });
+          })
+          .then(() => {
+            if (this.errormessage.length > 0) {
+              this.$bvToast.show("error-toast");
+            } else if (this.successmessage == "success") {
+              this.isbusy = false;
+              this.message = "";
+              this.$bvToast.show("success-toast");
+            }
+          });
+      this.$store
+        .dispatch("CreateStrategicDataVisualization", {
+          start_date: this.returndate_obj.last_30_days,
+          end_date: this.returndate_obj.today_date,
+          location: this.user_location,
+          health_post: l[0],
+          seminar: l[1],
+          outreach: l[2],
+          training: l[3],
+        })
+        .then(() => {
+          if (this.errormessage.length > 0) {
+            this.$bvToast.show("error-toast");
+          } else if (this.successmessage == "success") {
+            this.isbusy = false;
+            // (this.message = ""), this.$bvToast.show("success-toast");
+          }
+        });
     },
 
     updateOptions() {

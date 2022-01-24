@@ -271,20 +271,42 @@ export default {
       });
   },
 
-  CreateOverViewVisualization({ commit }, overviewvisualization_obj) {
-    axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
-    return axios
-      .post(
-        "https://app.abhiyantrik.com/api/v1/overviewvisualization",
-        overviewvisualization_obj
-      )
-      .then((response) => {
-        if (response.status == 200) {
-          commit("setOverviewTable", response.data);
-          commit("setBasicVisulizationSuccess", "success");
-        }
-      });
-  },
+  // CreateOverViewVisualization({ commit }, overviewvisualization_obj) {
+  //   axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
+  //   return axios
+  //     .post(
+  //       "https://app.abhiyantrik.com/api/v1/overviewvisualization",
+  //       overviewvisualization_obj
+  //     )
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //         commit("setOverviewTable", response.data);
+  //         commit("setSuccessMessage", "success");
+  //         // commit("setBasicVisulizationSuccess", "success");
+  //       }
+  //     });
+  // },
+  // CreateOverViewVisualization({ commit }, overviewvisualization_obj) {
+  //   axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;
+  //   return axios
+  //     .post(
+  //       "https://app.abhiyantrik.com/api/v1/overviewvisualization",
+  //       overviewvisualization_obj
+  //     )
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //         commit("setErrorMessage", "");
+  //         commit("setSuccessMessage", "success");
+  //         commit("setOverviewTable", response.data);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error) {
+  //         commit("setErrorMessage", "errormessage");
+  //         commit("setMessage", error.response.data.message);
+  //       }
+  //     });
+  // },
   // 1.4 Treatment By Activity Table
   listTreatmentbyActivity({ commit }) {
     axios.defaults.headers.common["authorization"] = "JWT " + this.state.token;

@@ -74,6 +74,7 @@
       <div class="row mt-4">
         <div class="col-12">
           <div class="card shadow">
+            <!-- {{ this.overview_obj }} -->
             <h3 class="mb-3 text-center">1.1 Overview</h3>
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
@@ -105,17 +106,17 @@
             </div>
             <b-table
               id="user-table"
-              show-empty
               :items="basic"
               :fields="basicFields"
               responsive
               hover
-              :busy="busy11"
+              :busy="isBusy"
               class="text-center"
+              show-empty
             >
-              <template v-slot:cell(type)="row">
+              <!-- <template v-slot:cell(type)="row">
                 <span v-html="row.item.type">{{ row.item.type }}</span>
-              </template>
+              </template> -->
 
               <template v-slot:table-busy>
                 <div class="text-center text-primary my-2">
@@ -127,9 +128,9 @@
                 </div>
               </template>
 
-              <template v-slot:cell(basic)="row">
+              <!-- <template v-slot:cell(basic)="row">
                 {{ row.item.full_name }}
-              </template>
+              </template> -->
             </b-table>
 
             <div class="row pr-4">
@@ -471,7 +472,7 @@
             </div>
 
             <b-table
-              id="treatments-table"
+              id="treatment-table"
               show-empty
               :items="treatmentTableItemsWard"
               :fields="basicFields"
@@ -568,6 +569,7 @@ import Visualization from "./Visualization";
 import userChart from "../js/userchart.js";
 import locationChart from "../js/locationchart.js";
 import years from "../js/year_array.js";
+import axios from "axios";
 
 // const axios = require('axios');
 export default {
@@ -583,23 +585,23 @@ export default {
     ...mapState([
       "errormessage",
       "successmessage",
-      "visulaizationsuccessmessage",
+      // "visulaizationsuccessmessage",
       "message",
       "overviewbargraphpost_obj",
       "dashboard_piechartpost",
       "returndate_obj",
-      "overviewtable_obj",
-      "treatment_by_activity_obj",
-      "treatment_by_ward_obj",
+      // "overviewtable_obj",
+      // "treatment_by_activity_obj",
+      // "treatment_by_ward_obj",
       "geography",
       "activities_obj",
     ]),
 
     basic: function() {
-      this.isBusy = true;
-      if (this.$store.state.overviewtable_obj.length > 0) {
+      // this.isBusy = true;
+      if (this.overview_obj.length > 0) {
         var formattedRecord = [];
-        this.$store.state.overviewtable_obj.forEach(function(rec) {
+        this.overview_obj.forEach(function(rec) {
           formattedRecord.push({
             type: rec[0],
             CHECK: rec[1],
@@ -616,7 +618,7 @@ export default {
             "REFER OTHER": rec[12],
           });
         });
-        this.isBusy = false;
+        // this.isBusy = false;
         return formattedRecord;
       }
     },
@@ -642,9 +644,9 @@ export default {
             "REFER OTHER": rec[12],
           });
         });
-        this.isBusy = false;
         return formattedRecord1;
       }
+      this.isBusy = false;
     },
 
     treatmentTableItemsWard: function() {
@@ -672,28 +674,18 @@ export default {
         return formattedRecord2;
       }
     },
-
-    activity_distribution_end_date: () => {
-      let start_date = "";
-      start_date = this.activity_distribution_end_date;
-      returndate_obj.forEach(function(i) {
-        start_date.push(i);
-      });
-      return start_date;
-    },
   },
 
   created() {
-    this.listReturnDate();
-    this.listOverviewTable();
-    this.listTreatmentbyActivity();
-    this.listTreatmentbyWard();
     this.listGeography().then(() => {
       this.updateOptions();
     });
     this.listActivitie().then(() => {
       this.checkbox_optionsupdate();
     });
+    this.getOverviewTable();
+    this.listTreatmentbyActivity();
+    this.listTreatmentbyWard();
   },
 
   data() {
@@ -701,6 +693,7 @@ export default {
       spinner: false,
       PieSpinner: false,
       Start_Date: "",
+      overview_obj: [],
       overview_start_date: "",
       overview_end_date: "",
       activity_distribution_start_date: "",
@@ -757,7 +750,6 @@ export default {
         "Tilahar",
         "Katuwachaupari",
       ],
-
       checkbox_selected: [],
       checkbox_options: [],
       date_error: "",
@@ -805,6 +797,16 @@ export default {
     this.overview_start_date = startDate;
   },
 
+  // watch: {
+  //   overview_obj: function() {
+  //     if (this.overview_obj.length > 0) {
+  //       this.isBusy = true;
+  //     } else {
+  //       this.isBusy = false;
+  //     }
+  //   },
+  // },
+
   methods: {
     ...mapActions([
       "listReturnDate",
@@ -819,6 +821,8 @@ export default {
       var activities_details = this.activities_obj;
       var table_activities1 = [];
       this.errors = [];
+      // this.overviewtable_obj = [];
+      // this.basic = [];
       if (this.location.length > 0) {
         var geography_id = [];
         var geography_name = [];
@@ -849,7 +853,7 @@ export default {
           "Please Select one of the Activities.";
         this.$bvToast.show("error-toast");
       } else {
-        this.busy11 = true;
+        this.isBusy = true;
         this.checkbox_selected.forEach(function(activities_id) {
           table_activities1.push(
             activities_details.find((evt) => evt.id == activities_id).name
@@ -857,46 +861,63 @@ export default {
         }),
           // (this.overvi_start_date = this.overview_start_date),
           // (this.table_end_date = this.overview_end_date),
-          (this.table_activities = table_activities1),
-          (this.tablefilterdata = true),
-          this.$store
-            .dispatch("CreateOverViewVisualization", {
-              start_date: this.overview_start_date,
-              end_date: this.overview_end_date,
-              location: this.user_location,
-              activities: this.checkbox_selected,
-            })
-            .then(() => {
-              if (this.visulaizationsuccessmessage == "success") {
-                this.busy11 = false;
-              }
-            });
-
-        this.$store.dispatch("CreateTreatmentbyActivity", {
+          (this.table_activities = table_activities1);
+        this.tablefilterdata = true;
+        let formData = {
           start_date: this.overview_start_date,
           end_date: this.overview_end_date,
           location: this.user_location,
           activities: this.checkbox_selected,
-        }),
-          this.$store
-            .dispatch("CreateTreatmentbyWard", {
-              start_date: this.overview_start_date,
-              end_date: this.overview_end_date,
-              location: this.user_location,
-              activities: this.checkbox_selected,
-            })
-            .then(() => {
-              if (this.errormessage.length > 0) {
-                this.$bvToast.show("error-toast");
-              } else if (this.successmessage == "success") {
-                (this.message = ""), this.$bvToast.show("success-toast");
-              }
-
-              if (this.visulaizationsuccessmessage == "success") {
-                this.busy11 = false;
-              }
-            });
+        };
+        axios
+          .post(
+            "https://app.abhiyantrik.com/api/v1/overviewvisualization",
+            formData
+          )
+          .then((response) => {
+            if (response.status == 200) {
+              // console.log(response.data);
+              this.overview_obj = response.data;
+              this.isBusy = false;
+              this.$store.dispatch("CreateTreatmentbyActivity", {
+                start_date: this.overview_start_date,
+                end_date: this.overview_end_date,
+                location: this.user_location,
+                activities: this.checkbox_selected,
+              });
+              this.$store
+                .dispatch("CreateTreatmentbyWard", {
+                  start_date: this.overview_start_date,
+                  end_date: this.overview_end_date,
+                  location: this.user_location,
+                  activities: this.checkbox_selected,
+                })
+                .then(() => {
+                  if (this.errormessage.length > 0) {
+                    this.$bvToast.show("error-toast");
+                  } else if (this.successmessage == "success") {
+                  }
+                });
+            } else {
+              this.$bvToast.show("error-toast");
+            }
+          });
       }
+    },
+
+    getOverviewTable() {
+      // this.overview_obj = [];
+      this.isBusy = true;
+      axios
+        .get("https://app.abhiyantrik.com/api/v1/overviewvisualization")
+        .then((response) => {
+          if (response.status == 200) {
+            this.overview_obj = response.data;
+            this.isBusy = false;
+          } else {
+            this.$bvToast.show("error-toast");
+          }
+        });
     },
 
     Bargraphtreatment() {
