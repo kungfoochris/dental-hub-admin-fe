@@ -78,8 +78,10 @@
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
+                <p>
+                  <strong>Start Date: </strong>{{ this.overview_start_date }}
+                </p>
+                <p><strong>End Date: </strong>{{ this.overview_end_date }}</p>
               </div>
 
               <div class="col-6">
@@ -224,6 +226,38 @@
                 >
               </div>
             </div>
+            <div class="row mb-3 text-center" v-show="treatmentfilterdata">
+              <div class="col-6">
+                <p>
+                  <strong>Start Date: </strong
+                  >{{ this.treatment_distribution_start_date }}
+                </p>
+                <p>
+                  <strong>End Date: </strong
+                  >{{ this.treatment_distribution_end_date }}
+                </p>
+              </div>
+
+              <div class="col-6">
+                <p>
+                  <strong>Location(s): </strong
+                  ><span
+                    v-for="(location, index) in this
+                      .treatment_distribution_location"
+                    :key="index"
+                    >{{ location }},</span
+                  >
+                </p>
+                <p>
+                  <strong>Age Group/Activity:</strong
+                  ><span
+                    v-for="(age_group, index) in this.age_group"
+                    :key="index"
+                    >{{ age_group }}</span
+                  >
+                </p>
+              </div>
+            </div>
             <div v-if="spinner" class="text-center mt-5">
               <b-spinner
                 variant="primary"
@@ -242,7 +276,7 @@
             ></Visualization>
           </div>
         </div>
-
+        <!-- 1.3 Activity Distribution section -->
         <div class="col-lg-6 col-sm-12">
           <div class="card shadow">
             <h3 class="mb-3">1.3 Activity Distribution</h3>
@@ -300,6 +334,36 @@
                 >
               </div>
             </div>
+
+            <div class="row mb-3 text-center" v-show="activityfilterdata">
+              <div class="col-6">
+                <p>
+                  <strong>Start Date: </strong
+                  >{{ this.activity_distribution_start_date }}
+                </p>
+                <p>
+                  <strong>End Date: </strong
+                  >{{ this.activity_distribution_end_date }}
+                </p>
+              </div>
+
+              <div class="col-6">
+                <p>
+                  <strong>Location(s): </strong
+                  ><span
+                    v-for="(location, index) in this
+                      .activity_distribution_location"
+                    :key="index"
+                    >{{ location }},</span
+                  >
+                </p>
+                <p>
+                  <strong>Treatment Type:</strong
+                  ><span>{{ this.treatment_type.name }}</span>
+                </p>
+              </div>
+            </div>
+
             <div v-if="PieSpinner" class="text-center mt-5">
               <b-spinner
                 variant="primary"
@@ -324,8 +388,10 @@
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
+                <p>
+                  <strong>Start Date: </strong>{{ this.overview_start_date }}
+                </p>
+                <p><strong>End Date: </strong>{{ this.overview_end_date }}</p>
               </div>
 
               <div class="col-6">
@@ -378,8 +444,10 @@
 
             <div class="row mb-3 text-center" v-show="tablefilterdata">
               <div class="col-6">
-                <p><strong>Start Date: </strong>{{ this.table_start_date }}</p>
-                <p><strong>End Date: </strong>{{ this.table_end_date }}</p>
+                <p>
+                  <strong>Start Date: </strong>{{ this.overview_start_date }}
+                </p>
+                <p><strong>End Date: </strong>{{ this.overview_start_date }}</p>
               </div>
 
               <div class="col-6">
@@ -478,7 +546,6 @@
         <p>{{ this.message }}</p>
       </div>
     </b-toast>
-
     <b-toast
       id="success-toast"
       variant="custom-success"
@@ -638,7 +705,12 @@ export default {
       overview_end_date: "",
       activity_distribution_start_date: "",
       activity_distribution_end_date: "",
-      age_group: null,
+      treatment_distribution_start_date: "",
+      treatment_distribution_end_date: "",
+      treatment_distribution_location: [],
+      activity_distribution_location: [],
+      activity_distribution_age_activity: [],
+      age_group: "",
       treatment_type: "",
       End_Date: "",
       userChart: userChart,
@@ -670,6 +742,8 @@ export default {
       isBusy: false,
       busy11: false,
       tablefilterdata: false,
+      treatmentfilterdata: false,
+      activityfilterdata: false,
       ward_selected: [
         "Test ward",
         "Lakeside",
@@ -698,7 +772,6 @@ export default {
       table_end_date: "",
       table_location: [],
       table_activities: [],
-
       basicFields: [
         { field: "type", label: "Type", tdClass: "font-weight-bold" },
         { field: "CHECK", label: "Check" },
@@ -782,8 +855,8 @@ export default {
             activities_details.find((evt) => evt.id == activities_id).name
           );
         }),
-          (this.table_start_date = this.returndate_obj.last_30_days),
-          (this.table_end_date = this.returndate_obj.today_date),
+          // (this.overvi_start_date = this.overview_start_date),
+          // (this.table_end_date = this.overview_end_date),
           (this.table_activities = table_activities1),
           (this.tablefilterdata = true),
           this.$store
@@ -831,21 +904,25 @@ export default {
       // this.showdataget1 = false;
       this.errors = [];
       var geography_id = [];
+      var geography_name = [];
 
       if (this.bar_location && this.bar_location.length) {
         if (this.bar_location[0].language == null) {
           this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
             }
           });
         } else {
           this.bar_location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
             }
           });
         }
+        this.treatment_distribution_location = geography_name;
       }
 
       if (this.age_group == "" || this.age_group == null) {
@@ -854,16 +931,24 @@ export default {
       } else if (this.bar_location == "") {
         this.errors["bar_location"] = "Location is required.";
         this.$bvToast.show("error-toast");
-      } else
+      }
+      // this.options1.forEach(function(activities_id) {
+      //   activity_distribution_age_activity1.push(
+      //     this.age_group.find((evt) => evt.id == activities_id).name
+      //   );
+      // }),
+      // (this.activity_distribution_age_activity = activity_distribution_age_activity1),
+      else
         (this.showdataget1 = false),
           (this.spinner = true),
           (this.overviewbargraphpost_obj = []),
+          (this.treatmentfilterdata = true),
           this.$store
             .dispatch("CreateTreatmentBarGraph", {
-              start_date: this.activity_distribution_start_date,
-              end_date: this.activity_distribution_end_date,
+              start_date: this.treatment_distribution_start_date,
+              end_date: this.treatment_distribution_end_date,
               location: geography_id,
-              age_group_activity: this.age_group,
+              age_group_activity: this.age_group.name,
             })
             .then(() => {
               if (this.errormessage.length > 0) {
@@ -880,20 +965,24 @@ export default {
       this.showdatapost = false;
       this.errors = [];
       var geography_id = [];
+      var geography_name = [];
       if (this.pie_location && this.pie_location.length) {
         if (this.pie_location[0].language == null) {
           this.options.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
             }
           });
         } else {
           this.pie_location.forEach(function(location_id) {
             if (location_id.language != null) {
               geography_id.push(location_id.language);
+              geography_name.push(location_id.name);
             }
           });
         }
+        this.activity_distribution_location = geography_name;
       }
       if (this.treatment_type == "" || this.treatment_type == null) {
         this.errors["treatment_type"] = "Treatment Type is required.";
@@ -909,10 +998,11 @@ export default {
         (this.showdataget = false),
           (this.dashboard_piechartpost = []),
           (this.PieSpinner = true),
+          (this.activityfilterdata = true),
           this.$store
             .dispatch("CreateDashboardPieChart", {
-              start_date: this.treatment_distribution_start_date,
-              end_date: this.treatment_distribution_end_date,
+              start_date: this.activity_distribution_start_date,
+              end_date: this.activity_distribution_end_date,
               location: geography_id,
               treatment_type: this.treatment_type["value"],
             })
