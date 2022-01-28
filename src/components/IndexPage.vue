@@ -448,7 +448,7 @@
                 <p>
                   <strong>Start Date: </strong>{{ this.overview_start_date }}
                 </p>
-                <p><strong>End Date: </strong>{{ this.overview_start_date }}</p>
+                <p><strong>End Date: </strong>{{ this.overview_end_date }}</p>
               </div>
 
               <div class="col-6">
@@ -624,7 +624,6 @@ export default {
     },
 
     treatmentTableItemsActivity: function() {
-      this.isBusy = true;
       if (this.$store.state.treatment_by_activity_obj.length > 0) {
         var formattedRecord1 = [];
         this.$store.state.treatment_by_activity_obj.forEach(function(rec) {
@@ -646,11 +645,9 @@ export default {
         });
         return formattedRecord1;
       }
-      this.isBusy = false;
     },
 
     treatmentTableItemsWard: function() {
-      this.isBusy = true;
       if (this.$store.state.treatment_by_ward_obj.length > 0) {
         var formattedRecord2 = [];
         this.$store.state.treatment_by_ward_obj.forEach(function(rec) {
@@ -670,7 +667,6 @@ export default {
             "REFER OTHER": rec[12],
           });
         });
-        this.isBusy = false;
         return formattedRecord2;
       }
     },
