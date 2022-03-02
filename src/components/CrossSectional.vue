@@ -43,6 +43,17 @@
 
               <div class="col-md-4 col-sm-12">
                 <h6>Select Referral Type:</h6>
+                <!-- <b-form-select
+                  v-model="outreach_obj"
+                  :options="outreach"
+                  placeholder="Select Referral Type"
+                >
+                  <template v-slot:first>
+                    <b-form-select-option value disabled
+                      >None</b-form-select-option
+                    >
+                  </template>
+                </b-form-select> -->
                 <multiselect
                   v-model="outreach_obj"
                   :options="outreach"
@@ -341,11 +352,11 @@ export default {
       table_activities: [],
       table_location: [],
       outreach: [
-        { name: "Refer Hp", value: true },
-        { name: "Refer Hyg", value: true },
-        { name: "Refer Dent", value: true },
-        { name: "Refer Dr", value: true },
-        { name: "Refer Other", value: true },
+        { name: "No Referral Type", value: "No Refer" },
+        { name: "Refer Hyg", value: "Refer Hyg" },
+        { name: "Refer Dent", value: "Refer Dent" },
+        { name: "Refer Dr", value: "Refer Dr" },
+        { name: "Refer Other", value: "Refer Other" },
       ],
       outreach_obj: "",
       seminar: [
@@ -479,7 +490,7 @@ export default {
             start_date: this.returndate_obj.last_30_days,
             end_date: this.returndate_obj.today_date,
             reason_for_visit: this.seminar_obj["name"],
-            referral_type: this.outreach_obj["name"],
+            referral_type: this.outreach_obj["value"],
             activity: this.checkbox_selected,
             location: this.user_location,
           })
