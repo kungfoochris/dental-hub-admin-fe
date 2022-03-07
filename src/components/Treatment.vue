@@ -558,14 +558,14 @@ export default {
           activities_details.find((evt) => evt.id == activities_id).name
         );
       }),
-        (this.table_start_date = this.returndate_obj.last_30_days),
-        (this.table_end_date = this.returndate_obj.today_date),
+        (this.table_start_date = this.filter_start_date),
+        (this.table_end_date = this.filter_end_date),
         (this.table_activities = table_activities),
         (this.tablefilterdata = true),
         this.$store
           .dispatch("CreateTableBasicDataVisualization", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
+            start_date: this.filter_start_date,
+            end_date: this.filter_end_date,
             location: this.user_location,
             health_post: l[0],
             seminar: l[1],
@@ -583,8 +583,8 @@ export default {
           });
       this.$store
         .dispatch("CreateStrategicDataVisualization", {
-          start_date: this.returndate_obj.last_30_days,
-          end_date: this.returndate_obj.today_date,
+          start_date: this.filter_start_date,
+          end_date: this.filter_end_date,
           location: this.user_location,
           health_post: l[0],
           seminar: l[1],
