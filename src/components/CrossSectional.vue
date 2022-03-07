@@ -16,12 +16,12 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <h6>Select Start Date:</h6>
-                <b-input v-model="returndate_obj.last_30_days" type="date" />
+                <b-input v-model="filter_start_date" type="date" />
               </div>
 
               <div class="col-6">
                 <h6>Select End Date:</h6>
-                <b-input v-model="returndate_obj.today_date" type="date" />
+                <b-input v-model="filter_end_date" type="date" />
               </div>
             </div>
 
@@ -325,6 +325,15 @@ export default {
     },
   },
 
+  mounted: function() {
+    let currentDate = new Date().toISOString().substring(0, 10);
+    this.filter_end_date = currentDate;
+    let startDate = new Date(Date.now() - 86400000 * 30)
+      .toISOString()
+      .substring(0, 10);
+    this.filter_start_date = startDate;
+  },
+
   created() {
     this.listReturnDate();
     this.listSectionalTable();
@@ -335,6 +344,8 @@ export default {
 
   data() {
     return {
+      filter_start_date: "",
+      filter_end_date: "",
       loading: false,
       errors: [],
       Start_Date: "",
@@ -352,7 +363,7 @@ export default {
       table_activities: [],
       table_location: [],
       outreach: [
-        { name: "No Referral Type", value: "No Refer" },
+        { name: "No Referral Type", value: "" },
         { name: "Refer Hyg", value: "Refer Hyg" },
         { name: "Refer Dent", value: "Refer Dent" },
         { name: "Refer Dr", value: "Refer Dr" },
@@ -360,10 +371,14 @@ export default {
       ],
       outreach_obj: "",
       seminar: [
-        { name: "Checkup / Screening" },
-        { name: "Relief of pain" },
-        { name: "Continuation of treatment plan" },
-        { name: "Other Problem" },
+        { name: "None", value: "" },
+        { name: "Checkup / Screening", value: "Checkup / Screening" },
+        { name: "Relief of pain", value: "Relief of pain" },
+        {
+          name: "Continuation of treatment plan",
+          value: "Continuation of treatment plan",
+        },
+        { name: "Other Problem", value: "Other Problem" },
       ],
       seminar_obj: "",
       training: [],
@@ -484,25 +499,38 @@ export default {
         this.errors["checkbox_selected"] =
           "Select on of the activities required.";
         this.$bvToast.show("error-toast");
-      } else
-        this.$store
-          .dispatch("CreateSectionalTable", {
-            start_date: this.returndate_obj.last_30_days,
-            end_date: this.returndate_obj.today_date,
-            reason_for_visit: this.seminar_obj["name"],
-            referral_type: this.outreach_obj["value"],
-            activity: this.checkbox_selected,
-            location: this.user_location,
-          })
-          .then(() => {
-            if (this.errormessage.length > 0) {
-              this.$bvToast.show("error-toast");
-            } else if (this.successmessage == "success") {
-              this.loading = false;
-              (this.message = ""), this.$bvToast.show("success-toast");
-              // window.location.reload(100);
-            }
-          });
+      }
+      let formObject = {
+        start_date: this.filter_start_date,
+        end_date: this.filter_end_date,
+        reason_for_visit: this.seminar_obj["value"],
+        referral_type: this.outreach_obj["value"],
+        activity: this.checkbox_selected,
+        location: this.user_location,
+      };
+
+      this.$store
+        .dispatch(
+          "CreateSectionalTable",
+          formObject
+          // {
+          //   // start_date: this.filter_start_date,
+          //   // end_date: this.filter_end_date,
+          //   // reason_for_visit: this.seminar_obj["value"],
+          //   // referral_type: this.outreach_obj["value"],
+          //   // activity: this.checkbox_selected,
+          //   // location: this.user_location,
+          // }
+        )
+        .then(() => {
+          if (this.errormessage.length > 0) {
+            this.$bvToast.show("error-toast");
+          } else if (this.successmessage == "success") {
+            this.loading = false;
+            (this.message = ""), this.$bvToast.show("success-toast");
+            // window.location.reload(100);
+          }
+        });
     },
     updateOptions() {
       var geography_data = [{ name: "All Location", language: null }];
