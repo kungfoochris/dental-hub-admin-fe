@@ -28,6 +28,17 @@
             <div class="row mb-3">
               <div class="col-md-4 col-sm-12">
                 <h6>Select the Reason for Visit:</h6>
+                <!-- <select v-model="seminar_obj">
+                  <option :value="null" selected>None</option>
+                  <option value="Checkup / Screening"
+                    >Checkup / Screening</option
+                  >
+                  <option value="Relief of pain">Relief of pain</option>
+                  <option value="Continuation of treatment plan"
+                    >Continuation of treatment plan</option
+                  >
+                  <option value="Other Problem">Other Problem</option>
+                </select> -->
                 <multiselect
                   v-model="seminar_obj"
                   :options="seminar"
@@ -43,6 +54,13 @@
 
               <div class="col-md-4 col-sm-12">
                 <h6>Select Referral Type:</h6>
+                <!-- <select v-model="outreach_obj">
+                  <option :value="null" selected>None</option>
+                  <option value="Refer Hyg">Refer Hyg</option>
+                  <option value="Refer Dent">Refer Dent</option>
+                  <option value="Refer Dr">Refer Dr</option>
+                  <option value="Refer Other">Refer Other</option>
+                </select> -->
                 <!-- <b-form-select
                   v-model="outreach_obj"
                   :options="outreach"
@@ -363,7 +381,7 @@ export default {
       table_activities: [],
       table_location: [],
       outreach: [
-        { name: "No Referral Type", value: "" },
+        { name: "No Referral Type", value: null },
         { name: "Refer Hyg", value: "Refer Hyg" },
         { name: "Refer Dent", value: "Refer Dent" },
         { name: "Refer Dr", value: "Refer Dr" },
@@ -371,7 +389,7 @@ export default {
       ],
       outreach_obj: "",
       seminar: [
-        { name: "None", value: "" },
+        { name: "None", value: null },
         { name: "Checkup / Screening", value: "Checkup / Screening" },
         { name: "Relief of pain", value: "Relief of pain" },
         {
