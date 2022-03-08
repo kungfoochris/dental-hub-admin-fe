@@ -381,7 +381,7 @@ export default {
       table_activities: [],
       table_location: [],
       outreach: [
-        { name: "No Referral Type", value: null },
+        { name: "All", value: null },
         { name: "Refer Hyg", value: "Refer Hyg" },
         { name: "Refer Dent", value: "Refer Dent" },
         { name: "Refer Dr", value: "Refer Dr" },
@@ -389,7 +389,7 @@ export default {
       ],
       outreach_obj: "",
       seminar: [
-        { name: "None", value: null },
+        { name: "All", value: null },
         { name: "Checkup / Screening", value: "Checkup / Screening" },
         { name: "Relief of pain", value: "Relief of pain" },
         {
