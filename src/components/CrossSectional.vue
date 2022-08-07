@@ -226,34 +226,34 @@
                 <b-th>Caries Risk</b-th>
                 <b-tr v-for="items in basic" :key="items">
                   <b-th v-html="items.type">{{ items.type }}</b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.sixyo }}
                   </b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.twelveyo }}
                   </b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.fifteenyo }}
                   </b-th>
-                  <b-th>
+                  <!-- <b-th  class="text-center">
                     {{ items.whopvalue }}
-                  </b-th>
-                  <b-th>
+                  </b-th> -->
+                  <b-th class="text-center">
                     {{ items.child }}
                   </b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.teen }}
                   </b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.adult }}
                   </b-th>
-                  <b-th>
+                  <b-th class="text-center">
                     {{ items.olderadult }}
                   </b-th>
-                  <b-th>
+                  <!-- <b-th>
                     {{ items.jevaiapvalue }}
-                  </b-th>
-                  <b-th>
+                  </b-th> -->
+                  <b-th class="text-center">
                     {{ items.total }}
                   </b-th>
                 </b-tr>
@@ -325,12 +325,12 @@ export default {
             sixyo: rec[1],
             twelveyo: rec[2],
             fifteenyo: rec[3],
-            whopvalue: rec[4],
+            // whopvalue: rec[4],
             child: rec[5],
             teen: rec[6],
             adult: rec[7],
             olderadult: rec[8],
-            jevaiapvalue: rec[9],
+            // jevaiapvalue: rec[9],
             total: rec[10],
           });
 
@@ -412,12 +412,12 @@ export default {
         { field: "sixyo", label: "6 yo" },
         { field: "twelveyo", label: "12 yo" },
         { field: "fifteenyo", label: "15 yo" },
-        { field: "whopvalue", label: "P-value" },
+        // { field: "whopvalue", label: "P-value" },
         { field: "child", label: "Child ≤ 12 Y" },
         { field: "teen", label: "Teen 13-18 Y" },
         { field: "adult", label: "Adult 19-60 Y" },
         { field: "olderadult", label: "Older Adult ≥ 61 Y" },
-        { field: "jevaiapvalue", label: "P-value" },
+        // { field: "jevaiapvalue", label: "P-value" },
         { field: "total", label: "Totals" },
       ],
       treatmentFields: [
